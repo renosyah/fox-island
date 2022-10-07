@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://menu/lobby/ui/ui.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui/fonts/montserrat_eb_16.tres" type="DynamicFont" id=2]
+
+[node name="ui" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -124.0
+margin_top = -111.0
+margin_right = 124.0
+margin_bottom = 111.0
+
+[node name="ip" type="TextEdit" parent="CanvasLayer/Control/VBoxContainer"]
+margin_right = 248.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 60 )
+custom_fonts/font = ExtResource( 2 )
+text = "192.168.100.162"
+
+[node name="seed" type="TextEdit" parent="CanvasLayer/Control/VBoxContainer"]
+margin_top = 64.0
+margin_right = 248.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 60 )
+custom_fonts/font = ExtResource( 2 )
+text = "1"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer"]
+margin_top = 128.0
+margin_right = 248.0
+margin_bottom = 138.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
+margin_top = 142.0
+margin_right = 248.0
+margin_bottom = 222.0
+
+[node name="host" type="Button" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
+margin_right = 100.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 100, 80 )
+text = "Host"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
+margin_left = 104.0
+margin_right = 144.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 40, 0 )
+
+[node name="join" type="Button" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
+margin_left = 148.0
+margin_right = 248.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 100, 80 )
+text = "Join"
+
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/HBoxContainer/host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer/HBoxContainer/join" to="." method="_on_join_pressed"]

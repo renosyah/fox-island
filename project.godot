@@ -1,0 +1,207 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Resource",
+"class": "BaseData",
+"language": "GDScript",
+"path": "res://data/BaseData.gd"
+}, {
+"base": "KinematicBody",
+"class": "BaseEntity",
+"language": "GDScript",
+"path": "res://entity/BaseEntity.gd"
+}, {
+"base": "Node",
+"class": "BaseGameplay",
+"language": "GDScript",
+"path": "res://gameplay/BaseGameplay.gd"
+}, {
+"base": "BaseUnit",
+"class": "BaseGroundUnit",
+"language": "GDScript",
+"path": "res://entity/unit/ground-unit/BaseGroundUnit.gd"
+}, {
+"base": "StaticBody",
+"class": "BaseMap",
+"language": "GDScript",
+"path": "res://map/BaseMap.gd"
+}, {
+"base": "Control",
+"class": "BaseUi",
+"language": "GDScript",
+"path": "res://assets/ui/BaseUi.gd"
+}, {
+"base": "BaseEntity",
+"class": "BaseUnit",
+"language": "GDScript",
+"path": "res://entity/unit/BaseUnit.gd"
+}, {
+"base": "ImageTexture",
+"class": "CustomGradientTexture",
+"language": "GDScript",
+"path": "res://addons/maujoe.custom_gradient_texture/custom_gradient_texture.gd"
+}, {
+"base": "Spatial",
+"class": "DayNightDome",
+"language": "GDScript",
+"path": "res://assets/day-night/day_night_dome.gd"
+}, {
+"base": "Spatial",
+"class": "Explosion",
+"language": "GDScript",
+"path": "res://assets/explosion/explosion.gd"
+}, {
+"base": "Node",
+"class": "GDUUID",
+"language": "GDScript",
+"path": "res://addons/godot-uuid/uuid.gd"
+}, {
+"base": "MultiMeshInstance",
+"class": "Grass",
+"language": "GDScript",
+"path": "res://addons/grass/grass.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventMultiScreenDrag",
+"language": "GDScript",
+"path": "res://addons/Godot-Touch-Input-Manager/CustomInputEvents/InputEventMultiScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenPinch",
+"language": "GDScript",
+"path": "res://addons/Godot-Touch-Input-Manager/CustomInputEvents/InputEventScreenPinch.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventScreenTwist",
+"language": "GDScript",
+"path": "res://addons/Godot-Touch-Input-Manager/CustomInputEvents/InputEventScreenTwist.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenDrag",
+"language": "GDScript",
+"path": "res://addons/Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenDrag.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTap",
+"language": "GDScript",
+"path": "res://addons/Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenTap.gd"
+}, {
+"base": "InputEventAction",
+"class": "InputEventSingleScreenTouch",
+"language": "GDScript",
+"path": "res://addons/Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
+}, {
+"base": "Sprite",
+"class": "MarkerItem",
+"language": "GDScript",
+"path": "res://addons/3d-marker/marker_item/marker_item.gd"
+}, {
+"base": "Node",
+"class": "NetworkPlayer",
+"language": "GDScript",
+"path": "res://addons/network/NetworkPlayer.gd"
+}, {
+"base": "BaseData",
+"class": "PlayerData",
+"language": "GDScript",
+"path": "res://data/player/PlayerData.gd"
+}, {
+"base": "Node",
+"class": "RandomNameGenerator",
+"language": "GDScript",
+"path": "res://addons/random-name/random_names.gd"
+}, {
+"base": "Spatial",
+"class": "RotatingCamera",
+"language": "GDScript",
+"path": "res://assets/rotating-camera/rotating-camera.gd"
+}, {
+"base": "Node",
+"class": "SaveLoad",
+"language": "GDScript",
+"path": "res://addons/save_load/save_load.gd"
+}, {
+"base": "Node",
+"class": "ServerAdvertiser",
+"language": "GDScript",
+"path": "res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.gd"
+}, {
+"base": "Node",
+"class": "ServerListener",
+"language": "GDScript",
+"path": "res://addons/LANServerBroadcast/server_listener/ServerListener.gd"
+}, {
+"base": "Control",
+"class": "VirtualJoystick",
+"language": "GDScript",
+"path": "res://addons/joystick/virtual_joystick.gd"
+} ]
+_global_script_class_icons={
+"BaseData": "",
+"BaseEntity": "",
+"BaseGameplay": "",
+"BaseGroundUnit": "",
+"BaseMap": "",
+"BaseUi": "",
+"BaseUnit": "",
+"CustomGradientTexture": "",
+"DayNightDome": "",
+"Explosion": "",
+"GDUUID": "",
+"Grass": "",
+"InputEventMultiScreenDrag": "",
+"InputEventScreenPinch": "",
+"InputEventScreenTwist": "",
+"InputEventSingleScreenDrag": "",
+"InputEventSingleScreenTap": "",
+"InputEventSingleScreenTouch": "",
+"MarkerItem": "",
+"NetworkPlayer": "",
+"PlayerData": "",
+"RandomNameGenerator": "",
+"RotatingCamera": "",
+"SaveLoad": "",
+"ServerAdvertiser": "res://addons/LANServerBroadcast/server_advertiser/server_advertiser.png",
+"ServerListener": "res://addons/LANServerBroadcast/server_listener/server_listener.png",
+"VirtualJoystick": ""
+}
+
+[application]
+
+config/name="Fox Island"
+config/description="Is game about surviving as fox in random island"
+run/main_scene="res://menu/lobby/lobby.tscn"
+config/icon="res://icn.png"
+
+[autoload]
+
+Network="*res://addons/network/Network.gd"
+Global="*res://global/global.gd"
+
+[gui]
+
+common/drop_mouse_on_gui_input_disabled=true
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+gles2/compatibility/disable_half_float=true
+environment/default_environment="res://default_env.tres"

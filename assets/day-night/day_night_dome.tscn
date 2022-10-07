@@ -1,0 +1,120 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/day-night/day_night_dome.gd" type="Script" id=2]
+[ext_resource path="res://assets/enviroment/WorldEnvironment.tres" type="Environment" id=3]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 8.0
+height = 15.0
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("pivot:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -90, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WorldEnvironment:environment:background_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.254902, 0.823529, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("WorldEnvironment:environment:fog_height_min")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "day_night_cicle"
+length = 10.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("pivot:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 360, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WorldEnvironment:environment:background_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2.8, 3.2, 6.9, 7.2, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.254902, 0.823529, 1, 1 ), Color( 0.156863, 0.533333, 0.647059, 1 ), Color( 0.0313726, 0.109804, 0.133333, 1 ), Color( 0.0313726, 0.109804, 0.133333, 1 ), Color( 0, 0.380392, 0.564706, 1 ), Color( 0.254902, 0.823529, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("WorldEnvironment:environment:fog_height_min")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 2.8, 3.6, 4.9, 6.4, 7.7, 10 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 6.0, 10.0, 6.0, 1.0, 1.0 ]
+}
+
+[node name="day_night_dome" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="pivot" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="pivot"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+shadow_enabled = true
+directional_shadow_mode = 0
+
+[node name="MeshInstance2" type="MeshInstance" parent="pivot/DirectionalLight"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.37114e-06, 100 )
+visible = false
+cast_shadow = 0
+generate_lightmap = false
+mesh = SubResource( 1 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 2 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "day_night_cicle"
+playback_speed = 0.08
+anims/RESET = SubResource( 4 )
+anims/day_night_cicle = SubResource( 3 )
