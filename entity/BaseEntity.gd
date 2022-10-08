@@ -64,7 +64,7 @@ remotesync func _reset() -> void:
 	
 ############################################################
 func _ready() -> void:
-	pass
+	_set_network_master(Network.PLAYER_HOST_ID)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta :float) -> void:

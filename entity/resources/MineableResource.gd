@@ -13,9 +13,7 @@ remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	if is_dead:
 		return
 		
-	if not _is_master():
-		hp = _hp_left
-		
+	hp = _hp_left
 	emit_signal("on_take_damage", self, _damage)
 	
 ############################################################
@@ -26,12 +24,9 @@ remotesync func _dead() -> void:
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_network_master(Network.PLAYER_HOST_ID)
+	pass
 	
 func take_damage(_damage : int, hit_by_player :PlayerData) -> void:
-	if not _is_master():
-		return
-	
 	if is_dead:
 		return
 		
@@ -44,9 +39,6 @@ func take_damage(_damage : int, hit_by_player :PlayerData) -> void:
 	rpc_unreliable("_take_damage", hp, _damage)
 	
 func dead(hit_by_player : PlayerData) -> void:
-	if not _is_master():
-		return
-		
 	rpc("_dead")
 	
 ############################################################

@@ -149,7 +149,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/LANServerBroadcast/server_listener/ServerListener.gd"
 }, {
-"base": "Control",
+"base": "MarginContainer",
 "class": "VirtualJoystick",
 "language": "GDScript",
 "path": "res://addons/joystick/virtual_joystick.gd"

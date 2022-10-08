@@ -13,3 +13,7 @@ is_dead = true
 [node name="fox2" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.77612, 10, 0 )
 is_dead = true
+
+[node name="fox3" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.66681, 10, 5.52262 )
+is_dead = true

@@ -1,4 +1,4 @@
-extends Control
+extends MarginContainer
 class_name VirtualJoystick
 
 signal on_joystick_input(output)

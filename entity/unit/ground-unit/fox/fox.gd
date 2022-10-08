@@ -14,6 +14,10 @@ var node_not_move = ["Attack", "Jump", "ToucheGround", "Fall"]
 var is_jump = false
 var enable_walk_sound = false
 
+onready var hood = $pivot/IdleDemo/Skeleton/Hood
+onready var hand_001 = $pivot/IdleDemo/Skeleton/Hand001
+onready var hand = $pivot/IdleDemo/Skeleton/Hand
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	audio_stream_player_3d.unit_db = Global.sound_amplified
@@ -57,6 +61,17 @@ func jump():
 		_velocity.y = 15.0
 		rpc("_jump")
 		jump_delay.start()
+		
+func dodge():
+	if not _is_master():
+		return
+		
+	if jump_delay.is_stopped() and is_on_floor() and not is_jump:
+		is_jump = true
+		_snap = Vector3.ZERO
+		_velocity = _velocity * 2.0
+		rpc("_jump")
+		jump_delay.start()
 	
 func _walk():
 	if not enable_walk_sound:
@@ -73,6 +88,9 @@ func master_moving(delta):
 		rpc_unreliable("_land")
 	
 func _on_animation_checker_timeout():
+	if is_dead:
+		return
+	
 	if animation_state.get_current_node() in node_not_move:
 		return
 		

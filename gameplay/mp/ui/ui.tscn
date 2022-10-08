@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/joystick/virtual_joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://gameplay/mp/ui/ui.gd" type="Script" id=2]
 [ext_resource path="res://assets/ui/fonts/montserrat_eb_32.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/ui/camera_control/camera_control.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/ui/fps_ping_displayer/fps_ping_displayer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/ui/fonts/montserrat_eb_16.tres" type="DynamicFont" id=6]
 [ext_resource path="res://assets/ui/touch_button/touch_button.tscn" type="PackedScene" id=8]
 
 [sub_resource type="Animation" id=1]
@@ -45,87 +47,220 @@ script = ExtResource( 2 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Control" type="HBoxContainer" parent="CanvasLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
-margin_left = 11.0
-margin_top = 8.0
-margin_right = 93.0
+margin_right = 510.0
+margin_bottom = 600.0
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="fps_ping_displayer" parent="CanvasLayer/Control/VBoxContainer" instance=ExtResource( 5 )]
+margin_right = 160.0
+margin_bottom = 50.0
+size_flags_horizontal = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer"]
+margin_top = 54.0
+margin_right = 510.0
+margin_bottom = 292.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
+margin_top = 296.0
+margin_right = 510.0
+margin_bottom = 496.0
+mouse_filter = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
+margin_right = 80.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 80, 0 )
+
+[node name="virtual_joystick" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 84.0
+margin_right = 284.0
+mouse_filter = 2
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
+margin_left = 288.0
+margin_right = 510.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 80, 0 )
+size_flags_horizontal = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer"]
+margin_top = 500.0
+margin_right = 510.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="MarginContainer2" type="Control" parent="CanvasLayer/Control"]
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="camera_control" parent="CanvasLayer/Control/MarginContainer2" instance=ExtResource( 4 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+margin_right = 510.0
+margin_bottom = 280.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+margin_top = 284.0
+margin_right = 510.0
+margin_bottom = 496.0
+mouse_filter = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
+margin_right = 166.0
+margin_bottom = 212.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
+margin_left = 170.0
+margin_right = 426.0
+margin_bottom = 212.0
+mouse_filter = 2
+
+[node name="fire" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
+margin_left = 68.0
+margin_right = 188.0
 margin_bottom = 60.0
-alignment = 1
-
-[node name="fps" type="Label" parent="CanvasLayer/Control/VBoxContainer"]
-margin_top = 10.0
-margin_right = 82.0
-margin_bottom = 24.0
-text = "Fps : 0"
-valign = 1
-
-[node name="ping" type="Label" parent="CanvasLayer/Control/VBoxContainer"]
-margin_top = 28.0
-margin_right = 82.0
-margin_bottom = 42.0
-text = "Ping : 0/ms"
-valign = 1
-
-[node name="camera_control" parent="CanvasLayer/Control" instance=ExtResource( 4 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 0.0
-margin_bottom = 0.0
-mouse_filter = 2
-
-[node name="virtual_joystick" parent="CanvasLayer/Control" instance=ExtResource( 1 )]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 110.0
-margin_top = -286.0
-margin_right = 310.0
-margin_bottom = -86.0
-mouse_filter = 2
-
-[node name="fire" parent="CanvasLayer/Control" instance=ExtResource( 8 )]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -223.0
-margin_top = -275.0
-margin_right = -73.0
-margin_bottom = -195.0
+rect_min_size = Vector2( 120, 60 )
+size_flags_horizontal = 4
 color = Color( 0.282353, 0.282353, 0.282353, 1 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/fire"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 3 )
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/fire"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -45.0
+margin_top = -20.0
+margin_right = 45.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 6 )
 text = "Attack"
 align = 1
 valign = 1
 
-[node name="jump" parent="CanvasLayer/Control" instance=ExtResource( 8 )]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -222.0
-margin_top = -176.0
-margin_right = -72.0
-margin_bottom = -96.0
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer"]
+margin_top = 64.0
+margin_right = 256.0
+margin_bottom = 72.0
+rect_min_size = Vector2( 0, 8 )
+
+[node name="MarginContainer3" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer"]
+margin_top = 76.0
+margin_right = 256.0
+margin_bottom = 136.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="dodge" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 8 )]
+margin_right = 120.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 120, 60 )
 color = Color( 0.282353, 0.282353, 0.282353, 1 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/jump"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 3 )
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -45.0
+margin_top = -20.0
+margin_right = 45.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 6 )
+text = "Dodge"
+align = 1
+valign = 1
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3"]
+margin_left = 124.0
+margin_right = 132.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 8, 0 )
+
+[node name="jump2" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 8 )]
+margin_left = 136.0
+margin_right = 256.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 120, 60 )
+color = Color( 0.282353, 0.282353, 0.282353, 1 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/jump2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -45.0
+margin_top = -20.0
+margin_right = 45.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 6 )
 text = "Jump"
 align = 1
 valign = 1
 
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer"]
+margin_top = 140.0
+margin_right = 256.0
+margin_bottom = 148.0
+rect_min_size = Vector2( 0, 8 )
+
+[node name="use" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
+margin_left = 68.0
+margin_top = 152.0
+margin_right = 188.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 120, 60 )
+size_flags_horizontal = 4
+color = Color( 0.282353, 0.282353, 0.282353, 1 )
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/use"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -45.0
+margin_top = -20.0
+margin_right = 45.0
+margin_bottom = 20.0
+custom_fonts/font = ExtResource( 6 )
+text = "Use"
+align = 1
+valign = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
+margin_left = 430.0
+margin_right = 510.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 80, 0 )
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+margin_top = 500.0
+margin_right = 510.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 0, 100 )
+
 [node name="loading" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )

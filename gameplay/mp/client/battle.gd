@@ -4,6 +4,7 @@ var _unit :BaseUnit
 
 onready var fox = $fox
 onready var fox_2 = $fox2
+onready var fox_3 = $fox3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -17,6 +18,7 @@ func on_generate_map_completed():
 	.on_generate_map_completed()
 	fox.is_dead = false
 	fox_2.is_dead = false
+	fox_3.is_dead = false
 	
 	_unit.set_network_master(Network.get_local_network_player().player_network_unique_id)
 	_unit.translation = _map.get_recomended_spawn_position()
