@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://map/BaseMap.gd"
 }, {
+"base": "StaticBody",
+"class": "BaseResources",
+"language": "GDScript",
+"path": "res://entity/resources/BaseResources.gd"
+}, {
 "base": "Control",
 "class": "BaseUi",
 "language": "GDScript",
@@ -104,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/3d-marker/marker_item/marker_item.gd"
 }, {
+"base": "Spatial",
+"class": "MobAi",
+"language": "GDScript",
+"path": "res://assets/mob-ai/mob_ai.gd"
+}, {
 "base": "Node",
 "class": "NetworkPlayer",
 "language": "GDScript",
@@ -118,6 +128,11 @@ _global_script_classes=[ {
 "class": "RandomNameGenerator",
 "language": "GDScript",
 "path": "res://addons/random-name/random_names.gd"
+}, {
+"base": "BaseData",
+"class": "ResourcesData",
+"language": "GDScript",
+"path": "res://data/resources/ResourcesData.gd"
 }, {
 "base": "Spatial",
 "class": "RotatingCamera",
@@ -150,6 +165,7 @@ _global_script_class_icons={
 "BaseGameplay": "",
 "BaseGroundUnit": "",
 "BaseMap": "",
+"BaseResources": "",
 "BaseUi": "",
 "BaseUnit": "",
 "CustomGradientTexture": "",
@@ -164,9 +180,11 @@ _global_script_class_icons={
 "InputEventSingleScreenTap": "",
 "InputEventSingleScreenTouch": "",
 "MarkerItem": "",
+"MobAi": "",
 "NetworkPlayer": "",
 "PlayerData": "",
 "RandomNameGenerator": "",
+"ResourcesData": "",
 "RotatingCamera": "",
 "SaveLoad": "",
 "ServerAdvertiser": "res://addons/LANServerBroadcast/server_advertiser/server_advertiser.png",

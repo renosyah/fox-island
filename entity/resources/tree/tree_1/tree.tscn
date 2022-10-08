@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://entity/resources/tree/tree.gd" type="Script" id=1]
+[ext_resource path="res://entity/resources/model/Tree1.obj" type="ArrayMesh" id=2]
+
+[node name="tree" type="StaticBody"]
+script = ExtResource( 1 )
+hp = 25
+max_hp = 25
+mesh_model = ExtResource( 2 )

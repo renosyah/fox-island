@@ -14,6 +14,10 @@ export var max_stuff = 120
 export var stuff_directory = "res://map/model/"
 
 var thread = Thread.new()
+var recomended_spawn_pos :Vector3
+
+func get_recomended_spawn_position() -> Vector3:
+	return get_rand_pos(recomended_spawn_pos)
 
 func _ready():
 	pass
@@ -35,14 +39,10 @@ func _generate_map():
 	custom_gradient.gradient = Gradient.new()
 	custom_gradient.type = CustomGradientTexture.GradientType.RADIAL
 	custom_gradient.size = Vector2.ONE * map_size + Vector2.ONE
-	
+
 	var land = _create_land(noise, custom_gradient)
 	add_child(land)
-	
-	var stuffs = _create_spawn_stuff(noise, custom_gradient)
-	for stuff in stuffs:
-		add_child(stuff)
-	
+
 	var water = _create_water()
 	add_child(water)
 	
@@ -50,6 +50,10 @@ func _generate_map():
 	add_child(grass)
 	
 	translation.y = 3.0
+	
+	var stuffs = _create_spawn_stuff(noise, custom_gradient)
+	for stuff in stuffs:
+		get_parent().add_child(stuff)
 	
 	emit_signal("on_generate_map_completed")
 	
@@ -60,10 +64,25 @@ func _create_spawn_stuff(noise :OpenSimplexNoise, gradient :CustomGradientTextur
 	var rng  = RandomNumberGenerator.new()
 	rng.seed = map_seed * 2
 	
+	var _resources = [
+		preload("res://entity/resources/tree/bush_1/tree.tscn"),
+		preload("res://entity/resources/tree/bush_2/tree.tscn"),
+		preload("res://entity/resources/tree/bush_3/tree.tscn"),
+		
+		preload("res://entity/resources/stone/stone_1/stone.tscn"),
+		preload("res://entity/resources/stone/stone_2/stone.tscn"),
+		preload("res://entity/resources/stone/stone_3/stone.tscn"),
+		
+		preload("res://entity/resources/tree/tree_1/tree.tscn"),
+		preload("res://entity/resources/tree/tree_2/tree.tscn"),
+		preload("res://entity/resources/tree/tree_3/tree.tscn"),
+		preload("res://entity/resources/tree/tree_4/tree.tscn"),
+
+	]
+	
 	var data = gradient.get_data()
 	data.lock()
 	
-	var _models = _get_models()
 	var _half_size = int(map_size * 0.5)
 	for x in range(-_half_size, _half_size, 8):
 		if rng.randf() > 0.6:
@@ -80,7 +99,15 @@ func _create_spawn_stuff(noise :OpenSimplexNoise, gradient :CustomGradientTextur
 			_value -= gradient_value
 			if _value > 0.0:
 				_pos.y = _value * map_height
-				stuffs.append(_stuff_placement(_models, _pos, clamp(int(_value_c * 20), 0, _models.size() - 1)))
+				
+				if _pos.y > 5:
+					recomended_spawn_pos = _pos
+				
+				stuffs.append(
+					_resources_instance_placement(
+						_resources, _pos, clamp(int(_value_c * 20), 0, _resources.size() - 1)
+					)
+				)
 				
 	data.unlock()
 	return stuffs
@@ -142,36 +169,17 @@ func _generate_grass(land_mesh :Mesh):
 	grass.mesh = land_mesh
 	return grass
 	
-func _stuff_placement(_models :Array, _pos :Vector3, pointer :int) -> MeshInstance:
-	var mesh_instance = MeshInstance.new()
-	mesh_instance.mesh = load(_models[pointer])
-	mesh_instance.translation = _pos
-	return mesh_instance
+func _resources_instance_placement(_resources :Array, _pos :Vector3, pointer :int) -> BaseResources:
+	var resources_instance :BaseResources = _resources[pointer].instance()
+	resources_instance.translation = _pos
+	resources_instance.translation.y += 3
+	return resources_instance
 	
-func _get_models() -> Array:
-	var png_paths := []
-	var dir_queue := [stuff_directory]
-	var dir: Directory
-	var file: String
-	while file or not dir_queue.empty():
-		if file:
-			if dir.current_is_dir():
-				dir_queue.append("%s/%s" % [dir.get_current_dir(), file])
-				
-			elif file.ends_with(".obj.import"):
-				png_paths.append("%s/%s" % [dir.get_current_dir(), file.get_basename()])
-				
-		else:
-			if dir:
-				dir.list_dir_end()
-				
-			if dir_queue.empty():
-				break
-				
-			dir = Directory.new()
-			dir.open(dir_queue.pop_front())
-			dir.list_dir_begin(true, true)
-		
-		file = dir.get_next()
+func get_rand_pos(from :Vector3) -> Vector3:
+	var angle := rand_range(0, TAU)
+	var distance := rand_range(5, 15)
+	var posv2 = polar2cartesian(distance, angle)
+	var posv3 = from + Vector3(posv2.x, 0.0, posv2.y)
+	posv3.y = 10
+	return posv3
 	
-	return png_paths

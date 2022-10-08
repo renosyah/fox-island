@@ -8,8 +8,8 @@ func _ready():
 	get_tree().set_auto_accept_quit(false)
 	
 	init_connection_watcher()
-	load_map()
 	setup_ui()
+	load_map()
 	setup_camera()
 	setup_day_night_dome()
 	
@@ -35,10 +35,13 @@ func load_map():
 	add_child(_map)
 	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
 	_map.map_seed = Global.mp_game_data["seed"]
+	_map.map_size = 200
 	_map.generate_map()
 	
+	_ui.loading(true)
+	
 func on_generate_map_completed():
-	pass
+	_ui.loading(false)
 	
 ################################################################
 # ui
@@ -64,7 +67,15 @@ var _day_night_dome : DayNightDome
 func setup_day_night_dome():
 	_day_night_dome = preload("res://assets/day-night/day_night_dome.tscn").instance()
 	add_child(_day_night_dome)
-
+	_day_night_dome.connect("morning", self, "on_morning")
+	_day_night_dome.connect("night", self, "on_night")
+	
+func on_morning():
+	pass
+	
+func on_night():
+	pass
+	
 ################################################################
 # network connection watcher
 # for both client and host

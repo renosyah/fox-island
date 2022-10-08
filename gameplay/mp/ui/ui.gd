@@ -6,6 +6,7 @@ onready var fire = $CanvasLayer/Control/fire
 onready var jump = $CanvasLayer/Control/jump
 onready var fps = $CanvasLayer/Control/VBoxContainer/fps
 onready var ping = $CanvasLayer/Control/VBoxContainer/ping
+onready var loading = $CanvasLayer/loading
 
 func _ready():
 	Network.connect("on_ping", self, "on_ping")
@@ -16,6 +17,10 @@ func on_ping(_ping :int):
 func _process(delta):
 	fps.text = "Fps : " +  str(Engine.get_frames_per_second())
 	
+func loading(_show :bool):
+	.loading(_show)
+	loading.visible = _show
+
 func is_fire_pressed():
 	return fire.pressed
 	

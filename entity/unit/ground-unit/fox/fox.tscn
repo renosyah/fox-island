@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://entity/unit/ground-unit/fox/fox.gd" type="Script" id=1]
 [ext_resource path="res://entity/unit/ground-unit/fox/Material_008.material" type="Material" id=2]
@@ -1317,6 +1317,23 @@ tracks/30/loop_wrap = true
 tracks/30/imported = false
 tracks/30/enabled = true
 tracks/30/keys = PoolRealArray( 0, 1, 0, -0.221571, 0.31276, -0.803868, 0, 0, 0.594807, 1, 1, 1, 0.0666667, 1, 0, -0.147603, 0.146008, -0.850226, 0, 0, 0.526418, 1, 1, 1, 0.133333, 1, 0, -0.0277296, 0.126755, -0.595048, 0, 0, 0.80369, 1, 1, 1, 0.2, 1, 0, 0.126392, 0.19854, 0.0402729, 0, 0, 0.999189, 1, 1, 1, 0.266667, 1, 0, 0.200393, 0.19695, 0.284363, 0, 0, 0.958717, 1, 1, 1, 0.333333, 1, 0, 0.196767, 0.0349974, 0.364692, 0, 0, 0.931128, 1, 1, 1, 0.4, 1, 0, 0.0506772, 0.0218181, 0.107882, 0, 0, 0.994164, 1, 1, 1, 0.466667, 1, 0, -0.112123, 0.0541455, -0.415162, 0, 0, 0.909748, 1, 1, 1, 0.533333, 1, 0, -0.220923, 0.252153, -0.732167, 0, 0, 0.681125, 1, 1, 1, 0.6, 1, 0, -0.254481, 0.367463, -0.796107, 0, 0, 0.605156, 1, 1, 1, 0.666667, 1, 0, -0.221571, 0.31276, -0.803868, 0, 0, 0.594807, 1, 1, 1 )
+tracks/31/type = "method"
+tracks/31/path = NodePath("..")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/keys = {
+"times": PoolRealArray( 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "_walk"
+}, {
+"args": [  ],
+"method": "_walk"
+} ]
+}
 
 [sub_resource type="Animation" id=14]
 resource_name = "ToucheGround"
@@ -1599,6 +1616,10 @@ start_node = "Idle"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=30]
 
+[sub_resource type="CapsuleShape" id=33]
+radius = 0.71255
+height = 0.979855
+
 [node name="fox" type="KinematicBody"]
 script = ExtResource( 1 )
 
@@ -1826,7 +1847,7 @@ active = true
 parameters/playback = SubResource( 30 )
 
 [node name="firing_delay" type="Timer" parent="."]
-wait_time = 0.8
+wait_time = 2.0
 one_shot = true
 
 [node name="jump_delay" type="Timer" parent="."]
@@ -1837,4 +1858,16 @@ one_shot = true
 wait_time = 0.08
 autostart = true
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="attack_area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.644007, -0.936942 )
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="attack_area"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0.102209 )
+shape = SubResource( 33 )
+
 [connection signal="timeout" from="animation_checker" to="." method="_on_animation_checker_timeout"]
+[connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="attack_area" to="." method="_on_attack_area_body_exited"]

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://entity/resources/stone/stone.gd" type="Script" id=1]
+[ext_resource path="res://entity/resources/model/Rock2.obj" type="ArrayMesh" id=2]
+
+[node name="stone" type="StaticBody"]
+script = ExtResource( 1 )
+mesh_model = ExtResource( 2 )

@@ -8,11 +8,18 @@ onready var fox_2 = $fox2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_unit = fox
+	_unit.enable_walk_sound = true
 	
 func on_generate_map_completed():
 	.on_generate_map_completed()
+	
+	fox.player = PlayerData.new()
+	
 	fox.is_dead = false
 	fox_2.is_dead = false
+	
+	fox.translation = _map.get_recomended_spawn_position()
+	fox_2.translation = _map.get_recomended_spawn_position()
 	
 func _process(delta):
 	_camera.facing_direction = _ui.camera_facing_direction()

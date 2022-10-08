@@ -8,6 +8,8 @@ onready var fox_2 = $fox2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	_unit = fox_2
+	_unit.enable_walk_sound = true
+	
 	init_client()
 	
 func on_generate_map_completed():
