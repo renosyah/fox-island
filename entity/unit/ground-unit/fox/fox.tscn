@@ -1847,7 +1847,6 @@ active = true
 parameters/playback = SubResource( 30 )
 
 [node name="firing_delay" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
 
 [node name="jump_delay" type="Timer" parent="."]

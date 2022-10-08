@@ -1,10 +1,9 @@
 extends StaticBody
-class_name BaseResources
+class_name MineableResource
 
 signal on_destroyed(_resources)
 signal on_take_damage(_resources, _damage)
 
-var resource_data :ResourcesData
 export var is_dead :bool = false
 export var hp : int = 100.0
 export var max_hp : int = 100.0

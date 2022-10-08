@@ -103,7 +103,7 @@ func on_player_disynchronize(_player_name : String):
 	pass
 	
 func on_host_disconnected():
-	pass
+	get_tree().change_scene("res://menu/lobby/lobby.tscn")
 	
 ################################################################
 # client pooling request

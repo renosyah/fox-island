@@ -61,6 +61,9 @@ func setup_ping():
 	add_child(ping_increment_timer)
 	
 func _on_ping_interval_timer_timeout():
+	if not is_instance_valid(get_tree().get_network_peer()):
+		return
+	
 	emit_signal("on_ping", ping)
 	rpc_unreliable_id(PLAYER_HOST_ID, "_ping", get_tree().get_network_unique_id())
 	
@@ -71,6 +74,9 @@ func _on_ping_increment_timer_timeout():
 	ping += 1
 	
 remote func _ping(from : int):
+	if not is_instance_valid(get_tree().get_network_peer()):
+		return
+	
 	rpc_unreliable_id(from, "_pong")
 	
 remote func _pong():
@@ -115,6 +121,9 @@ func connect_to_server(_ip:String = DEFAULT_IP, _port :int = DEFAULT_PORT, playe
 	
 	return OK
 	
+func get_local_network_player() -> NetworkPlayer:
+	return _local_network_player
+	
 # server just went dive crash LOL
 # this function is call for
 # pov from joined player
@@ -125,11 +134,27 @@ func _on_server_disconnected():
 	for _signal in get_tree().get_signal_connection_list("connection_failed"):
 		get_tree().disconnect("connection_failed",self, _signal.method)
 		
+	if is_instance_valid(ping_interval_timer):
+		ping_interval_timer.stop()
+		ping_interval_timer.queue_free()
+		
+	if is_instance_valid(ping_increment_timer):
+		ping_increment_timer.stop()
+		ping_increment_timer.queue_free()
+		
 	emit_signal("server_disconnected")
 	
 # if player want to disconnect
 # from server, just call this func
 func disconnect_from_server() -> void:
+	if is_instance_valid(ping_interval_timer):
+		ping_interval_timer.stop()
+		ping_interval_timer.queue_free()
+		
+	if is_instance_valid(ping_increment_timer):
+		ping_increment_timer.stop()
+		ping_increment_timer.queue_free()
+		
 	if not is_instance_valid(get_tree().get_network_peer()):
 		return
 	
@@ -138,7 +163,7 @@ func disconnect_from_server() -> void:
 		
 	get_tree().get_network_peer().close_connection()
 	get_tree().set_network_peer(null)
-	
+
 	emit_signal("connection_closed")
 	
 # player connect to server
@@ -233,3 +258,4 @@ func erase_player(player_network_unique_id : int):
 		return
 		
 	_network_players.erase(player_network_unique_id)
+	

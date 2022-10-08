@@ -169,8 +169,9 @@ func _generate_grass(land_mesh :Mesh):
 	grass.mesh = land_mesh
 	return grass
 	
-func _resources_instance_placement(_resources :Array, _pos :Vector3, pointer :int) -> BaseResources:
-	var resources_instance :BaseResources = _resources[pointer].instance()
+func _resources_instance_placement(_resources :Array, _pos :Vector3, pointer :int) -> MineableResource:
+	var resources_instance :MineableResource = _resources[pointer].instance()
+	resources_instance.name = "resources-" + _str(_pos.x) + "-" + _str(_pos.y)+ "-" + _str(_pos.z)
 	resources_instance.translation = _pos
 	resources_instance.translation.y += 3
 	return resources_instance
@@ -182,4 +183,5 @@ func get_rand_pos(from :Vector3) -> Vector3:
 	var posv3 = from + Vector3(posv2.x, 0.0, posv2.y)
 	posv3.y = 10
 	return posv3
-	
+func _str(i :float) -> String:
+	return str(stepify(i, 0.01))

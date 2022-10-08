@@ -24,6 +24,11 @@ var _network_timmer : Timer
 func _network_timmer_timeout() -> void:
 	pass
 	
+remotesync func _set_network_master(_id :int) -> void:
+	# call super to avoid stack overflow
+	.set_network_master(_id)
+	_setup_network_timer()
+	
 remotesync func _heal(_hp_left, _hp_added : int) -> void:
 	if is_dead:
 		return
@@ -59,20 +64,7 @@ remotesync func _reset() -> void:
 	
 ############################################################
 func _ready() -> void:
-	set_network_master(Network.PLAYER_HOST_ID)
-	
-	if not _is_network_running():
-		return
-	
-	if not _is_master():
-		return
-	
-	var _timer = Timer.new()
-	_timer.wait_time = Network.LATENCY_DELAY
-	_timer.connect("timeout", self , "_network_timmer_timeout")
-	_timer.autostart = true
-	add_child(_timer)
-	_network_timmer = _timer
+	pass
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta :float) -> void:
@@ -94,6 +86,10 @@ func moving(_delta :float) -> void:
 	
 func puppet_moving(_delta :float) -> void:
 	pass
+	
+func set_network_master(_id :int, recursive: bool = true) -> void:
+	#.set_network_master(_id, recursive)
+	rpc("_set_network_master", _id)
 	
 func heal(_hp_added : int) -> void:
 	if not _is_master():
@@ -166,3 +162,44 @@ func _is_master() -> bool:
 		
 	return true
 	
+func _setup_network_timer() -> void:
+	if is_instance_valid(_network_timmer):
+		_network_timmer.stop()
+		_network_timmer.queue_free()
+		
+	if not _is_network_running():
+		return
+		
+	if not _is_master():
+		return
+		
+	_network_timmer = Timer.new()
+	_network_timmer.wait_time = Network.LATENCY_DELAY
+	_network_timmer.connect("timeout", self , "_network_timmer_timeout")
+	_network_timmer.autostart = true
+	add_child(_network_timmer)
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

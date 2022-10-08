@@ -1,4 +1,4 @@
-extends BaseResources
+extends MineableResource
 export var mesh_model :Mesh
 
 var mesh :MeshInstance
