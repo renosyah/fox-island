@@ -37,3 +37,7 @@ func _process(delta):
 		
 	if _ui.is_jump_pressed() and _unit.has_method("jump"):
 		_unit.jump()
+		
+	if _ui.is_dodge_pressed() and _unit.has_method("dodge"):
+		_unit.dodge()
+	

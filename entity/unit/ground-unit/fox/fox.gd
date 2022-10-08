@@ -1,5 +1,7 @@
 extends BaseGroundUnit
 
+export var hood_texture :Texture = preload("res://entity/unit/ground-unit/fox/Textures/fox_diffuse.png")
+
 onready var animation_state = $pivot/AnimationTree.get("parameters/playback")
 onready var firing_delay = $firing_delay
 onready var jump_delay = $jump_delay
@@ -20,6 +22,13 @@ onready var hand = $pivot/IdleDemo/Skeleton/Hand
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var material :SpatialMaterial = preload("res://entity/unit/ground-unit/fox/Material.material").duplicate(true)
+	material.albedo_texture = hood_texture
+	
+	hood.material_override = material
+	hand_001.material_override = material
+	hand.material_override = material
+	
 	audio_stream_player_3d.unit_db = Global.sound_amplified
 	
 remotesync func _attack():

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://gameplay/mp/client/battle.gd" type="Script" id=1]
+[ext_resource path="res://entity/unit/ground-unit/fox/Textures/fox_diffuse_red.png" type="Texture" id=2]
 [ext_resource path="res://entity/unit/ground-unit/fox/fox.tscn" type="PackedScene" id=3]
 
 [node name="battle" type="Node"]
@@ -17,3 +18,4 @@ is_dead = true
 [node name="fox3" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.66681, 10, 5.52262 )
 is_dead = true
+hood_texture = ExtResource( 2 )
