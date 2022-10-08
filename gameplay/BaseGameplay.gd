@@ -97,7 +97,7 @@ func _server_disconnected():
 	on_host_disconnected()
 	
 func _connection_closed():
-	pass
+	get_tree().change_scene("res://menu/lobby/lobby.tscn")
 	
 func on_player_disynchronize(_player_name : String):
 	pass
@@ -130,7 +130,6 @@ func on_client_pool_network_request():
 # exit
 func on_exit_game_session():
 	Network.disconnect_from_server()
-	get_tree().change_scene("res://menu/lobby/lobby.tscn")
 	
 ################################################################
 # network utils code
