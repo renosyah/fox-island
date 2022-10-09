@@ -42,7 +42,13 @@ func _generate_map():
 
 	var land = _create_land(noise, custom_gradient)
 	add_child(land)
-
+	
+	var collision = land.get_child(0).get_child(0)
+	land.get_child(0).remove_child(collision)
+	add_child(collision)
+	land.get_child(0).queue_free()
+	
+	
 	var water = _create_water()
 	add_child(water)
 	
@@ -152,7 +158,7 @@ func _create_land(noise :OpenSimplexNoise, gradient :CustomGradientTexture) -> M
 	land_mesh_instance.mesh = surface_tool.commit()
 	land_mesh_instance.set_surface_material(0, map_land_shander)
 	land_mesh_instance.create_trimesh_collision()
-	
+
 	return land_mesh_instance
 	
 func _create_water() -> MeshInstance:

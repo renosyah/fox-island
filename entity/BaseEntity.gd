@@ -92,9 +92,6 @@ func set_network_master(_id :int, recursive: bool = true) -> void:
 	rpc("_set_network_master", _id)
 	
 func heal(_hp_added : int) -> void:
-	if not _is_master():
-		return
-		
 	if is_dead:
 		return
 		
@@ -106,9 +103,6 @@ func heal(_hp_added : int) -> void:
 	rpc("_heal", hp, _hp_added)
 	
 func take_damage(_damage : int, hit_by_player : PlayerData) -> void:
-	if not _is_master():
-		return
-	
 	if is_dead:
 		return
 		
@@ -121,15 +115,9 @@ func take_damage(_damage : int, hit_by_player : PlayerData) -> void:
 	rpc_unreliable("_take_damage", hp, _damage, hit_by_player.to_dictionary())
 	
 func dead(kill_by_player : PlayerData) -> void:
-	if not _is_master():
-		return
-		
 	rpc("_dead", kill_by_player.to_dictionary())
 	
 func reset():
-	if not _is_master():
-		return
-		
 	rpc("_reset")
 	
 ############################################################
