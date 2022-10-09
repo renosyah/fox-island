@@ -55,8 +55,12 @@ func _ready():
 	_hp_bar.scale = Vector3.ONE * 0.4
 	_hp_bar.update_bar(hp, max_hp)
 	
+remotesync func _knock_back(_from_velocity :Vector3) -> void:
+	_velocity = _from_velocity
+	
 remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> void:
 	._take_damage(_hp_left, _damage, _hit_by)
+
 	_update_hp_bar(_hp_left, max_hp)
 	_tween.interpolate_property(_pivot, "scale", Vector3.ONE * 0.6, Vector3.ONE, 0.3)
 	
@@ -94,7 +98,13 @@ func _attack_targets():
 	for target in targets:
 		if target.has_method("take_damage"):
 			target.take_damage(5, player)
-		
+			
+		if target.has_method("knock_back"):
+			target.knock_back(global_transform.basis.z * -8.0)
+			
+func knock_back(_from_velocity :Vector3) -> void:
+	rpc("_knock_back", _from_velocity)
+	
 func jump():
 	if is_dead:
 		return
