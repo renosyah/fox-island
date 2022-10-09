@@ -16,12 +16,12 @@ remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	hp = _hp_left
 	emit_signal("on_take_damage", self, _damage)
 	
-############################################################
 remotesync func _dead() -> void:
 	is_dead = true
 	set_process(false)
 	emit_signal("on_destroyed",self)
 	
+############################################################
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass

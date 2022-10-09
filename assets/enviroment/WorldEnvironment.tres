@@ -2,23 +2,25 @@
 
 [sub_resource type="ProceduralSky" id=1]
 radiance_size = 0
-sky_top_color = Color( 0, 0.643137, 1, 1 )
-sky_horizon_color = Color( 0.607843, 0.827451, 1, 1 )
-ground_bottom_color = Color( 0, 0.643137, 1, 1 )
-ground_horizon_color = Color( 0.607843, 0.827451, 1, 1 )
-sun_latitude = 0.0
+sky_top_color = Color( 0.0392157, 0.184314, 0.317647, 1 )
+sky_horizon_color = Color( 0.0392157, 0.184314, 0.317647, 1 )
+ground_bottom_color = Color( 0.0392157, 0.184314, 0.317647, 1 )
+ground_horizon_color = Color( 0.0392157, 0.184314, 0.317647, 1 )
+sun_latitude = -35.0
+sun_longitude = 180.0
+sun_energy = 6.0
 texture_size = 0
 
 [resource]
-background_mode = 3
+background_mode = 2
 background_sky = SubResource( 1 )
-background_color = Color( 0.309804, 0.752941, 1, 1 )
+background_color = Color( 2.80492e-08, 0.145098, 0.270588, 1 )
 fog_enabled = true
 fog_color = Color( 0.364706, 0.733333, 0.968627, 1 )
 fog_sun_color = Color( 1, 1, 1, 1 )
 fog_depth_enabled = false
 fog_height_enabled = true
-fog_height_min = 1.0
+fog_height_min = 3.5
 dof_blur_far_enabled = true
 dof_blur_far_amount = 0.06
 dof_blur_far_quality = 0

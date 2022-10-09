@@ -2,10 +2,12 @@ extends Spatial
 class_name MobAi
 
 export var unit :NodePath
+export var target :NodePath
 export var margin :float = 2
 
 var destination :Vector3 = Vector3.ZERO
 
+onready var _target :BaseUnit = get_node_or_null(target)
 onready var _unit :BaseUnit = get_node_or_null(unit)
 onready var _pivot = $pivot
 
@@ -15,9 +17,23 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if not is_instance_valid(_unit):
+		return
+		
+	_check_target()
 	_see_destination(delta)
 	_to_destination(delta)
 	_pivot.translation = global_transform.origin
+	
+func _check_target():
+	if not is_instance_valid(_target):
+		return
+		
+	if _target.is_dead:
+		return
+		
+	if _target in _unit.targets:
+		_unit.attack()
 	
 func _is_arrive() -> bool:
 	var distance = global_transform.origin.distance_to(destination)

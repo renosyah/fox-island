@@ -9,9 +9,6 @@ onready var fox_3_mob_ai = $fox3/mob_ai
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	fox.player = PlayerData.new()
-	fox_2.player = PlayerData.new()
-	
 	_unit = fox
 	_unit.enable_walk_sound = true
 	

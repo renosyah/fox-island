@@ -53,10 +53,82 @@ tracks/3/keys = {
 "update": 0,
 "values": [ Vector3( 180, 0, 0 ) ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("WorldEnvironment:environment:background_sky:sun_latitude")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -15.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("WorldEnvironment:environment:background_sky:sky_top_color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0.643137, 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("WorldEnvironment:environment:background_sky:ground_bottom_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0.643137, 1, 1 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("WorldEnvironment:environment:background_sky:sky_horizon_color")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0.396078, 0.745098, 1 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("WorldEnvironment:environment:background_sky:ground_horizon_color")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0.415686, 0.780392, 1 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("night_light:light_energy")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.3 ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "day_night_cicle"
-length = 10.0
+length = 7.6
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("WorldEnvironment:environment:fog_height_min")
@@ -65,7 +137,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 3.8, 4.6, 5.2, 5.8, 7.1, 10 ),
+"times": PoolRealArray( 0, 3.8, 4.6, 5.2, 5.8, 7.1, 7.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 6.0, 9.0, 6.0, 1.0, 1.0 ]
@@ -77,7 +149,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 3.8, 4.2, 6.3, 6.6, 10 ),
+"times": PoolRealArray( 0, 3.8, 4.2, 6.7, 6.8, 7.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 1.0, 1.0, 0.0, 0.0, 1.0, 1.0 ]
@@ -89,10 +161,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1.5, 3.8, 6.3, 6.5, 8.7, 10 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1.5, 3.8, 6.3, 6.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( -180, 0, 0 ), Vector3( -90, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( -180, 0, 0 ), Vector3( -90, 0, 0 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( -180, 0, 0 ), Vector3( -90, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( -180, 0, 0 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("WorldEnvironment:environment:background_color")
@@ -101,18 +173,42 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 3.4, 3.8, 4.2, 4.6, 5.8, 6.6, 7.1, 7.5, 10 ),
+"times": PoolRealArray( 0, 3, 3.6, 3.8, 4.2, 4.6, 5.8, 6.6, 7.2, 7.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.309804, 0.752941, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ), Color( 0, 0.643137, 1, 1 ), Color( 0, 0.145098, 0.270588, 1 ), Color( 0.0235294, 0.113725, 0.192157, 1 ), Color( 0.0235294, 0.113725, 0.192157, 1 ), Color( 0, 0.145098, 0.270588, 1 ), Color( 0, 0.529412, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ) ]
+"values": [ Color( 0.309804, 0.752941, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0, 0.145098, 0.270588, 1 ), Color( 0.0235294, 0.113725, 0.192157, 1 ), Color( 0.0235294, 0.113725, 0.192157, 1 ), Color( 0, 0.145098, 0.270588, 1 ), Color( 0, 0.529412, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ) ]
 }
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
+tracks/4/type = "value"
+tracks/4/path = NodePath("WorldEnvironment:environment:background_sky:sky_top_color")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
+"times": PoolRealArray( 0, 3, 3.2, 3.4, 3.6, 3.8, 4, 4.2, 4.6, 5.8, 6.6, 6.8, 7, 7.2, 7.4, 7.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 0.309804, 0.752941, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ), Color( 0.403922, 0.588235, 0.678431, 1 ), Color( 0.454902, 0.494118, 0.498039, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.274013, 0.249103, 0.240587, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0, 0.273097, 0.513524, 1 ), Color( 0, 0.395561, 0.745956, 1 ), Color( 0, 0.529412, 1, 1 ), Color( 0.109804, 0.607843, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("WorldEnvironment:environment:background_sky:ground_bottom_color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 3, 3.2, 3.4, 3.6, 3.8, 4, 4.2, 4.6, 5.8, 6.6, 6.8, 7, 7.2, 7.4, 7.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 0.309804, 0.752941, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ), Color( 0.403922, 0.588235, 0.678431, 1 ), Color( 0.454902, 0.494118, 0.498039, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.268627, 0.247059, 0.241177, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0, 0.278431, 0.521569, 1 ), Color( 0, 0.415686, 0.780392, 1 ), Color( 0, 0.529412, 1, 1 ), Color( 0.109804, 0.607843, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ) ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 4.3, 6.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
@@ -123,6 +219,54 @@ tracks/4/keys = {
 "method": "_on_morning_time"
 } ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("WorldEnvironment:environment:background_sky:sun_latitude")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.4, 3.7, 4.2, 5.8, 6.6, 6.8, 7, 7.2, 7.4, 7.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 180.0, 164.95, 150.713, 138.485, 127.508, 121.295, 115.113, 105.193, 97.3421, 89.4886, 79.7072, 70.6276, 53.3085, 45.6687, 36.3755, 27.0823, 1.98207, -14.0202, -35.0, -35.0, -90.0, -127.698, -139.393, -152.771, -166.646, -180.0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("WorldEnvironment:environment:background_sky:sky_horizon_color")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 3, 3.2, 3.4, 3.6, 3.8, 4, 4.2, 4.6, 5.8, 6.6, 6.8, 7, 7.2, 7.4, 7.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 0.309804, 0.752941, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ), Color( 0.403922, 0.588235, 0.678431, 1 ), Color( 0.454902, 0.494118, 0.498039, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0, 0.278431, 0.521569, 1 ), Color( 0, 0.415686, 0.780392, 1 ), Color( 0, 0.529412, 1, 1 ), Color( 0.109804, 0.607843, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("WorldEnvironment:environment:background_sky:ground_horizon_color")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 3, 3.2, 3.4, 3.6, 3.8, 4, 4.2, 4.6, 5.8, 6.6, 6.8, 7, 7.2, 7.4, 7.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Color( 0.309804, 0.752941, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ), Color( 0.403922, 0.588235, 0.678431, 1 ), Color( 0.454902, 0.494118, 0.498039, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.537255, 0.34902, 0.211765, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0470588, 0.219608, 0.372549, 1 ), Color( 0.0392157, 0.184314, 0.317647, 1 ), Color( 0, 0.278431, 0.521569, 1 ), Color( 0, 0.415686, 0.780392, 1 ), Color( 0, 0.529412, 1, 1 ), Color( 0.109804, 0.607843, 1, 1 ), Color( 0.309804, 0.752941, 1, 1 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("night_light:light_energy")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 4.3, 6.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0.0, 0.3, 0.0 ]
+}
 
 [node name="day_night_dome" type="Spatial"]
 script = ExtResource( 2 )
@@ -130,6 +274,11 @@ script = ExtResource( 2 )
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0 )
 shadow_enabled = true
+directional_shadow_mode = 0
+
+[node name="night_light" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+light_energy = 0.3
 directional_shadow_mode = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

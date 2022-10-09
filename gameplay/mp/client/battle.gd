@@ -8,9 +8,6 @@ onready var fox_3 = $fox3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	fox.player = PlayerData.new()
-	fox_2.player = PlayerData.new()
-	
 	_unit = fox_2
 	_unit.enable_walk_sound = true
 	

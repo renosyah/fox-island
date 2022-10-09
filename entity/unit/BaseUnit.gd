@@ -10,6 +10,8 @@ export var speed :float = 4.0
 export var acceleration :float = 2.0
 export var deceleration :float = 6.0
 
+var targets :Array = []
+
 var _velocity :Vector3 = Vector3.ZERO
 var _snap :Vector3 = Vector3.ZERO
 var _up_direction :Vector3 = Vector3.UP

@@ -58,21 +58,15 @@ margin_bottom = 600.0
 mouse_filter = 2
 size_flags_horizontal = 3
 
-[node name="fps_ping_displayer" parent="CanvasLayer/Control/VBoxContainer" instance=ExtResource( 5 )]
-margin_right = 160.0
-margin_bottom = 50.0
-size_flags_horizontal = 0
-
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer"]
-margin_top = 54.0
 margin_right = 510.0
-margin_bottom = 292.0
+margin_bottom = 288.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
-margin_top = 296.0
+margin_top = 292.0
 margin_right = 510.0
-margin_bottom = 496.0
+margin_bottom = 492.0
 mouse_filter = 2
 
 [node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
@@ -93,10 +87,16 @@ rect_min_size = Vector2( 80, 0 )
 size_flags_horizontal = 3
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer"]
-margin_top = 500.0
+margin_top = 496.0
 margin_right = 510.0
+margin_bottom = 546.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="fps_ping_displayer" parent="CanvasLayer/Control/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 550.0
+margin_right = 160.0
 margin_bottom = 600.0
-rect_min_size = Vector2( 0, 100 )
+size_flags_horizontal = 0
 
 [node name="MarginContainer2" type="Control" parent="CanvasLayer/Control"]
 margin_left = 514.0

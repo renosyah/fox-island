@@ -2,57 +2,93 @@ extends BaseGroundUnit
 
 export var hood_texture :Texture = preload("res://entity/unit/ground-unit/fox/Textures/fox_diffuse.png")
 
-onready var animation_state = $pivot/AnimationTree.get("parameters/playback")
-onready var firing_delay = $firing_delay
-onready var jump_delay = $jump_delay
-onready var audio_stream_player_3d = $AudioStreamPlayer3D
+onready var _animation_state = $pivot/AnimationTree.get("parameters/playback")
+onready var _firing_delay = $firing_delay
+onready var _jump_delay = $jump_delay
+onready var _audio_stream_player_3d = $AudioStreamPlayer3D
+onready var _pivot = $pivot
+
+onready var _hood = $pivot/IdleDemo/Skeleton/Hood
+onready var _hand_001 = $pivot/IdleDemo/Skeleton/Hand001
+onready var _hand = $pivot/IdleDemo/Skeleton/Hand
+
+var _hp_bar :HpBar3D
+var _tween :Tween
 
 onready var _walk_sound = preload("res://entity/unit/ground-unit/fox/sound/walk.wav")
 onready var _jump_sound = preload("res://entity/unit/ground-unit/fox/sound/jump.wav")
 
-var targets :Array = []
+var _node_not_move = ["Attack", "Jump", "ToucheGround", "Fall"]
+var _is_jump = false
 
-var node_not_move = ["Attack", "Jump", "ToucheGround", "Fall"]
-var is_jump = false
 var enable_walk_sound = false
 
-onready var hood = $pivot/IdleDemo/Skeleton/Hood
-onready var hand_001 = $pivot/IdleDemo/Skeleton/Hand001
-onready var hand = $pivot/IdleDemo/Skeleton/Hand
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	player = PlayerData.new()
+	
 	var material :SpatialMaterial = preload("res://entity/unit/ground-unit/fox/Material.material").duplicate(true)
 	material.albedo_texture = hood_texture
 	
-	hood.material_override = material
-	hand_001.material_override = material
-	hand.material_override = material
+	_hood.material_override = material
+	_hand_001.material_override = material
+	_hand.material_override = material
 	
-	audio_stream_player_3d.unit_db = Global.sound_amplified
+	_audio_stream_player_3d.unit_db = Global.sound_amplified
+	
+	_tween = Tween.new()
+	add_child(_tween)
+	
+	var timer = Timer.new()
+	timer.wait_time = 0.1
+	timer.autostart = true
+	add_child(timer)
+	
+	yield(timer,"timeout")
+	timer.queue_free()
+	
+	_hp_bar = preload("res://assets/ui/bar-3d/hp_bar_3d.tscn").instance()
+	add_child(_hp_bar)
+	_hp_bar.translation.y = 2
+	_hp_bar.modulate.a = 0
+	_hp_bar.scale = Vector3.ONE * 0.4
+	_hp_bar.update_bar(hp, max_hp)
+	
+remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> void:
+	._take_damage(_hp_left, _damage, _hit_by)
+	_update_hp_bar(_hp_left, max_hp)
+	_tween.interpolate_property(_pivot, "scale", Vector3.ONE * 0.6, Vector3.ONE, 0.3)
+	
+remotesync func _dead(_kill_by :Dictionary) -> void:
+	._dead(_kill_by)
+	_update_hp_bar(0, max_hp)
+	_animation_state.travel("Dead")
 	
 remotesync func _attack():
-	animation_state.travel("Attack")
+	_animation_state.travel("Attack")
 	
 remotesync func _jump():
-	audio_stream_player_3d.stream = _jump_sound
-	audio_stream_player_3d.play()
+	_audio_stream_player_3d.stream = _jump_sound
+	_audio_stream_player_3d.play()
 	
-	animation_state.travel("Jump")
+	_animation_state.travel("Jump")
 	
 remotesync func _land():
-	animation_state.travel("ToucheGround")
+	_animation_state.travel("ToucheGround")
 	
 func attack():
 	#.attack()
+	if is_dead:
+		return
 	
 	if not _is_master():
 		return
 		
-	if firing_delay.is_stopped():
+	if _firing_delay.is_stopped():
 		rpc("_attack")
 		_attack_targets()
-		firing_delay.start()
+		_firing_delay.start()
 		
 func _attack_targets():
 	for target in targets:
@@ -60,58 +96,67 @@ func _attack_targets():
 			target.take_damage(5, player)
 		
 func jump():
+	if is_dead:
+		return
+	
 	if not _is_master():
 		return
 		
-	if jump_delay.is_stopped() and is_on_floor() and not is_jump:
-		is_jump = true
+	if _jump_delay.is_stopped() and is_on_floor() and not _is_jump:
+		_is_jump = true
 		_snap = Vector3.ZERO
 		translation.y += 1.0
 		_velocity.y = 15.0
 		rpc("_jump")
-		jump_delay.start()
+		_jump_delay.start()
 		
 func dodge():
+	if is_dead:
+		return
+	
 	if not _is_master():
 		return
 		
-	if jump_delay.is_stopped() and is_on_floor() and not is_jump:
-		is_jump = true
+	if _jump_delay.is_stopped() and is_on_floor() and not _is_jump:
+		_is_jump = true
 		_snap = Vector3.ZERO
 		_velocity = _velocity * 2.0
 		rpc("_jump")
-		jump_delay.start()
+		_jump_delay.start()
 	
 func _walk():
 	if not enable_walk_sound:
 		return
 		
-	audio_stream_player_3d.stream = _walk_sound
-	audio_stream_player_3d.play()
+	_audio_stream_player_3d.stream = _walk_sound
+	_audio_stream_player_3d.play()
 	
 func master_moving(delta):
 	.master_moving(delta)
 	
-	if is_jump and is_on_floor():
-		is_jump = false
+	if _is_jump and is_on_floor():
+		_is_jump = false
 		rpc_unreliable("_land")
 	
 func _on_animation_checker_timeout():
 	if is_dead:
 		return
 	
-	if animation_state.get_current_node() in node_not_move:
+	if _animation_state.get_current_node() in _node_not_move:
 		return
 		
 	if move_direction != Vector2.ZERO:
-		animation_state.travel("Run")
+		_animation_state.travel("Run")
 	else:
-		animation_state.travel("Idle")
+		_animation_state.travel("Idle")
 		
 func _on_attack_area_body_entered(body):
 	if body == self:
 		return
 		
+	if is_dead:
+		return
+	
 	if body is MineableResource:
 		targets.append(body)
 		
@@ -120,3 +165,11 @@ func _on_attack_area_body_entered(body):
 		
 func _on_attack_area_body_exited(body):
 	targets.erase(body)
+	
+func _update_hp_bar(_hp, _max_hp :int):
+	if not is_instance_valid(_hp_bar):
+		return
+		
+	_hp_bar.update_bar(_hp, _max_hp)
+	_tween.interpolate_property(_hp_bar, "modulate:a", 1, 0, 4)
+	_tween.start()
