@@ -116,7 +116,7 @@ func jump():
 		_is_jump = true
 		_snap = Vector3.ZERO
 		translation.y += 1.0
-		_velocity.y = 15.0
+		_velocity.y = 10.0
 		rpc("_jump")
 		_jump_delay.start()
 		
@@ -130,7 +130,7 @@ func dodge():
 	if _jump_delay.is_stopped() and is_on_floor() and not _is_jump:
 		_is_jump = true
 		_snap = Vector3.ZERO
-		_velocity = _velocity * 2.0
+		_velocity = _velocity * 6.0
 		rpc("_jump")
 		_jump_delay.start()
 	

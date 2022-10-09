@@ -67,7 +67,7 @@ func _ready() -> void:
 	_set_network_master(Network.PLAYER_HOST_ID)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta :float) -> void:
+func _physics_process(delta :float) -> void:
 	moving(delta)
 	
 	if not _is_network_running():

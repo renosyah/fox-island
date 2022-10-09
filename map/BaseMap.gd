@@ -21,6 +21,7 @@ var thread = Thread.new()
 var recomended_spawn_pos :Vector3
 
 func get_recomended_spawn_position() -> Vector3:
+	recomended_spawn_pos.y += 5
 	return get_rand_pos(recomended_spawn_pos)
 
 func _ready():
@@ -97,7 +98,7 @@ func _create_spawn_stuff(inland_positions :Array) -> Array:
 		preload("res://entity/resources/tree/tree_4/tree.tscn"),
 	]
 	
-	var trimed_inland_positions = _trim_array(inland_positions, 20)
+	var trimed_inland_positions = _trim_array(inland_positions, 12)
 	
 	for pos in trimed_inland_positions:
 		if pos.y > 5.0:

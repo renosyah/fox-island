@@ -58,12 +58,12 @@ static func generate(
 		var indices:PoolIntArray = surface[Mesh.ARRAY_INDEX]
 		var positions:PoolVector3Array = surface[Mesh.ARRAY_VERTEX]
 		var normals:PoolVector3Array = surface[Mesh.ARRAY_NORMAL]
-		for index in range(0, indices.size(), 3):
+		for index in range(0, indices.size(), 12):
 			var j = indices[index]
 			var k = indices[index + 1]
 			var l = indices[index + 2]
 			
-			if positions[j].y < 4:
+			if positions[j].y < 3.5:
 				continue
 				
 			var area:float = triangle_area(
