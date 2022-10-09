@@ -39,10 +39,14 @@ func _generate_map():
 	noise.octaves = 4
 	noise.period = 80.0
 	
-	var lands = _create_land(noise)
-	var land_mesh = lands[0]
+	var lands= _create_land(noise)
+	var land_mesh :MeshInstance = lands[0]
 	var inland_positions = lands[1]
 	add_child(land_mesh)
+	
+	land_mesh.cast_shadow = false
+	land_mesh.generate_lightmap = false
+	land_mesh.software_skinning_transform_normals = false
 	
 	emit_signal("on_generating_map", GENERATING_LAND, 0, 1)
 	
@@ -53,7 +57,10 @@ func _generate_map():
 	
 	var water = _create_water()
 	add_child(water)
-
+	water.cast_shadow = false
+	water.generate_lightmap = false
+	water.software_skinning_transform_normals = false
+	
 	var grass = _generate_grass(land_mesh.mesh)
 	add_child(grass)
 	
