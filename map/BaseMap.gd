@@ -40,7 +40,7 @@ func _generate_map():
 	noise.octaves = 4
 	noise.period = 80.0
 	
-	var lands= _create_land(noise)
+	var lands = _create_land(noise)
 	var land_mesh :MeshInstance = lands[0]
 	var inland_positions = lands[1]
 	add_child(land_mesh)
@@ -98,13 +98,13 @@ func _create_spawn_stuff(inland_positions :Array) -> Array:
 		preload("res://entity/resources/tree/tree_4/tree.tscn"),
 	]
 	
-	var trimed_inland_positions = _trim_array(inland_positions, 12)
+	var trimed_inland_positions = _trim_array(inland_positions, 22)
 	
 	for pos in trimed_inland_positions:
 		if pos.y > 5.0:
 			recomended_spawn_pos = pos
 			
-		var index :int = rng.randf_range(0, _resources.size() - 1)
+		var index :int = rng.randf_range(0, _resources.size())
 		var res :Resource = _resources[index]
 		
 		stuffs.append(

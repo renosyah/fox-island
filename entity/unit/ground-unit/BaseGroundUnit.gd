@@ -35,7 +35,7 @@ func master_moving(delta :float) -> void:
 	if is_on_floor():
 		_snap = -get_floor_normal() - get_floor_velocity() * delta
 		if _aim_direction != Vector3.ZERO:
-			_transform_turning(_velocity, delta)
+			_transform_turning(_aim_direction, delta)
 			var n = _raycast.get_collision_normal()
 			var xform = align_with_y(global_transform, n)
 			global_transform = global_transform.interpolate_with(xform, rotation_speed * delta)
@@ -59,7 +59,7 @@ func align_with_y(xform, new_y):
 # utils
 func _transform_turning(direction :Vector3, delta :float) -> void:
 	var _pos = global_transform.origin
-	var _direction :Vector3 = direction * 100 - _pos
+	var _direction :Vector3 = direction * 100 + _pos
 	var new_transform :Transform = transform.looking_at(_direction , Vector3.UP)
 	transform = transform.interpolate_with(new_transform, rotation_speed * delta)
 

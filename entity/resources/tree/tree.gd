@@ -29,7 +29,7 @@ func camera_entered(camera: Camera):
 		return
 		
 	visible = true
-	tween.interpolate_property(self, "scale", Vector3.ZERO, Vector3.ONE, 0.2)
+	tween.interpolate_property(mesh, "scale", Vector3.ZERO, Vector3.ONE, 0.2)
 	tween.start()
 	
 func camera_exited(camera: Camera):
@@ -55,6 +55,10 @@ func _ready():
 	add_child(mesh)
 	mesh.mesh = mesh_model
 	mesh.create_convex_collision()
+	
+	mesh.cast_shadow = true
+	mesh.generate_lightmap = false
+	mesh.software_skinning_transform_normals = false
 	
 	collision = mesh.get_child(0).get_child(0)
 	mesh.get_child(0).remove_child(collision)
