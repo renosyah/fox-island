@@ -37,7 +37,7 @@ func _check_target():
 	
 func _is_arrive() -> bool:
 	var distance = global_transform.origin.distance_to(destination)
-	return distance <= margin
+	return distance < margin
 	
 func _see_destination(delta :float):
 	if _is_arrive():

@@ -1,7 +1,11 @@
 extends StaticBody
 class_name BaseMap
 
+signal on_generating_map(message, progress, max_progress)
 signal on_generate_map_completed
+
+const GENERATING_LAND = "LAND"
+const GENERATING_RESOURCE = "RESOURCE"
 
 export var map_seed :int = 1
 export var map_size :float = 200
@@ -35,36 +39,37 @@ func _generate_map():
 	noise.octaves = 4
 	noise.period = 80.0
 	
-	var custom_gradient = CustomGradientTexture.new()
-	custom_gradient.gradient = Gradient.new()
-	custom_gradient.type = CustomGradientTexture.GradientType.RADIAL
-	custom_gradient.size = Vector2.ONE * map_size + Vector2.ONE
-
-	var land = _create_land(noise, custom_gradient)
-	add_child(land)
+	var lands = _create_land(noise)
+	var land_mesh = lands[0]
+	var inland_positions = lands[1]
+	add_child(land_mesh)
 	
-	var collision = land.get_child(0).get_child(0)
-	land.get_child(0).remove_child(collision)
+	emit_signal("on_generating_map", GENERATING_LAND, 0, 1)
+	
+	var collision = land_mesh.get_child(0).get_child(0)
+	land_mesh.get_child(0).remove_child(collision)
 	add_child(collision)
-	land.get_child(0).queue_free()
-	
+	land_mesh.get_child(0).queue_free()
 	
 	var water = _create_water()
 	add_child(water)
-	
-	var grass = _generate_grass(land.mesh)
+
+	var grass = _generate_grass(land_mesh.mesh)
 	add_child(grass)
 	
 	translation.y = 3.0
 	
-	var stuffs = _create_spawn_stuff(noise, custom_gradient)
+	var stuff_pos = 1
+	var stuffs = _create_spawn_stuff(inland_positions)
 	for stuff in stuffs:
-		get_parent().add_child(stuff)
-	
+		emit_signal("on_generating_map", GENERATING_RESOURCE, stuff_pos, stuffs.size())
+		add_child(stuff)
+		stuff_pos += 1
+		
 	emit_signal("on_generate_map_completed")
 	
 	
-func _create_spawn_stuff(noise :OpenSimplexNoise, gradient :CustomGradientTexture) -> Array:
+func _create_spawn_stuff(inland_positions :Array) -> Array:
 	var stuffs = []
 	
 	var rng  = RandomNumberGenerator.new()
@@ -83,42 +88,33 @@ func _create_spawn_stuff(noise :OpenSimplexNoise, gradient :CustomGradientTextur
 		preload("res://entity/resources/tree/tree_2/tree.tscn"),
 		preload("res://entity/resources/tree/tree_3/tree.tscn"),
 		preload("res://entity/resources/tree/tree_4/tree.tscn"),
-
 	]
 	
-	var data = gradient.get_data()
-	data.lock()
+	var trimed_inland_positions = _trim_array(inland_positions, 20)
 	
-	var _half_size = int(map_size * 0.5)
-	for x in range(-_half_size, _half_size, 8):
-		if rng.randf() > 0.6:
-			continue
+	for pos in trimed_inland_positions:
+		if pos.y > 5.0:
+			recomended_spawn_pos = pos
 			
-		for z in range(-_half_size, _half_size, 8):
-			if rng.randf() > 0.6:
-				continue
-			
-			var _pos = Vector3(x ,0.0, z)
-			var _value = noise.get_noise_3d(_pos.x * map_scale , 0.0, _pos.z * map_scale)
-			var gradient_value = data.get_pixel((_pos.x + map_size) * 0.5, (_pos.z + map_size) * 0.5).r * 0.8
-			var _value_c = _value
-			_value -= gradient_value
-			if _value > 0.0:
-				_pos.y = _value * map_height
-				
-				if _pos.y > 5:
-					recomended_spawn_pos = _pos
-				
-				stuffs.append(
-					_resources_instance_placement(
-						_resources, _pos, clamp(int(_value_c * 20), 0, _resources.size() - 1)
-					)
-				)
-				
-	data.unlock()
+		var index :int = rng.randf_range(0, _resources.size() - 1)
+		var res :Resource = _resources[index]
+		
+		stuffs.append(
+			_resources_instance_placement(res, pos)
+		)
+		
 	return stuffs
 	
-func _create_land(noise :OpenSimplexNoise, gradient :CustomGradientTexture) -> MeshInstance:
+func _trim_array(arr :Array, step :int) -> Array:
+	var new_arr = []
+	for i in range(0, arr.size(), step):
+		new_arr.append(arr[i])
+		
+	return new_arr
+	
+func _create_land(noise :OpenSimplexNoise) -> Array:
+	var inland_positions :Array = []
+	
 	var land_mesh = PlaneMesh.new()
 	land_mesh.size = Vector2(map_size, map_size)
 	land_mesh.subdivide_width = map_size * 0.5
@@ -132,6 +128,11 @@ func _create_land(noise :OpenSimplexNoise, gradient :CustomGradientTexture) -> M
 	var data_tool = MeshDataTool.new()
 	data_tool.create_from_surface(array_plane, 0)
 	
+	var gradient = CustomGradientTexture.new()
+	gradient.gradient = Gradient.new()
+	gradient.type = CustomGradientTexture.GradientType.RADIAL
+	gradient.size = Vector2.ONE * map_size + Vector2.ONE
+
 	var data = gradient.get_data()
 	data.lock()
 	
@@ -142,6 +143,9 @@ func _create_land(noise :OpenSimplexNoise, gradient :CustomGradientTexture) -> M
 		value -= gradient_value
 		value = clamp(value, -0.075, 2)
 		vertext.y = value * (map_height + 2.0)
+		if value > 0.1:
+			inland_positions.append(vertext)
+			
 		data_tool.set_vertex(i, vertext)
 		
 	data.unlock()
@@ -159,7 +163,7 @@ func _create_land(noise :OpenSimplexNoise, gradient :CustomGradientTexture) -> M
 	land_mesh_instance.set_surface_material(0, map_land_shander)
 	land_mesh_instance.create_trimesh_collision()
 
-	return land_mesh_instance
+	return [land_mesh_instance, inland_positions]
 	
 func _create_water() -> MeshInstance:
 	var water_mesh = PlaneMesh.new()
@@ -175,12 +179,11 @@ func _generate_grass(land_mesh :Mesh):
 	grass.mesh = land_mesh
 	return grass
 	
-func _resources_instance_placement(_resources :Array, _pos :Vector3, pointer :int) -> MineableResource:
-	var resources_instance :MineableResource = _resources[pointer].instance()
-	resources_instance.name = "resources-" + _str(_pos.x) + "-" + _str(_pos.y)+ "-" + _str(_pos.z)
-	resources_instance.translation = _pos
-	resources_instance.translation.y += 3
-	return resources_instance
+func _resources_instance_placement(resources_instance :Resource, _pos :Vector3) -> MineableResource:
+	var instance :MineableResource = resources_instance.instance()
+	instance.name = "resources-" + _str(_pos.x) + "-" + _str(_pos.y)+ "-" + _str(_pos.z)
+	instance.translation = _pos
+	return instance
 	
 func get_rand_pos(from :Vector3) -> Vector3:
 	var angle := rand_range(0, TAU)

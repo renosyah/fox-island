@@ -23,4 +23,3 @@ hood_texture = ExtResource( 3 )
 
 [node name="mob_ai" parent="fox3" instance=ExtResource( 4 )]
 unit = NodePath("..")
-target = NodePath("../../fox")

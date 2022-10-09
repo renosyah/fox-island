@@ -34,6 +34,7 @@ func load_map():
 	_map = preload("res://map/test_map/test_map.tscn").instance()
 	add_child(_map)
 	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
+	_map.connect("on_generating_map", self, "on_generating_map")
 	_map.map_seed = Global.mp_game_data["seed"]
 	_map.map_size = 200
 	_map.generate_map()
@@ -42,6 +43,10 @@ func load_map():
 	
 func on_generate_map_completed():
 	_ui.loading(false)
+	
+func on_generating_map(message :String, progress, max_progress :int):
+	_ui.loading_message(message, progress, max_progress)
+	
 	
 ################################################################
 # ui

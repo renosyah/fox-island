@@ -5,6 +5,7 @@ var mesh :MeshInstance
 var tween :Tween
 var hp_bar :HpBar3D
 var collision :CollisionShape
+var visibility_notifier :VisibilityNotifier
 
 remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	._take_damage(_hp_left, _damage)
@@ -23,6 +24,20 @@ func set_visible(_show :bool):
 	collision.set_deferred("disabled", not _show)
 	visible = _show
 	
+func camera_entered(camera: Camera):
+	if is_dead:
+		return
+		
+	visible = true
+	tween.interpolate_property(self, "scale", Vector3.ZERO, Vector3.ONE, 0.2)
+	tween.start()
+	
+func camera_exited(camera: Camera):
+	if is_dead:
+		return
+		
+	visible = false
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	mesh = MeshInstance.new()
@@ -37,6 +52,11 @@ func _ready():
 	
 	tween = Tween.new()
 	add_child(tween)
+	
+	visibility_notifier = VisibilityNotifier.new()
+	add_child(visibility_notifier)
+	visibility_notifier.connect("camera_entered", self, "camera_entered")
+	visibility_notifier.connect("camera_exited", self, "camera_exited")
 	
 	var timer = Timer.new()
 	timer.wait_time = 0.1
