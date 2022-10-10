@@ -1,8 +1,8 @@
 extends Spatial
 class_name RotatingCamera
 
-export var vertical_rotation_speed :float = 5.0
-export var horizontal_rotation_speed :float = 5.0
+export var vertical_rotation_speed :float = 0.024
+export var horizontal_rotation_speed :float = 0.050
 export var facing_direction :Vector2 = Vector2.ZERO
 
 func get_facing_direction():

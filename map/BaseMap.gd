@@ -21,8 +21,9 @@ var thread = Thread.new()
 var recomended_spawn_pos :Vector3
 
 func get_recomended_spawn_position() -> Vector3:
-	recomended_spawn_pos.y += 5
-	return get_rand_pos(recomended_spawn_pos)
+	var spawn_pos = get_rand_pos(recomended_spawn_pos)
+	spawn_pos.y += 4
+	return spawn_pos
 
 func _ready():
 	pass
@@ -198,7 +199,7 @@ func get_rand_pos(from :Vector3) -> Vector3:
 	var distance := rand_range(5, 15)
 	var posv2 = polar2cartesian(distance, angle)
 	var posv3 = from + Vector3(posv2.x, 0.0, posv2.y)
-	posv3.y = 10
 	return posv3
+	
 func _str(i :float) -> String:
 	return str(stepify(i, 0.01))

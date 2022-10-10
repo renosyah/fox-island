@@ -87,27 +87,27 @@ mouse_filter = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
 margin_right = 510.0
-margin_bottom = 280.0
+margin_bottom = 240.0
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
-margin_top = 284.0
+margin_top = 244.0
 margin_right = 510.0
 margin_bottom = 496.0
 mouse_filter = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
 margin_right = 166.0
-margin_bottom = 212.0
+margin_bottom = 252.0
 size_flags_horizontal = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
 margin_left = 170.0
 margin_right = 426.0
-margin_bottom = 212.0
+margin_bottom = 252.0
 mouse_filter = 2
 
-[node name="fire" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
+[node name="fast_attack" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
 margin_left = 68.0
 margin_right = 188.0
 margin_bottom = 60.0
@@ -115,17 +115,12 @@ rect_min_size = Vector2( 120, 60 )
 size_flags_horizontal = 4
 color = Color( 0.282353, 0.282353, 0.282353, 1 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/fire"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -45.0
-margin_top = -20.0
-margin_right = 45.0
-margin_bottom = 20.0
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 6 )
-text = "Attack"
+text = "Fast
+Attack"
 align = 1
 valign = 1
 
@@ -138,24 +133,18 @@ rect_min_size = Vector2( 0, 8 )
 [node name="MarginContainer3" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer"]
 margin_top = 76.0
 margin_right = 256.0
-margin_bottom = 136.0
+margin_bottom = 156.0
 rect_min_size = Vector2( 0, 40 )
 
 [node name="dodge" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 8 )]
 margin_right = 120.0
-margin_bottom = 60.0
+margin_bottom = 80.0
 rect_min_size = Vector2( 120, 60 )
 color = Color( 0.282353, 0.282353, 0.282353, 1 )
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -45.0
-margin_top = -20.0
-margin_right = 45.0
-margin_bottom = 20.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 6 )
 text = "Dodge"
 align = 1
@@ -164,63 +153,52 @@ valign = 1
 [node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3"]
 margin_left = 124.0
 margin_right = 132.0
-margin_bottom = 60.0
+margin_bottom = 80.0
 rect_min_size = Vector2( 8, 0 )
 
-[node name="jump2" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 8 )]
+[node name="heavy_attack" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 8 )]
 margin_left = 136.0
 margin_right = 256.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 120, 60 )
+margin_bottom = 80.0
+rect_min_size = Vector2( 120, 80 )
 color = Color( 0.282353, 0.282353, 0.282353, 1 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/jump2"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -45.0
-margin_top = -20.0
-margin_right = 45.0
-margin_bottom = 20.0
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 6 )
-text = "Jump"
+text = "Heavy
+Attack"
 align = 1
 valign = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer"]
-margin_top = 140.0
+margin_top = 160.0
 margin_right = 256.0
-margin_bottom = 148.0
+margin_bottom = 168.0
 rect_min_size = Vector2( 0, 8 )
 
-[node name="use" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
+[node name="jump" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
 margin_left = 68.0
-margin_top = 152.0
+margin_top = 172.0
 margin_right = 188.0
-margin_bottom = 212.0
-rect_min_size = Vector2( 120, 60 )
+margin_bottom = 252.0
+rect_min_size = Vector2( 120, 80 )
 size_flags_horizontal = 4
 color = Color( 0.282353, 0.282353, 0.282353, 1 )
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/use"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -45.0
-margin_top = -20.0
-margin_right = 45.0
-margin_bottom = 20.0
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/jump"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 6 )
-text = "Use"
+text = "Jump"
 align = 1
 valign = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
 margin_left = 430.0
 margin_right = 510.0
-margin_bottom = 212.0
+margin_bottom = 252.0
 rect_min_size = Vector2( 80, 0 )
 
 [node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
@@ -230,6 +208,7 @@ margin_bottom = 600.0
 rect_min_size = Vector2( 0, 100 )
 
 [node name="loading" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
@@ -260,3 +239,8 @@ margin_right = 712.0
 margin_bottom = 361.0
 rect_min_size = Vector2( 400, 50 )
 size_flags_horizontal = 4
+
+[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack" to="." method="_on_fast_attack_on_press"]
+[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge" to="." method="_on_dodge_on_press"]
+[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack" to="." method="_on_heavy_attack_on_press"]
+[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/jump" to="." method="_on_jump_on_press"]

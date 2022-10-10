@@ -55,6 +55,22 @@ var _ui :BaseUi
 func setup_ui():
 	_ui = preload("res://gameplay/mp/ui/ui.tscn").instance()
 	add_child(_ui)
+	_ui.connect("on_jump_on_press", self, "on_jump_on_press")
+	_ui.connect("on_dodge_on_press", self, "on_dodge_on_press")
+	_ui.connect("on_fast_attack_on_press", self, "on_fast_attack_on_press")
+	_ui.connect("on_heavy_attack_on_press", self, "on_heavy_attack_on_press")
+	
+func on_jump_on_press():
+	pass # Replace with function body.
+	
+func on_dodge_on_press():
+	pass # Replace with function body.
+	
+func on_fast_attack_on_press():
+	pass # Replace with function body
+	
+func on_heavy_attack_on_press():
+	pass # Replace with function body.
 	
 ################################################################
 # camera

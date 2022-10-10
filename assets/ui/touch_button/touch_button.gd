@@ -1,9 +1,12 @@
 extends ColorRect
 
+signal on_press
+
 var pressed :bool = false
 onready var default_color = color
 
 var _touch_index : int = -1
+var _is_pressed = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,6 +24,7 @@ func _input(event : InputEvent):
 		elif event.index == _touch_index:
 			_touch_index = -1
 			pressed = false
+			_is_pressed = false
 			get_tree().set_input_as_handled()
 			
 func _process(delta):
@@ -28,6 +32,10 @@ func _process(delta):
 		color = default_color
 	else:
 		color.a = 0.6
+		
+	if pressed and not _is_pressed:
+		emit_signal("on_press")
+		_is_pressed = true
 		
 func _is_point_inside_area(point: Vector2) -> bool:
 	var x: bool = point.x >= rect_global_position.x and point.x <= rect_global_position.x + (rect_size.x * get_global_transform_with_canvas().get_scale().x)

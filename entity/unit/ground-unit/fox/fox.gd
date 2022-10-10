@@ -3,8 +3,6 @@ extends BaseGroundUnit
 export var hood_texture :Texture = preload("res://entity/unit/ground-unit/fox/Textures/fox_diffuse.png")
 
 onready var _animation_state = $pivot/AnimationTree.get("parameters/playback")
-onready var _firing_delay = $firing_delay
-onready var _jump_delay = $jump_delay
 onready var _audio_stream_player_3d = $AudioStreamPlayer3D
 onready var _pivot = $pivot
 
@@ -78,30 +76,42 @@ remotesync func _jump():
 	
 	_animation_state.travel("Jump")
 	
+remotesync func _roll():
+	_audio_stream_player_3d.stream = _jump_sound
+	_audio_stream_player_3d.play()
+	
+	_animation_state.travel("Roll")
+	
 remotesync func _land():
 	_animation_state.travel("ToucheGround")
 	
-func attack():
-	#.attack()
+func fast_attack():
 	if is_dead:
 		return
-	
+		
 	if not _is_master():
 		return
 		
-	if _firing_delay.is_stopped():
-		rpc("_attack")
-		_attack_targets()
-		_firing_delay.start()
-		
-func _attack_targets():
+	rpc("_attack")
 	for target in targets:
 		if target.has_method("take_damage"):
 			target.take_damage(5, player)
+	
+func heavy_attack():
+	if is_dead:
+		return
+		
+	if not _is_master():
+		return
+		
+	rpc("_attack")
+	for target in targets:
+		if target.has_method("take_damage"):
+			target.take_damage(15, player)
 			
 		if target.has_method("knock_back"):
 			target.knock_back(global_transform.basis.z * -8.0)
-			
+	
 func knock_back(_from_velocity :Vector3) -> void:
 	rpc("_knock_back", _from_velocity)
 	
@@ -112,27 +122,27 @@ func jump():
 	if not _is_master():
 		return
 		
-	if _jump_delay.is_stopped() and is_on_floor() and not _is_jump:
+	if is_on_floor() and not _is_jump:
 		_is_jump = true
 		_snap = Vector3.ZERO
 		translation.y += 1.0
 		_velocity.y = 10.0
 		rpc("_jump")
-		_jump_delay.start()
 		
-func dodge():
+func roll():
 	if is_dead:
 		return
 	
 	if not _is_master():
 		return
 		
-	if _jump_delay.is_stopped() and is_on_floor() and not _is_jump:
+	if move_direction.length() < 0.6:
+		return
+		
+	if is_on_floor() and not _is_jump:
 		_is_jump = true
-		_snap = Vector3.ZERO
 		_velocity = _velocity * 6.0
-		rpc("_jump")
-		_jump_delay.start()
+		rpc("_roll")
 	
 func _walk():
 	if not enable_walk_sound:

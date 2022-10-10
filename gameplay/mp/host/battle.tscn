@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://entity/unit/ground-unit/fox/fox.tscn" type="PackedScene" id=1]
 [ext_resource path="res://gameplay/mp/host/battle.gd" type="Script" id=2]
-[ext_resource path="res://entity/unit/ground-unit/fox/Textures/fox_diffuse_red.png" type="Texture" id=3]
-[ext_resource path="res://assets/mob-ai/mob_ai.tscn" type="PackedScene" id=4]
 
 [node name="battle" type="Node"]
 script = ExtResource( 2 )
@@ -15,12 +13,3 @@ is_dead = true
 [node name="fox2" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.66681, 10, 0 )
 is_dead = true
-
-[node name="fox3" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.68259, 10, 2.54189 )
-is_dead = true
-hood_texture = ExtResource( 3 )
-
-[node name="mob_ai" parent="fox3" instance=ExtResource( 4 )]
-unit = NodePath("..")
-target = NodePath("../../fox")
