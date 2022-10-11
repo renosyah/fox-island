@@ -23,7 +23,6 @@ var _is_roll = false
 
 var enable_walk_sound = false
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player = PlayerData.new()
@@ -70,7 +69,7 @@ remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> vo
 remotesync func _dead(_kill_by :Dictionary) -> void:
 	#._dead(_kill_by)
 	is_dead = true
-	set_process(false)
+	set_physics_process(false)
 	hit_by_player.from_dictionary(_kill_by)
 	
 	_update_hp_bar(0, max_hp)

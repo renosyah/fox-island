@@ -56,7 +56,7 @@ remotesync func _reset() -> void:
 	hp = max_hp
 	is_dead = false
 	
-	set_process(true)
+	set_physics_process(false)
 	
 ############################################################
 func _ready() -> void:
