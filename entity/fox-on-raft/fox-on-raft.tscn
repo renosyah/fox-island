@@ -10,7 +10,7 @@
 script = ExtResource( 5 )
 
 [node name="fox_enemy" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.969869, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.155204, 0 )
 hood_texture = ExtResource( 4 )
 
 [node name="mob_ai" parent="fox_enemy" instance=ExtResource( 1 )]

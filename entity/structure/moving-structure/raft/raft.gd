@@ -31,7 +31,7 @@ func master_moving(delta):
 		
 	if is_colliding_with_land():
 		emit_signal("hit_shore")
-		set_process(false)
+		set_physics_process(false)
 		return
 		
 func is_colliding_with_land():

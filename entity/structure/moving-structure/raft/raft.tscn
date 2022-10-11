@@ -3,11 +3,12 @@
 [ext_resource path="res://entity/structure/moving-structure/raft/raft.gd" type="Script" id=1]
 
 [sub_resource type="BoxShape" id=5]
-extents = Vector3( 1.0832, 0.142211, 1 )
+extents = Vector3( 1.0832, 0.142211, 2.08089 )
 
 [sub_resource type="CylinderMesh" id=1]
 top_radius = 0.2
 bottom_radius = 0.2
+height = 4.0
 
 [sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 0.333333, 0.12549, 0, 1 )
@@ -67,6 +68,6 @@ mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
 [node name="RayCast" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.09747 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.45108 )
 enabled = true
-cast_to = Vector3( 0, 0, -0.4 )
+cast_to = Vector3( 0, 0, -1 )

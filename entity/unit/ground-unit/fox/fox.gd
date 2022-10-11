@@ -19,6 +19,7 @@ onready var _jump_sound = preload("res://entity/unit/ground-unit/fox/sound/jump.
 
 var _node_not_move = ["Attack", "Jump", "ToucheGround", "Fall"]
 var _is_jump = false
+var _is_roll = false
 
 var enable_walk_sound = false
 
@@ -150,8 +151,8 @@ func roll():
 	if move_direction.length() < 0.6:
 		return
 		
-	if is_on_floor() and not _is_jump:
-		_is_jump = true
+	if is_on_floor() and not _is_roll:
+		_is_roll  = true
 		_velocity = _velocity * 6.0
 		rpc("_roll")
 	
@@ -168,7 +169,10 @@ func master_moving(delta):
 	if _is_jump and is_on_floor():
 		_is_jump = false
 		rpc_unreliable("_land")
-	
+		
+	if _is_roll and is_on_floor():
+		_is_roll = false
+		
 func _on_animation_checker_timeout():
 	if is_dead:
 		return

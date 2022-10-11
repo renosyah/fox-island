@@ -20,13 +20,13 @@ func set_spawn_pos(spawn_pos :Vector3):
 	raft.destination = _target.global_transform.origin
 	fox.look_at(_target.global_transform.origin, Vector3.UP)
 	
-	raft.set_process(true)
-	fox.set_process(true)
+	raft.set_physics_process(true)
+	fox.set_physics_process(true)
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	raft.set_process(false)
-	fox.set_process(false)
+	raft.set_physics_process(false)
+	fox.set_physics_process(false)
 	mob_ai.enable_ai = false
 	
 	fox.connect("on_dead", self, "on_fox_dead")
