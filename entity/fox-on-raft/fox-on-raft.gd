@@ -8,7 +8,7 @@ onready var fox = $fox_enemy
 
 onready var _target :BaseUnit = get_node_or_null(target)
 
-func set_spawn_pos(spawn_pos :Vector3):
+func set_spawn_position(spawn_pos :Vector3):
 	if not is_instance_valid(_target):
 		return
 		

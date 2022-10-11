@@ -148,6 +148,21 @@ func on_client_pool_network_request():
 	pass
 	
 ################################################################
+# gameplay
+func spawn_enemy(_at :Vector3, _target :NodePath):
+	if not is_server():
+		return
+		
+	rpc("_spawn_enemy", _at, _target)
+
+remotesync func _spawn_enemy(_at :Vector3, _target :NodePath):
+	var enemy = preload("res://entity/fox-on-raft/fox-on-raft.tscn").instance()
+	enemy.target = _target
+	add_child(enemy)
+	enemy.set_spawn_position(_at)
+	
+	
+################################################################
 # exit
 func on_exit_game_session():
 	Network.disconnect_from_server()

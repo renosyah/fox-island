@@ -208,5 +208,12 @@ func get_rand_pos(from :Vector3) -> Vector3:
 	var posv3 = from + Vector3(posv2.x, 0.0, posv2.y)
 	return posv3
 	
+func get_random_radius_pos() -> Vector3:
+	var angle := rand_range(0, TAU)
+	var distance := rand_range(50, 60)
+	var posv2 = polar2cartesian(distance, angle)
+	var posv3 = global_transform.origin + Vector3(posv2.x, 0.0, posv2.y)
+	return posv3
+	
 func _str(i :float) -> String:
 	return str(stepify(i, 0.01))
