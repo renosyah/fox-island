@@ -19,12 +19,19 @@ export var stuff_directory = "res://map/model/"
 
 var thread = Thread.new()
 var recomended_spawn_pos :Vector3
+var water :MeshInstance
 
 func get_recomended_spawn_position() -> Vector3:
 	var spawn_pos = get_rand_pos(recomended_spawn_pos)
 	spawn_pos.y += 4
 	return spawn_pos
-
+		
+func get_water_height():
+	if not is_instance_valid(water):
+		return 0.0
+		
+	return water.global_transform.origin.y
+	
 func _ready():
 	pass
 	
@@ -34,7 +41,7 @@ func _exit_tree():
 func generate_map():
 	if not thread.is_active():
 		thread.start(self, "_generate_map")
-		
+
 func _generate_map():
 	var noise = OpenSimplexNoise.new()
 	noise.seed = map_seed
@@ -57,7 +64,7 @@ func _generate_map():
 	add_child(collision)
 	land_mesh.get_child(0).queue_free()
 	
-	var water = _create_water()
+	water = _create_water()
 	add_child(water)
 	water.cast_shadow = false
 	water.generate_lightmap = false

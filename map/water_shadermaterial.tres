@@ -11,6 +11,7 @@ uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
 uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
+uniform float beer_factor = 0.2;
 
 float generate_offset(float x, float z, float val1, float val2, float time){
 	float speed = 1.0;
@@ -38,6 +39,15 @@ void fragment() {
 	SPECULAR = 0.3;
 	ROUGHNESS = 0.2;
 	ALBEDO = out_color.xyz;
+	
+//	float depth = texture(DEPTH_TEXTURE, SCREEN_UV).r;
+//
+//	depth = depth * 2.0 - 1.0;
+//	depth = PROJECTION_MATRIX[3][2] / (depth + PROJECTION_MATRIX[2][2]);
+//	depth = depth + VERTEX.z;
+//	depth = exp(-depth * beer_factor);
+//	ALPHA = clamp(1.0 - depth, 0.0, 1.0);
+	
 }
 "
 
@@ -49,3 +59,4 @@ shader_param/uv1_scale = null
 shader_param/uv1_offset = null
 shader_param/uv2_scale = null
 shader_param/uv2_offset = null
+shader_param/beer_factor = 0.2

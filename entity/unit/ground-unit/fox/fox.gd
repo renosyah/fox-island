@@ -1,6 +1,7 @@
 extends BaseGroundUnit
 
 export var hood_texture :Texture = preload("res://entity/unit/ground-unit/fox/Textures/fox_diffuse.png")
+export var enable_hp_bar :bool = true
 
 onready var _animation_state = $pivot/AnimationTree.get("parameters/playback")
 onready var _audio_stream_player_3d = $AudioStreamPlayer3D
@@ -46,6 +47,9 @@ func _ready():
 	yield(timer,"timeout")
 	timer.queue_free()
 	
+	if not enable_hp_bar:
+		return
+		
 	_hp_bar = preload("res://assets/ui/bar-3d/hp_bar_3d.tscn").instance()
 	add_child(_hp_bar)
 	_hp_bar.translation.y = 2
@@ -63,9 +67,16 @@ remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> vo
 	_tween.interpolate_property(_pivot, "scale", Vector3.ONE * 0.6, Vector3.ONE, 0.3)
 	
 remotesync func _dead(_kill_by :Dictionary) -> void:
-	._dead(_kill_by)
+	#._dead(_kill_by)
+	is_dead = true
+	set_process(false)
+	hit_by_player.from_dictionary(_kill_by)
+	
 	_update_hp_bar(0, max_hp)
 	_animation_state.travel("Dead")
+	
+func _on_dead_animation_finish():
+	._dead(hit_by_player.to_dictionary())
 	
 remotesync func _attack():
 	_animation_state.travel("Attack")

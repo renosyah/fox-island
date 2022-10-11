@@ -33,18 +33,14 @@ remotesync func _heal(_hp_left, _hp_added : int) -> void:
 	if is_dead:
 		return
 		
-	if not _is_master():
-		hp = _hp_left
-		
+	hp = _hp_left
 	emit_signal("on_heal", self, _hp_added)
 	
 remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> void:
 	if is_dead:
 		return
 		
-	if not _is_master():
-		hp = _hp_left
-		
+	hp = _hp_left
 	hit_by_player.from_dictionary(_hit_by)
 	
 	emit_signal("on_take_damage", self, _damage, hit_by_player)

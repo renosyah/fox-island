@@ -6,7 +6,7 @@ export var gravity_multiplier :float = 0.075
 export var move_direction :Vector2 = Vector2.ZERO
 export var facing_direction :Vector2 = Vector2.ZERO
 
-export var speed :float = 4.0
+export var speed :float = 2.0
 export var acceleration :float = 2.0
 export var deceleration :float = 6.0
 

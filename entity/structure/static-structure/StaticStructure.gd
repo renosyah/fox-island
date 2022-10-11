@@ -1,0 +1,3 @@
+extends BaseStructure
+class_name StaticStructure
+
