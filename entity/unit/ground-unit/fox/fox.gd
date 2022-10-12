@@ -165,12 +165,20 @@ func _walk():
 func master_moving(delta):
 	.master_moving(delta)
 	
+	# fall below map
+	if translation.y < -25.0:
+		emit_signal("on_dead", self, hit_by_player)
+		set_physics_process(false)
+		queue_free()
+		return
+		
 	if _is_jump and is_on_floor():
 		_is_jump = false
 		rpc_unreliable("_land")
 		
 	if _is_roll and is_on_floor():
 		_is_roll = false
+		
 		
 func _on_animation_checker_timeout():
 	if is_dead:
