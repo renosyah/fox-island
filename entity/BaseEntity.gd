@@ -78,7 +78,13 @@ func master_moving(delta :float) -> void:
 	pass
 	
 func moving(_delta :float) -> void:
-	pass
+	
+	# fall below map
+	if translation.y < -25.0:
+		emit_signal("on_dead", self, hit_by_player)
+		set_physics_process(false)
+		queue_free()
+		return
 	
 func puppet_moving(_delta :float) -> void:
 	pass
