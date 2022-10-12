@@ -6,6 +6,7 @@ export var rotation_speed :float = 6.25
 export var enable_steering = false
 
 var _raycast :RayCast
+var _enable_snap = true
 
 func _ready() -> void:
 	camera_basis = transform.basis
@@ -33,7 +34,7 @@ func master_moving(delta :float) -> void:
 	#.master_moving(delta)
 	_direction_input()
 	
-	if is_on_floor():
+	if is_on_floor() and _enable_snap:
 		_snap = -get_floor_normal() - get_floor_velocity() * delta
 		if _aim_direction != Vector3.ZERO:
 			_transform_turning(_aim_direction if not enable_steering else _velocity, delta)

@@ -31,7 +31,7 @@ func on_back_pressed():
 var _map :BaseMap
 
 func load_map():
-	_map = preload("res://map/test_map/test_map.tscn").instance()
+	_map = preload("res://map/spring_island/spring_map.tscn").instance()
 	add_child(_map)
 	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
 	_map.connect("on_generating_map", self, "on_generating_map")
@@ -128,13 +128,13 @@ func on_host_disconnected():
 	
 ################################################################
 # gameplay
-func spawn_enemy(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
+func spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
 	if not is_server():
 		return
 		
-	rpc("_spawn_enemy",_name, _parent, _at, _target)
+	rpc("_spawn_enemy_on_raft",_name, _parent, _at, _target)
 
-remotesync func _spawn_enemy(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
+remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
 	var parent :Node = get_node_or_null(_parent)
 	if not is_instance_valid(parent):
 		return
@@ -142,6 +142,25 @@ remotesync func _spawn_enemy(_name :String, _parent :NodePath, _at :Vector3, _ta
 	var enemy = preload("res://entity/fox-on-raft/fox-on-raft.tscn").instance()
 	enemy.name = _name
 	enemy.target = _target
+	enemy.is_server = is_server()
+	parent.add_child(enemy)
+	enemy.set_spawn_position(_at)
+	
+func spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
+	if not is_server():
+		return
+		
+	rpc("_spawn_enemy_on_ship",_name, _parent, _at, _target)
+
+remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
+	var parent :Node = get_node_or_null(_parent)
+	if not is_instance_valid(parent):
+		return
+		
+	var enemy = preload("res://entity/fox-on-ship/fox-on-ship.tscn").instance()
+	enemy.name = _name
+	enemy.target = _target
+	enemy.is_server = is_server()
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
 	

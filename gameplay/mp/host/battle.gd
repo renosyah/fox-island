@@ -59,7 +59,11 @@ func _on_enemy_spawner_timer_timeout():
 	if enemy_holder.get_child_count() > 5:
 		return
 		
-	spawn_enemy(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), fox.get_path())
+	if randf() < 0.5:
+		spawn_enemy_on_ship(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), fox.get_path())
+		return
+		
+	spawn_enemy_on_raft(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), fox.get_path())
 
 
 

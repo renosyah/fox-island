@@ -3,6 +3,7 @@ extends BaseGroundUnit
 export var hood_texture :Texture = preload("res://entity/unit/ground-unit/fox/Textures/fox_diffuse.png")
 export var enable_hp_bar :bool = true
 
+onready var _collision_shape = $CollisionShape
 onready var _animation_state = $pivot/AnimationTree.get("parameters/playback")
 onready var _audio_stream_player_3d = $AudioStreamPlayer3D
 onready var _pivot = $pivot
@@ -18,9 +19,6 @@ onready var _walk_sound = preload("res://entity/unit/ground-unit/fox/sound/walk.
 onready var _jump_sound = preload("res://entity/unit/ground-unit/fox/sound/jump.wav")
 
 var _node_not_move = ["Attack", "Jump", "ToucheGround", "Fall"]
-var _is_jump = false
-var _is_roll = false
-
 var enable_walk_sound = false
 
 # Called when the node enters the scene tree for the first time.
@@ -69,11 +67,17 @@ remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> vo
 remotesync func _dead(_kill_by :Dictionary) -> void:
 	#._dead(_kill_by)
 	is_dead = true
-	set_physics_process(false)
+	set_process(false)
 	hit_by_player.from_dictionary(_kill_by)
 	
 	_update_hp_bar(0, max_hp)
 	_animation_state.travel("Dead")
+	_collision_shape.set_deferred("disabled", true)
+	
+remotesync func _reset() -> void:
+	._reset()
+	_animation_state.travel("Idle")
+	_collision_shape.set_deferred("disabled", false)
 	
 func _on_dead_animation_finish():
 	._dead(hit_by_player.to_dictionary())
@@ -133,11 +137,10 @@ func jump():
 	if not _is_master():
 		return
 		
-	if is_on_floor() and not _is_jump:
-		_is_jump = true
-		_snap = Vector3.ZERO
-		translation.y += 1.0
-		_velocity.y = 10.0
+	if is_on_floor() and _enable_snap:
+		_enable_snap = false
+		_velocity.y += 10.0
+		_snap = Vector3.UP * _velocity.y
 		rpc("_jump")
 		
 func roll():
@@ -150,9 +153,8 @@ func roll():
 	if move_direction.length() < 0.6:
 		return
 		
-	if is_on_floor() and not _is_roll:
-		_is_roll  = true
-		_velocity = _velocity * 6.0
+	if is_on_floor():
+		_velocity = _velocity * 4.0
 		rpc("_roll")
 	
 func _walk():
@@ -164,13 +166,9 @@ func _walk():
 	
 func master_moving(delta):
 	.master_moving(delta)
-	if _is_jump and is_on_floor():
-		_is_jump = false
+	if not _enable_snap and is_on_floor():
+		_enable_snap = true
 		rpc_unreliable("_land")
-		
-	if _is_roll and is_on_floor():
-		_is_roll = false
-		
 		
 func _on_animation_checker_timeout():
 	if is_dead:

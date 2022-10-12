@@ -56,14 +56,14 @@ remotesync func _reset() -> void:
 	hp = max_hp
 	is_dead = false
 	
-	set_physics_process(false)
+	set_process(true)
 	
 ############################################################
 func _ready() -> void:
 	_set_network_master(Network.PLAYER_HOST_ID)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta :float) -> void:
+func _process(delta :float) -> void:
 	# fall below map
 	# stop fall
 	if translation.y < -25.0:

@@ -1,19 +1,19 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/mob-ai/mob_ai.tscn" type="PackedScene" id=1]
-[ext_resource path="res://entity/structure/moving-structure/raft/raft.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entity/structure/moving-structure/ship/ship.tscn" type="PackedScene" id=2]
 [ext_resource path="res://entity/unit/ground-unit/fox/fox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entity/unit/ground-unit/fox/Textures/fox_diffuse_red.png" type="Texture" id=4]
-[ext_resource path="res://entity/fox-on-raft/fox-on-raft.gd" type="Script" id=5]
+[ext_resource path="res://entity/fox-on-ship/fox-on-shipt.gd" type="Script" id=5]
 
-[node name="fox-on-raft" type="Spatial"]
+[node name="fox-on-ship" type="Spatial"]
 script = ExtResource( 5 )
 
 [node name="raft" parent="." instance=ExtResource( 2 )]
-speed = 2.0
+speed = 4.0
 
 [node name="fox_enemy" parent="raft" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.179495, 1.1283 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.148699, 0.7481, 1.78015 )
 hood_texture = ExtResource( 4 )
 
 [node name="mob_ai" parent="raft/fox_enemy" instance=ExtResource( 1 )]
@@ -21,13 +21,22 @@ unit = NodePath("..")
 enable_ai = false
 
 [node name="fox_enemy2" parent="raft" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.179495, -1.27786 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.718909, 0.767951, 0.0489528 )
 hood_texture = ExtResource( 4 )
 
 [node name="mob_ai" parent="raft/fox_enemy2" instance=ExtResource( 1 )]
 unit = NodePath("..")
 enable_ai = false
 
+[node name="fox_enemy3" parent="raft" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.355059, 0.767951, -1.45085 )
+hood_texture = ExtResource( 4 )
+
+[node name="mob_ai" parent="raft/fox_enemy3" instance=ExtResource( 1 )]
+unit = NodePath("..")
+enable_ai = false
+
 [connection signal="hit_shore" from="raft" to="." method="_on_raft_hit_shore"]
 [connection signal="on_dead" from="raft/fox_enemy" to="." method="on_fox_dead"]
 [connection signal="on_dead" from="raft/fox_enemy2" to="." method="on_fox_dead"]
+[connection signal="on_dead" from="raft/fox_enemy3" to="." method="on_fox_dead"]

@@ -18,12 +18,12 @@ export var max_stuff = 120
 export var stuff_directory = "res://map/model/"
 
 var thread = Thread.new()
-var recomended_spawn_pos :Vector3
+var recomended_spawn_pos :Vector3 = Vector3.ZERO
 var water :MeshInstance
 
 func get_recomended_spawn_position() -> Vector3:
 	var spawn_pos = get_rand_pos(recomended_spawn_pos)
-	spawn_pos.y += 8
+	spawn_pos.y += 4
 	return spawn_pos
 		
 func get_water_height():
@@ -109,7 +109,7 @@ func _create_spawn_stuff(inland_positions :Array) -> Array:
 	var trimed_inland_positions = _trim_array(inland_positions, 22)
 	
 	for pos in trimed_inland_positions:
-		if pos.y > 5.0:
+		if pos.y > recomended_spawn_pos.y:
 			recomended_spawn_pos = pos
 			
 		var index :int = rng.randf_range(0, _resources.size())

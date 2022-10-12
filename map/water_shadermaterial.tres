@@ -11,7 +11,7 @@ uniform vec3 uv1_scale;
 uniform vec3 uv1_offset;
 uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
-uniform float beer_factor = 0.2;
+uniform float beer_factor = 0.04;
 
 float generate_offset(float x, float z, float val1, float val2, float time){
 	float speed = 1.0;

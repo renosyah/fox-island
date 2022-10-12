@@ -6,11 +6,13 @@ onready var raft = $raft
 onready var foxs = [
 	$raft/fox_enemy,
 	$raft/fox_enemy2,
+	$raft/fox_enemy3
 ]
 	
 onready var foxs_ai = [
 	$raft/fox_enemy/mob_ai,
 	$raft/fox_enemy2/mob_ai,
+	$raft/fox_enemy3/mob_ai
 ]
 
 var is_server :bool = false

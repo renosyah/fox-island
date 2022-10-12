@@ -8,6 +8,9 @@ export var speed :float = 1.0
 
 onready var ray_cast = $RayCast
 
+remotesync func _hit_shore():
+	emit_signal("hit_shore")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -30,8 +33,8 @@ func master_moving(delta):
 		translation += direction_to_waypoint * speed * delta
 		
 	if is_colliding_with_land():
-		emit_signal("hit_shore")
-		set_physics_process(false)
+		rpc("_hit_shore")
+		set_process(false)
 		return
 		
 func is_colliding_with_land():
@@ -42,5 +45,3 @@ func is_colliding_with_land():
 		return false
 		
 	return true
-	
-
