@@ -64,6 +64,11 @@ func _ready() -> void:
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta :float) -> void:
+	# fall below map
+	# stop fall
+	if translation.y < -25.0:
+		return
+		
 	moving(delta)
 	
 	if not _is_network_running():
@@ -78,13 +83,7 @@ func master_moving(delta :float) -> void:
 	pass
 	
 func moving(_delta :float) -> void:
-	
-	# fall below map
-	if translation.y < -25.0:
-		emit_signal("on_dead", self, hit_by_player)
-		set_physics_process(false)
-		queue_free()
-		return
+	pass
 	
 func puppet_moving(_delta :float) -> void:
 	pass
