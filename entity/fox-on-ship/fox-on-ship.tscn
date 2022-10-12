@@ -37,6 +37,7 @@ unit = NodePath("..")
 enable_ai = false
 
 [connection signal="hit_shore" from="raft" to="." method="_on_raft_hit_shore"]
+[connection signal="on_dead" from="raft" to="." method="_on_raft_on_dead"]
 [connection signal="on_dead" from="raft/fox_enemy" to="." method="on_fox_dead"]
 [connection signal="on_dead" from="raft/fox_enemy2" to="." method="on_fox_dead"]
 [connection signal="on_dead" from="raft/fox_enemy3" to="." method="on_fox_dead"]

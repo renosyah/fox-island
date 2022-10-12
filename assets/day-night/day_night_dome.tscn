@@ -250,7 +250,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 4, 4.1, 6.7, 6.8, 7.6 ),
+"times": PoolRealArray( 0, 3.7, 3.8, 6.7, 6.8, 7.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0.0, 0.0, 0.4, 0.4, 0.0, 0.0 ]
@@ -267,7 +267,6 @@ directional_shadow_mode = 0
 [node name="night_light" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 light_energy = 0.3
-directional_shadow_mode = 0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 3 )

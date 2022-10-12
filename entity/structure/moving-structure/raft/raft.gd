@@ -6,7 +6,9 @@ export var destination :Vector3
 export var margin :float = 1.0
 export var speed :float = 1.0
 
-onready var ray_cast = $RayCast
+onready var _ray_cast = $RayCast
+onready var _collision_shape = $CollisionShape
+onready var _animation_player = $AnimationPlayer
 
 remotesync func _hit_shore():
 	emit_signal("hit_shore")
@@ -14,6 +16,17 @@ remotesync func _hit_shore():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
+	
+remotesync func _dead(_kill_by :Dictionary) -> void:
+	#._dead(_kill_by)
+	is_dead = true
+	set_process(false)
+	hit_by_player.from_dictionary(_kill_by)
+	_collision_shape.set_deferred("disabled", true)
+	_animation_player.play("dead")
+	
+func _on_dead_animation_finish():
+	._dead(hit_by_player.to_dictionary())
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func master_moving(delta):
@@ -38,10 +51,10 @@ func master_moving(delta):
 		return
 		
 func is_colliding_with_land():
-	if not ray_cast.is_colliding():
+	if not _ray_cast.is_colliding():
 		return false
 		
-	if not ray_cast.get_collider() is BaseMap:
+	if not _ray_cast.get_collider() is BaseMap:
 		return false
 		
 	return true

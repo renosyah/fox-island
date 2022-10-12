@@ -56,7 +56,7 @@ func on_heavy_attack_on_press():
 func _on_enemy_spawner_timer_timeout():
 	enemy_spawner_timer.start()
 	
-	if enemy_holder.get_child_count() > 5:
+	if enemy_holder.get_child_count() > 2:
 		return
 		
 	if randf() < 0.5:

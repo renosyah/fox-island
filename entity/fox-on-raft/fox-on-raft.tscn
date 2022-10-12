@@ -13,7 +13,7 @@ script = ExtResource( 5 )
 speed = 2.0
 
 [node name="fox_enemy" parent="raft" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.179495, 1.1283 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.179495, 1.18264 )
 hood_texture = ExtResource( 4 )
 
 [node name="mob_ai" parent="raft/fox_enemy" instance=ExtResource( 1 )]
@@ -21,7 +21,7 @@ unit = NodePath("..")
 enable_ai = false
 
 [node name="fox_enemy2" parent="raft" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.179495, -1.27786 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.179495, -0.525098 )
 hood_texture = ExtResource( 4 )
 
 [node name="mob_ai" parent="raft/fox_enemy2" instance=ExtResource( 1 )]
@@ -29,5 +29,6 @@ unit = NodePath("..")
 enable_ai = false
 
 [connection signal="hit_shore" from="raft" to="." method="_on_raft_hit_shore"]
+[connection signal="on_dead" from="raft" to="." method="_on_raft_on_dead"]
 [connection signal="on_dead" from="raft/fox_enemy" to="." method="on_fox_dead"]
 [connection signal="on_dead" from="raft/fox_enemy2" to="." method="on_fox_dead"]

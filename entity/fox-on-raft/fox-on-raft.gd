@@ -50,4 +50,7 @@ func on_fox_dead(_fox, _killed_by):
 		if not fox.is_dead:
 			return
 			
+	raft.dead(PlayerData.new())
+	
+func _on_raft_on_dead(_entity, _killed_by):
 	queue_free()
