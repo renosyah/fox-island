@@ -38,7 +38,7 @@ func on_jump_on_press():
 	
 func on_dodge_on_press():
 	.on_dodge_on_press()
-	_unit.dodge()
+	_unit.roll()
 	
 func on_fast_attack_on_press():
 	.on_fast_attack_on_press()

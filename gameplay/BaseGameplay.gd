@@ -128,18 +128,19 @@ func on_host_disconnected():
 	
 ################################################################
 # gameplay
-func spawn_enemy(_parent :NodePath, _at :Vector3, _target :NodePath):
+func spawn_enemy(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
 	if not is_server():
 		return
 		
-	rpc("_spawn_enemy", _parent, _at, _target)
+	rpc("_spawn_enemy",_name, _parent, _at, _target)
 
-remotesync func _spawn_enemy(_parent :NodePath, _at :Vector3, _target :NodePath):
+remotesync func _spawn_enemy(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
 	var parent :Node = get_node_or_null(_parent)
 	if not is_instance_valid(parent):
 		return
 		
 	var enemy = preload("res://entity/fox-on-raft/fox-on-raft.tscn").instance()
+	enemy.name = _name
 	enemy.target = _target
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)

@@ -59,7 +59,7 @@ func _on_enemy_spawner_timer_timeout():
 	if enemy_holder.get_child_count() > 5:
 		return
 		
-	spawn_enemy(enemy_holder.get_path(), _map.get_random_radius_pos(), fox.get_path())
+	spawn_enemy(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), fox.get_path())
 
 
 
