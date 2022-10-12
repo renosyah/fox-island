@@ -11,6 +11,7 @@ script = ExtResource( 2 )
 [node name="fox" parent="players" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.49368, 13.5553, 0 )
 is_dead = true
+enable_hp_bar = false
 
 [node name="fox2" parent="players" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.50132, 12.6691, 0 )

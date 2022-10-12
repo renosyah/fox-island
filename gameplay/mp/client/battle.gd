@@ -9,6 +9,11 @@ onready var fox_2 = $players/fox2
 func _ready():
 	_unit = fox_2
 	_unit.enable_walk_sound = true
+	_unit.connect("on_take_damage", self, "on_unit_on_take_damage")
+	_ui.update_bar(_unit.hp, _unit.max_hp)
+	
+func on_unit_on_take_damage(_current_unit :BaseUnit, _damage : int, _hit_by :PlayerData):
+	_ui.update_bar(_current_unit.hp, _current_unit.max_hp)
 	
 func on_generate_map_completed():
 	.on_generate_map_completed()

@@ -23,7 +23,7 @@ var water :MeshInstance
 
 func get_recomended_spawn_position() -> Vector3:
 	var spawn_pos = get_rand_pos(recomended_spawn_pos)
-	spawn_pos.y += 4
+	spawn_pos.y += 8
 	return spawn_pos
 		
 func get_water_height():
