@@ -16,6 +16,7 @@ onready var marker_icon :Sprite3D = $marker_icon
 func _ready():
 	if icon:
 		marker_icon.texture = icon
+		marker_icon.modulate = color
 		marker_item.set_marker(icon, color)
 		
 	marker_item.visible = false

@@ -127,38 +127,21 @@ func on_host_disconnected():
 	get_tree().change_scene("res://menu/lobby/lobby.tscn")
 	
 ################################################################
-# client pooling request
-onready var latency_delay = Network.LATENCY_DELAY
-var network_timmer : Timer
-
-func init_client():
-	if is_server():
-		return
-		
-	network_timmer = Timer.new()
-	network_timmer.wait_time = latency_delay
-	network_timmer.connect("timeout", self , "on_client_pool_network_request")
-	network_timmer.autostart = true
-	add_child(network_timmer)
-	
-func on_client_pool_network_request():
-	# send request every latency
-	# to server for commanding
-	# client unit
-	pass
-	
-################################################################
 # gameplay
-func spawn_enemy(_at :Vector3, _target :NodePath):
+func spawn_enemy(_parent :NodePath, _at :Vector3, _target :NodePath):
 	if not is_server():
 		return
 		
-	rpc("_spawn_enemy", _at, _target)
+	rpc("_spawn_enemy", _parent, _at, _target)
 
-remotesync func _spawn_enemy(_at :Vector3, _target :NodePath):
+remotesync func _spawn_enemy(_parent :NodePath, _at :Vector3, _target :NodePath):
+	var parent :Node = get_node_or_null(_parent)
+	if not is_instance_valid(parent):
+		return
+		
 	var enemy = preload("res://entity/fox-on-raft/fox-on-raft.tscn").instance()
 	enemy.target = _target
-	add_child(enemy)
+	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
 	
 	
