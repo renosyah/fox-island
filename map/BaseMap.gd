@@ -210,7 +210,7 @@ func get_rand_pos(from :Vector3) -> Vector3:
 	
 func get_random_radius_pos() -> Vector3:
 	var angle := rand_range(0, TAU)
-	var distance := rand_range(50, 60)
+	var distance := rand_range(150, 160)
 	var posv2 = polar2cartesian(distance, angle)
 	var posv3 = global_transform.origin + Vector3(posv2.x, 0.0, posv2.y)
 	posv3.y = get_water_height()

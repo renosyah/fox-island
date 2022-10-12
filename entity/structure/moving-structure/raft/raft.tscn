@@ -68,6 +68,6 @@ mesh = SubResource( 3 )
 material/0 = SubResource( 4 )
 
 [node name="RayCast" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.45108 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.15232 )
 enabled = true
 cast_to = Vector3( 0, 0, -1 )

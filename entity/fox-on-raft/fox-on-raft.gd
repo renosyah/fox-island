@@ -18,7 +18,8 @@ func set_spawn_position(spawn_pos :Vector3):
 	raft.set_as_toplevel(true)
 	
 	raft.destination = _target.global_transform.origin
-	fox.look_at(_target.global_transform.origin, Vector3.UP)
+	raft.destination.y = spawn_pos.y
+	fox.look_at(raft.destination, Vector3.UP)
 	
 	raft.set_physics_process(true)
 	fox.set_physics_process(true)

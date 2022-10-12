@@ -51,8 +51,13 @@ func _process(delta):
 	
 	if viewport_rect.has_point(target_2d_position):
 		target_2d_position = current_camera.unproject_position(target_node.get_global_transform().origin)
-	
+		
 	marker_item.look_at( target_2d_position )
+	
+	var is_in_view_range :bool = global_transform.origin.distance_to(current_camera.global_transform.origin) < current_camera.far
+	if not is_in_view_range:
+		return
+		
 	if mode == "show_always":
 		if not marker_item.visible and not animate.is_playing():
 			animate.play("show")
