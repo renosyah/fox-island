@@ -114,7 +114,7 @@ shape = SubResource( 5 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 
 [node name="Boat" type="MeshInstance" parent="pivot"]
-transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, 0, -0.428951, 0 )
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, 0, -0.2, 0 )
 mesh = ExtResource( 2 )
 skeleton = NodePath("../..")
 
