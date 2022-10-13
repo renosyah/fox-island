@@ -1,6 +1,9 @@
 extends StaticBody
 class_name BaseMap
 
+const land_shader = preload("res://map/shadermaterial.tres")
+const water_shader = preload("res://map/water_shadermaterial.tres")
+
 signal on_generating_map(message, progress, max_progress)
 signal on_generate_map_completed
 
@@ -10,17 +13,36 @@ const GENERATING_RESOURCE = "RESOURCE"
 export var map_seed :int = 1
 export var map_size :float = 200
 export var map_scale :float = 1
-export var map_land_shander : Resource = preload("res://map/shadermaterial.tres")
-export var map_water_shander : Resource = preload("res://map/water_shadermaterial.tres")
+export var map_land_color :Color = Color(0, 0.282353, 0.039216)
+export var map_sand_color :Color = Color(0.521569, 0.380392, 0)
+export var map_water_color :Color = Color(0, 0.196078, 0.392157)
 export var map_height :int = 20
-
-export var max_stuff = 120
-export var stuff_directory = "res://map/model/"
 
 var thread = Thread.new()
 var recomended_spawn_pos :Vector3 = Vector3.ZERO
 var water :MeshInstance
 
+onready var _land_shader :ShaderMaterial = land_shader
+onready var _water_shader :ShaderMaterial = water_shader
+
+func _ready():
+	map_land_color = Color(
+		stepify(map_land_color.r, 0.01),
+		stepify(map_land_color.g, 0.01),
+		stepify(map_land_color.b, 0.01),
+		1.0
+	)
+	map_sand_color = Color(
+		stepify(map_sand_color.r, 0.01),
+		stepify(map_sand_color.g, 0.01),
+		stepify(map_sand_color.b, 0.01),
+		1.0
+	)
+	
+	_land_shader.set_shader_param("grass_color", map_land_color)
+	_land_shader.set_shader_param("sand_color", map_sand_color)
+	_water_shader.set_shader_param("out_color", map_water_color)
+	
 func get_recomended_spawn_position() -> Vector3:
 	var spawn_pos = get_rand_pos(recomended_spawn_pos)
 	spawn_pos.y += 6
@@ -31,9 +53,6 @@ func get_water_height():
 		return 0.0
 		
 	return water.global_transform.origin.y
-	
-func _ready():
-	pass
 	
 func _exit_tree():
 	thread.wait_to_finish()
@@ -176,7 +195,7 @@ func _create_land(noise :OpenSimplexNoise) -> Array:
 	
 	var land_mesh_instance = MeshInstance.new()
 	land_mesh_instance.mesh = surface_tool.commit()
-	land_mesh_instance.set_surface_material(0, map_land_shander)
+	land_mesh_instance.set_surface_material(0, _land_shader)
 	land_mesh_instance.create_trimesh_collision()
 
 	return [land_mesh_instance, inland_positions]
@@ -187,11 +206,12 @@ func _create_water() -> MeshInstance:
 	
 	var water_mesh_instance = MeshInstance.new()
 	water_mesh_instance.mesh = water_mesh
-	water_mesh_instance.set_surface_material(0, map_water_shander)
+	water_mesh_instance.set_surface_material(0, _water_shader)
 	return water_mesh_instance
 	
 func _generate_grass(land_mesh :Mesh):
 	var grass :Grass = preload("res://addons/grass/Grass.tscn").instance()
+	grass.grass_color = map_land_color
 	grass.mesh = land_mesh
 	return grass
 	

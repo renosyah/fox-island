@@ -11,6 +11,14 @@ export(Vector2) var sway_pitch:Vector2 = Vector2(0.04, 0.08) setget set_sway_pit
 export(Mesh) var mesh:Mesh = null setget set_mesh
 export(float) var density:float = 1.0 setget set_density
 
+export(Color) var grass_color :Color = Color(0, 0.313726, 0.070588)
+
+onready var _shader :ShaderMaterial = material_override as ShaderMaterial
+
+func _ready():
+	_shader.set_shader_param("color_top", grass_color)
+	_shader.set_shader_param("color_bottom", grass_color)
+	
 func rebuild():
 	if !multimesh:
 		multimesh = MultiMesh.new()
@@ -30,6 +38,7 @@ func rebuild():
 	multimesh.set_custom_data_format(MultiMesh.CUSTOM_DATA_FLOAT)
 	multimesh.set_color_format(MultiMesh.COLOR_NONE)
 	multimesh.instance_count = spawns.size()
+	
 	for index in multimesh.instance_count:
 		var spawn:Array = spawns[index]
 		multimesh.set_instance_transform(index, spawn[0])

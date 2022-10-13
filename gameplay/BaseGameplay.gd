@@ -31,7 +31,12 @@ func on_back_pressed():
 var _map :BaseMap
 
 func load_map():
+	var rng :RandomNumberGenerator  = RandomNumberGenerator.new()
+	rng.seed = Global.mp_game_data["seed"]
+	
 	_map = preload("res://map/spring_island/spring_map.tscn").instance()
+	_map.map_land_color = Color(rng.randf(),rng.randf(),rng.randf(),1.0)
+	_map.map_sand_color = Color(randf(),randf(),randf(),1.0)
 	add_child(_map)
 	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
 	_map.connect("on_generating_map", self, "on_generating_map")
