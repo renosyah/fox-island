@@ -11,16 +11,17 @@ var socketUDP: PacketPeerUDP
 var broadcastTimer := Timer.new()
 var broadcastPort := DEFAULT_PORT
 
-func setup():
-	dismantle()
-	
+func _ready():
 	broadcastTimer.wait_time = broadcast_interval
 	broadcastTimer.one_shot = true
 	broadcastTimer.autostart = false
+	broadcastTimer.connect("timeout", self, "broadcast") 
+	add_child(broadcastTimer)
+	
+func setup():
+	dismantle()
 	
 	if get_tree().is_network_server():
-		add_child(broadcastTimer)
-		broadcastTimer.connect("timeout", self, "broadcast") 
 		broadcastTimer.start()
 		
 		socketUDP = PacketPeerUDP.new()
@@ -35,9 +36,8 @@ func broadcast():
 	broadcastTimer.start()
 	
 func dismantle():
-	if is_instance_valid(broadcastTimer):
-		broadcastTimer.stop()
-		
+	broadcastTimer.stop()
+	
 	if socketUDP != null:
 		socketUDP.close()
 	

@@ -8,7 +8,7 @@ onready var enemy_holder = $enemies
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(NetworkLobbyManager.get_id())
+	NetworkLobbyManager.set_host_ready()
 	init_characters()
 	
 func init_characters():
@@ -17,14 +17,16 @@ func init_characters():
 		var fox = fox_scene.instance()
 		var id :String = str(i.player_network_unique_id)
 		
+		if i.player_network_unique_id == NetworkLobbyManager.get_id():
+			_unit = fox
+			_unit.enable_hp_bar = false
+			_unit.enable_name_tag = false
+			
 		fox.player.player_id = id
 		fox.player.player_name = i.player_name
 		fox.name = id
 		fox.set_network_master(i.player_network_unique_id)
 		players_holder.add_child(fox)
-		
-		if i.player_network_unique_id == NetworkLobbyManager.get_id():
-			_unit = fox
 		
 	_unit.enable_walk_sound = true
 	_unit.connect("on_take_damage", self, "on_unit_on_take_damage")

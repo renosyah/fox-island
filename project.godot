@@ -114,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/3d-marker/marker_item/marker_item.gd"
 }, {
+"base": "Sprite3D",
+"class": "Message3D",
+"language": "GDScript",
+"path": "res://assets/ui/message-3d/message_3d.gd"
+}, {
 "base": "StaticBody",
 "class": "MineableResource",
 "language": "GDScript",
@@ -211,6 +216,7 @@ _global_script_class_icons={
 "InputEventSingleScreenTap": "",
 "InputEventSingleScreenTouch": "",
 "MarkerItem": "",
+"Message3D": "",
 "MineableResource": "",
 "MobAi": "",
 "MovingStructure": "",
@@ -232,7 +238,7 @@ _global_script_class_icons={
 
 config/name="Fox Island"
 config/description="Is game about surviving as fox in random island"
-run/main_scene="res://menu/lobby/lobby.tscn"
+run/main_scene="res://menu/main-menu/main_menu.tscn"
 config/icon="res://icn.png"
 
 [autoload]

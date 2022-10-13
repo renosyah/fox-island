@@ -7,6 +7,8 @@ const host_id = 1
 signal lobby_player_update(players)
 signal all_player_ready
 
+# handy signal to handle
+# action in lobby
 signal on_host_player_connected
 signal on_client_player_connected
 signal on_player_disconnected(network_player)
@@ -15,9 +17,13 @@ signal connection_closed
 signal on_kicked_by_host
 signal on_leave
 
+# handy signal to handle
+# action in pre game
+signal on_host_ready
+
 var player_name :String = ""
 var configuration :NetworkConfiguration
-var argument :Dictionary = {}
+var argument :Dictionary = {} setget _set_argument
 
 # array of player joined in lobby
 # in dictionary format
@@ -42,6 +48,12 @@ func init_lobby():
 	elif configuration is NetworkClient:
 		_init_join()
 		
+func set_host_ready():
+	if not is_server():
+		return
+		
+	rpc("_on_host_ready")
+	
 # call if player ready
 func set_ready():
 	if is_any_params_null():
@@ -80,11 +92,14 @@ func kick_player(player_network_unique_id :int):
 func leave():
 	rpc("_request_erase_player_joined", _network_player.player_network_unique_id)
 	
-	_exit_delay.time_left = 0.5
+	_exit_delay.wait_time = 1.5
 	_exit_delay.start()
 	yield(_exit_delay,"timeout")
 	
 	_network.disconnect_from_server()
+	_lobby_players.clear()
+	
+	_broadcast_players_update()
 	emit_signal("on_leave")
 	
 # get current player network id
@@ -93,9 +108,6 @@ func get_id() -> int:
 	
 ################################################################
 func _ready():
-	_setup_lobby()
-	
-func _setup_lobby():
 	_server_advertiser = preload("res://addons/LANServerBroadcast/server_advertiser/server_advertiser.tscn").instance()
 	add_child(_server_advertiser)
 	
@@ -185,6 +197,12 @@ remotesync func _update_player_joined(data : Array):
 	_lobby_players.sort_custom(MyCustomSorter, "sort")
 	_broadcast_players_update()
 	
+remotesync func _update_argument(data :Dictionary):
+	if is_server():
+		return
+		
+	argument = data
+	
 remotesync func _kick_player(_player_network_unique_id :int):
 	for i in _lobby_players:
 		if i["player_network_unique_id"] == _player_network_unique_id:
@@ -206,7 +224,13 @@ func _broadcast_players_update():
 			return
 			
 	emit_signal("all_player_ready")
-
+	
+remotesync func _on_host_ready():
+	if is_server():
+		return
+		
+	emit_signal("on_host_ready")
+	
 ################################################################
 # network connection watcher
 # for both client and host
@@ -217,7 +241,7 @@ func init_connection_watcher():
 	if not _network.is_connected("connection_closed", self , "_connection_closed"):
 		_network.connect("connection_closed", self , "_connection_closed")
 	
-	if not _network.is_connected("player_disconnected", self, "_on_player_disconnected"):
+	if not _network.is_connected("receive_player_info", self, "_on_receive_player_info"):
 		_network.connect("receive_player_info", self,"_on_receive_player_info")
 	
 func _on_player_disconnected(_player_network_unique_id : int):
@@ -227,17 +251,23 @@ func _on_receive_player_info(_player_network_unique_id : int, data :NetworkPlaye
 	emit_signal("on_player_disconnected", data)
 	
 func _server_disconnected():
-	_network_player = null
 	configuration = null
 	emit_signal("on_host_disconnected")
 	
 func _connection_closed():
-	_network_player = null
 	configuration = null
 	emit_signal("connection_closed")
 	
 ################################################################
 # utils
+func _set_argument(val :Dictionary):
+	argument = val
+	
+	if not is_server():
+		return
+		
+	rpc("_update_argument", argument)
+	
 class MyCustomSorter:
 	static func sort(a, b):
 		if a["player_network_unique_id"] < b["player_network_unique_id"]:

@@ -147,6 +147,9 @@ func _setup_network_timer() -> void:
 		_network_timmer.stop()
 		_network_timmer.queue_free()
 		
+	if is_dead:
+		return
+		
 	if not _is_network_running():
 		return
 		

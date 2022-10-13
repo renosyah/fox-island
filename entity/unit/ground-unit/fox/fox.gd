@@ -2,6 +2,7 @@ extends BaseGroundUnit
 
 export var hood_texture :Texture = preload("res://entity/unit/ground-unit/fox/Textures/fox_diffuse.png")
 export var enable_hp_bar :bool = true
+export var enable_name_tag :bool = true
 
 onready var _collision_shape = $CollisionShape
 onready var _animation_state = $pivot/AnimationTree.get("parameters/playback")
@@ -13,6 +14,7 @@ onready var _hand_001 = $pivot/IdleDemo/Skeleton/Hand001
 onready var _hand = $pivot/IdleDemo/Skeleton/Hand
 
 var _hp_bar :HpBar3D
+var _name_tag :Message3D
 var _tween :Tween
 
 onready var _walk_sound = preload("res://entity/unit/ground-unit/fox/sound/walk.wav")
@@ -23,8 +25,6 @@ var enable_walk_sound = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	player = PlayerData.new()
-	
 	var material :SpatialMaterial = preload("res://entity/unit/ground-unit/fox/Material.material").duplicate(true)
 	material.albedo_texture = hood_texture
 	
@@ -45,16 +45,21 @@ func _ready():
 	yield(timer,"timeout")
 	timer.queue_free()
 	
-	if not enable_hp_bar:
-		return
+	if enable_hp_bar:
+		_hp_bar = preload("res://assets/ui/bar-3d/hp_bar_3d.tscn").instance()
+		add_child(_hp_bar)
+		_hp_bar.translation.y = 2
+		_hp_bar.modulate.a = 0
+		_hp_bar.scale = Vector3.ONE * 0.4
+		_hp_bar.update_bar(hp, max_hp)
 		
-	_hp_bar = preload("res://assets/ui/bar-3d/hp_bar_3d.tscn").instance()
-	add_child(_hp_bar)
-	_hp_bar.translation.y = 2
-	_hp_bar.modulate.a = 0
-	_hp_bar.scale = Vector3.ONE * 0.4
-	_hp_bar.update_bar(hp, max_hp)
-	
+	if enable_name_tag:
+		_name_tag = preload("res://assets/ui/message-3d/message_3d.tscn").instance()
+		add_child(_name_tag)
+		_name_tag.translation.y = 1.5
+		_name_tag.set_message(player.player_name)
+		_name_tag.set_color(Color.white)
+		
 remotesync func _knock_back(_from_velocity :Vector3) -> void:
 	_velocity = _from_velocity
 	

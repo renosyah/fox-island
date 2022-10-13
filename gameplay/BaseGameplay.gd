@@ -126,13 +126,13 @@ func on_receive_player_info(_player_network_unique_id : int, data :NetworkPlayer
 	on_player_disynchronize(data.player_name)
 	
 func connection_closed():
-	get_tree().change_scene("res://menu/lobby/lobby.tscn")
+	get_tree().change_scene("res://menu/main-menu/main_menu.tscn")
 	
 func on_player_disynchronize(_player_name : String):
 	pass
 	
 func on_host_disconnected():
-	get_tree().change_scene("res://menu/lobby/lobby.tscn")
+	get_tree().change_scene("res://menu/main-menu/main_menu.tscn")
 	
 func all_player_ready():
 	pass
