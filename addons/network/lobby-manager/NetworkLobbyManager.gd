@@ -12,6 +12,7 @@ signal on_client_player_connected
 signal on_player_disconnected(networkPlayer)
 signal on_host_disconnected
 signal connection_closed
+signal on_kicked_by_host
 
 var player_name :String = ""
 var configuration :NetworkConfiguration
@@ -168,6 +169,7 @@ remotesync func _kick_player(data : Dictionary):
 			
 	if data["player_network_unique_id"] == _network_player.player_network_unique_id:
 		_network.disconnect_from_server()
+		emit_signal("on_kicked_by_host")
 		return
 		
 	_broadcast_players_update()
