@@ -16,8 +16,9 @@ export(Color) var grass_color :Color = Color(0, 0.313726, 0.070588)
 onready var _shader :ShaderMaterial = material_override as ShaderMaterial
 
 func _ready():
+	var _bottom_color = Color(grass_color.r, grass_color.g - 0.04 ,grass_color.b - 0.02, 1.0)
 	_shader.set_shader_param("color_top", grass_color)
-	_shader.set_shader_param("color_bottom", grass_color)
+	_shader.set_shader_param("color_bottom", _bottom_color)
 	
 func rebuild():
 	if !multimesh:

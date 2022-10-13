@@ -31,6 +31,7 @@ func _process(delta):
 	if not is_instance_valid(_unit):
 		return
 		
+		
 	_checktarget()
 	_see_destination(delta)
 	_to_destination(delta)
@@ -56,6 +57,9 @@ func _is_arrive() -> bool:
 	if not is_instance_valid(target):
 		return true
 		
+	if target.is_dead:
+		return true
+		
 	var destination = target.global_transform.origin
 	var distance = global_transform.origin.distance_to(destination)
 	return distance < margin
@@ -64,8 +68,8 @@ func _see_destination(delta :float):
 	if _is_arrive():
 		return
 		
-	var destination = target.global_transform.origin
-	var _new_transform = _pivot.transform.looking_at(destination, Vector3.UP)
+	var _destination = target.global_transform.origin
+	var _new_transform = _pivot.transform.looking_at(_destination, Vector3.UP)
 	_pivot.transform = _pivot.transform.interpolate_with(_new_transform, 5 * delta)
 	_pivot.rotation_degrees.y = wrapf(_pivot.rotation_degrees.y, 0.0, 360.0)
 	_pivot.rotation_degrees.x = clamp(_pivot.rotation_degrees.x, -60, 40)
