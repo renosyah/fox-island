@@ -129,10 +129,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://entity/structure/moving-structure/MovingStructure.gd"
 }, {
+"base": "NetworkConfiguration",
+"class": "NetworkClient",
+"language": "GDScript",
+"path": "res://addons/network/helper/NetworkClient.gd"
+}, {
+"base": "Node",
+"class": "NetworkConfiguration",
+"language": "GDScript",
+"path": "res://addons/network/helper/NetworkConfiguration.gd"
+}, {
 "base": "Node",
 "class": "NetworkPlayer",
 "language": "GDScript",
-"path": "res://addons/network/NetworkPlayer.gd"
+"path": "res://addons/network/helper/NetworkPlayer.gd"
+}, {
+"base": "NetworkConfiguration",
+"class": "NetworkServer",
+"language": "GDScript",
+"path": "res://addons/network/helper/NetworkServer.gd"
 }, {
 "base": "BaseData",
 "class": "PlayerData",
@@ -199,7 +214,10 @@ _global_script_class_icons={
 "MineableResource": "",
 "MobAi": "",
 "MovingStructure": "",
+"NetworkClient": "",
+"NetworkConfiguration": "",
 "NetworkPlayer": "",
+"NetworkServer": "",
 "PlayerData": "",
 "RandomNameGenerator": "",
 "RotatingCamera": "",
@@ -221,6 +239,7 @@ config/icon="res://icn.png"
 
 Network="*res://addons/network/Network.gd"
 Global="*res://global/global.gd"
+NetworkLobbyManager="*res://addons/network/lobby-manager/NetworkLobbyManager.gd"
 
 [gui]
 
