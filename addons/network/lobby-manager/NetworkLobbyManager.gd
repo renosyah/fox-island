@@ -48,6 +48,9 @@ func init_lobby():
 	elif configuration is NetworkClient:
 		_init_join()
 		
+# call if host player ready
+# to send message in lobby
+# game is about to start
 func set_host_ready():
 	if not is_server():
 		return

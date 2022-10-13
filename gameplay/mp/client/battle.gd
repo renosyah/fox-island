@@ -27,10 +27,14 @@ func init_characters():
 		
 	_unit.enable_walk_sound = true
 	_unit.connect("on_take_damage", self, "on_unit_on_take_damage")
+	_unit.connect("on_dead", self ,"on_unit_on_dead")
 	_ui.update_bar(_unit.hp, _unit.max_hp)
 	
 func on_unit_on_take_damage(_current_unit :BaseUnit, _damage : int, _hit_by :PlayerData):
 	_ui.update_bar(_current_unit.hp, _current_unit.max_hp)
+	
+func on_unit_on_dead(_current_unit :BaseUnit, _hit_by :PlayerData):
+	_ui.update_bar(0, _current_unit.max_hp)
 	
 func all_player_ready():
 	.all_player_ready()
