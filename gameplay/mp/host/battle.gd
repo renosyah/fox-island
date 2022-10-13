@@ -2,15 +2,30 @@ extends BaseGameplay
 
 var _unit :BaseUnit
 
-onready var fox = $players/fox
-onready var fox_2 = $players/fox2
-
+onready var players_holder = $players
 onready var enemy_spawner_timer = $enemy_spawner_timer
 onready var enemy_holder = $enemies
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_unit = fox
+	print(NetworkLobbyManager.get_id())
+	init_characters()
+	
+func init_characters():
+	var players = NetworkLobbyManager.get_players()
+	for i in players:
+		var fox = fox_scene.instance()
+		var id :String = str(i.player_network_unique_id)
+		
+		fox.player.player_id = id
+		fox.player.player_name = i.player_name
+		fox.name = id
+		fox.set_network_master(i.player_network_unique_id)
+		players_holder.add_child(fox)
+		
+		if i.player_network_unique_id == NetworkLobbyManager.get_id():
+			_unit = fox
+		
 	_unit.enable_walk_sound = true
 	_unit.connect("on_take_damage", self, "on_unit_on_take_damage")
 	_ui.update_bar(_unit.hp, _unit.max_hp)
@@ -18,14 +33,10 @@ func _ready():
 func on_unit_on_take_damage(_current_unit :BaseUnit, _damage : int, _hit_by :PlayerData):
 	_ui.update_bar(_current_unit.hp, _current_unit.max_hp)
 	
-func on_generate_map_completed():
-	.on_generate_map_completed()
-	fox.is_dead = false
-	fox_2.is_dead = false
+func all_player_ready():
+	.all_player_ready()
 	
-	_unit.set_network_master(Network.get_local_network_player().player_network_unique_id)
 	_unit.translation = _map.get_recomended_spawn_position()
-	
 	enemy_spawner_timer.start()
 	
 func _process(delta):
@@ -55,15 +66,17 @@ func on_heavy_attack_on_press():
 	
 func _on_enemy_spawner_timer_timeout():
 	enemy_spawner_timer.start()
-	
+		
 	if enemy_holder.get_child_count() > 2:
 		return
 		
+	var target :NodePath = players_holder.get_child(rand_range(0, players_holder.get_child_count())).get_path()
+		
 	if randf() < 0.5:
-		spawn_enemy_on_ship(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), fox.get_path())
+		spawn_enemy_on_ship(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), target)
 		return
 		
-	spawn_enemy_on_raft(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), fox.get_path())
+	spawn_enemy_on_raft(GDUUID.v4(), enemy_holder.get_path(), _map.get_random_radius_pos(), target)
 
 
 

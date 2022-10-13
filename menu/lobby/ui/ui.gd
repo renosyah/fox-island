@@ -22,22 +22,28 @@ func on_back_pressed():
 	get_tree().quit()
 	
 func _on_host_pressed():
-	Network.connect("server_player_connected", self ,"_host_player_connected")
-	var err = Network.create_server(Global.server.max_player, Global.server.port,OS.get_name())
-	if err != OK:
-		return
-		
-func _host_player_connected(_player_network_unique_id : int, _player :NetworkPlayer):
-	Global.mp_game_data["seed"] = int(_seed.text)
+	var configuration = NetworkServer.new()
+	configuration.max_player = 4
+	
+	NetworkLobbyManager.player_name = "host"
+	NetworkLobbyManager.configuration = configuration
+	NetworkLobbyManager.connect("on_host_player_connected", self,"on_host_player_connected")
+	NetworkLobbyManager.init_lobby()
+	
+func on_host_player_connected():
+	NetworkLobbyManager.argument["seed"] = int(_seed.text)
 	get_tree().change_scene("res://gameplay/mp/host/battle.tscn")
 	
 func _on_join_pressed():
-	Network.connect("client_player_connected", self , "_client_player_connected")
-	var err = Network.connect_to_server(_ip.text, Global.client.port , OS.get_name())
-	if err != OK:
-		return
-		
-func _client_player_connected(_player_network_unique_id : int, _player :NetworkPlayer):
-	Global.mp_game_data["seed"] = int(_seed.text)
+	var configuration = NetworkClient.new()
+	configuration.ip = _ip.text
+	
+	NetworkLobbyManager.player_name = "client"
+	NetworkLobbyManager.configuration = configuration
+	NetworkLobbyManager.connect("on_client_player_connected", self,"on_client_player_connected")
+	NetworkLobbyManager.init_lobby()
+	
+func on_client_player_connected():
+	NetworkLobbyManager.argument["seed"] = int(_seed.text)
 	get_tree().change_scene("res://gameplay/mp/client/battle.tscn")
 	

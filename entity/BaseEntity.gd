@@ -7,7 +7,7 @@ signal on_take_damage(_entity, _damage, _hit_by)
 signal on_respawn(_entity)
 
 # identity owner
-var player :PlayerData
+var player :PlayerData = PlayerData.new()
 
 # vitality
 export var is_dead :bool = false
@@ -23,11 +23,6 @@ var _network_timmer : Timer
 # multiplayer func
 func _network_timmer_timeout() -> void:
 	pass
-	
-remotesync func _set_network_master(_id :int) -> void:
-	# call super to avoid stack overflow
-	.set_network_master(_id)
-	_setup_network_timer()
 	
 remotesync func _heal(_hp_left, _hp_added : int) -> void:
 	if is_dead:
@@ -60,7 +55,7 @@ remotesync func _reset() -> void:
 	
 ############################################################
 func _ready() -> void:
-	_set_network_master(Network.PLAYER_HOST_ID)
+	_setup_network_timer()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta :float) -> void:
@@ -87,10 +82,6 @@ func moving(_delta :float) -> void:
 	
 func puppet_moving(_delta :float) -> void:
 	pass
-	
-func set_network_master(_id :int, recursive: bool = true) -> void:
-	#.set_network_master(_id, recursive)
-	rpc("_set_network_master", _id)
 	
 func heal(_hp_added : int) -> void:
 	if is_dead:

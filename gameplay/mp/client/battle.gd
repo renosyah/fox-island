@@ -2,12 +2,27 @@ extends BaseGameplay
 
 var _unit :BaseUnit
 
-onready var fox = $players/fox
-onready var fox_2 = $players/fox2
+onready var players_holder = $players
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_unit = fox_2
+	init_characters()
+	
+func init_characters():
+	var players = NetworkLobbyManager.get_players()
+	for i in players:
+		var fox = fox_scene.instance()
+		var id :String = str(i.player_network_unique_id)
+		
+		fox.player.player_id = id
+		fox.player.player_name = i.player_name
+		fox.name = id
+		fox.set_network_master(i.player_network_unique_id)
+		players_holder.add_child(fox)
+		
+		if i.player_network_unique_id == NetworkLobbyManager.get_id():
+			_unit = fox
+		
 	_unit.enable_walk_sound = true
 	_unit.connect("on_take_damage", self, "on_unit_on_take_damage")
 	_ui.update_bar(_unit.hp, _unit.max_hp)
@@ -15,12 +30,9 @@ func _ready():
 func on_unit_on_take_damage(_current_unit :BaseUnit, _damage : int, _hit_by :PlayerData):
 	_ui.update_bar(_current_unit.hp, _current_unit.max_hp)
 	
-func on_generate_map_completed():
-	.on_generate_map_completed()
-	fox.is_dead = false
-	fox_2.is_dead = false
+func all_player_ready():
+	.all_player_ready()
 	
-	_unit.set_network_master(Network.get_local_network_player().player_network_unique_id)
 	_unit.translation = _map.get_recomended_spawn_position()
 	
 func _process(delta):

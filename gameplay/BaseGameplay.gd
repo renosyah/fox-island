@@ -1,6 +1,10 @@
 extends Node
 class_name BaseGameplay
 
+const fox_scene = preload("res://entity/unit/ground-unit/fox/fox.tscn")
+const fox_on_raft_scene = preload("res://entity/fox-on-raft/fox-on-raft.tscn")
+const fox_on_ship_scene = preload("res://entity/fox-on-ship/fox-on-ship.tscn")
+
 export var ui :Resource
 
 func _ready():
@@ -40,7 +44,7 @@ func load_map():
 	add_child(_map)
 	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
 	_map.connect("on_generating_map", self, "on_generating_map")
-	_map.map_seed = Global.mp_game_data["seed"]
+	_map.map_seed = NetworkLobbyManager.argument["seed"]
 	_map.map_size = 200
 	_map.generate_map()
 	
@@ -48,6 +52,7 @@ func load_map():
 	
 func on_generate_map_completed():
 	_ui.loading(false)
+	NetworkLobbyManager.set_ready()
 	
 func on_generating_map(message :String, progress, max_progress :int):
 	_ui.loading_message(message, progress, max_progress)
@@ -106,23 +111,21 @@ func on_night():
 # network connection watcher
 # for both client and host
 func init_connection_watcher():
-	Network.connect("server_disconnected", self , "_server_disconnected")
-	Network.connect("connection_closed", self , "_connection_closed")
+	NetworkLobbyManager.connect("on_host_disconnected", self, "on_host_disconnected")
+	NetworkLobbyManager.connect("connection_closed", self, "connection_closed")
+	NetworkLobbyManager.connect("all_player_ready", self, "all_player_ready")
 	
 	# if some player decide or happen to be disconect
-	Network.connect("player_disconnected", self, "_on_player_disconnected")
-	Network.connect("receive_player_info", self,"_on_receive_player_info")
+	Network.connect("player_disconnected", self, "on_player_disconnected")
+	Network.connect("receive_player_info", self,"on_receive_player_info")
 	
-func _on_player_disconnected(_player_network_unique_id : int):
+func on_player_disconnected(_player_network_unique_id : int):
 	Network.request_player_info(_player_network_unique_id)
 	
-func _on_receive_player_info(_player_network_unique_id : int, data :NetworkPlayer):
+func on_receive_player_info(_player_network_unique_id : int, data :NetworkPlayer):
 	on_player_disynchronize(data.player_name)
 	
-func _server_disconnected():
-	on_host_disconnected()
-	
-func _connection_closed():
+func connection_closed():
 	get_tree().change_scene("res://menu/lobby/lobby.tscn")
 	
 func on_player_disynchronize(_player_name : String):
@@ -130,6 +133,9 @@ func on_player_disynchronize(_player_name : String):
 	
 func on_host_disconnected():
 	get_tree().change_scene("res://menu/lobby/lobby.tscn")
+	
+func all_player_ready():
+	pass
 	
 ################################################################
 # gameplay
@@ -144,7 +150,7 @@ remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vect
 	if not is_instance_valid(parent):
 		return
 		
-	var enemy = preload("res://entity/fox-on-raft/fox-on-raft.tscn").instance()
+	var enemy = fox_on_raft_scene.instance()
 	enemy.name = _name
 	enemy.target = _target
 	enemy.is_server = is_server()
@@ -162,7 +168,7 @@ remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vect
 	if not is_instance_valid(parent):
 		return
 		
-	var enemy = preload("res://entity/fox-on-ship/fox-on-ship.tscn").instance()
+	var enemy = fox_on_ship_scene.instance()
 	enemy.name = _name
 	enemy.target = _target
 	enemy.is_server = is_server()
