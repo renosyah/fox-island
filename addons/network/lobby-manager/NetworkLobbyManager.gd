@@ -9,10 +9,11 @@ signal all_player_ready
 
 signal on_host_player_connected
 signal on_client_player_connected
-signal on_player_disconnected(networkPlayer)
+signal on_player_disconnected(network_player)
 signal on_host_disconnected
 signal connection_closed
 signal on_kicked_by_host
+signal on_leave
 
 var player_name :String = ""
 var configuration :NetworkConfiguration
@@ -35,7 +36,7 @@ func init_lobby():
 		return
 		
 	_network_player.player_name = player_name
-		
+	
 	if configuration is NetworkServer:
 		_init_host()
 	elif configuration is NetworkClient:
@@ -56,6 +57,7 @@ func set_ready():
 		rpc_id(host_id, "_request_update_player_joined_status",
 			_network_player.player_network_unique_id, _network_player.to_dictionary())
 	
+# get current player in lobby
 func get_players() -> Array:
 	var players :Array = []
 	for i in _lobby_players:
@@ -65,9 +67,31 @@ func get_players() -> Array:
 		
 	return players
 	
+# kick player from lobby 
+# can only perform by host
+func kick_player(player_network_unique_id :int):
+	if not is_server():
+		return
+		
+	rpc("_kick_player", player_network_unique_id)
+	
+# player leave from lobby 
+# can be perform by anyone
+func leave():
+	rpc("_request_erase_player_joined", _network_player.player_network_unique_id)
+	
+	_exit_delay.time_left = 0.5
+	_exit_delay.start()
+	yield(_exit_delay,"timeout")
+	
+	_network.disconnect_from_server()
+	emit_signal("on_leave")
+	
+# get current player network id
 func get_id() -> int:
 	return _network_player.player_network_unique_id
 	
+################################################################
 func _ready():
 	_setup_lobby()
 	
@@ -77,9 +101,9 @@ func _setup_lobby():
 	
 	_exit_delay = Timer.new()
 	_exit_delay.one_shot = true
+	_exit_delay.autostart = false
 	_exit_delay.wait_time = 1.0
 	add_child(_exit_delay)
-	
 	
 ################################################################
 # host player section
@@ -137,9 +161,9 @@ remote func _request_append_player_joined(from : int, data :Dictionary):
 	
 	rpc("_update_player_joined", _lobby_players)
 	
-remote func _request_erase_player_joined(data : Dictionary):
+remote func _request_erase_player_joined(_player_network_unique_id :int):
 	for i in _lobby_players:
-		if i["player_network_unique_id"] == data["player_network_unique_id"]:
+		if i["player_network_unique_id"] == _player_network_unique_id:
 			_lobby_players.erase(i)
 			break
 			
@@ -161,13 +185,13 @@ remotesync func _update_player_joined(data : Array):
 	_lobby_players.sort_custom(MyCustomSorter, "sort")
 	_broadcast_players_update()
 	
-remotesync func _kick_player(data : Dictionary):
+remotesync func _kick_player(_player_network_unique_id :int):
 	for i in _lobby_players:
-		if i["player_network_unique_id"] == data["player_network_unique_id"]:
+		if i["player_network_unique_id"] == _player_network_unique_id:
 			_lobby_players.erase(i)
 			break
 			
-	if data["player_network_unique_id"] == _network_player.player_network_unique_id:
+	if _network_player.player_network_unique_id == _player_network_unique_id:
 		_network.disconnect_from_server()
 		emit_signal("on_kicked_by_host")
 		return
