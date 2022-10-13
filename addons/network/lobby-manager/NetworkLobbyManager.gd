@@ -37,7 +37,6 @@ func init_lobby():
 		
 	if configuration is NetworkServer:
 		_init_host()
-		
 	elif configuration is NetworkClient:
 		_init_join()
 		
@@ -56,7 +55,7 @@ func set_ready():
 		rpc_id(host_id, "_request_update_player_joined_status",
 			_network_player.player_network_unique_id, _network_player.to_dictionary())
 	
-func get_players() ->Array:
+func get_players() -> Array:
 	var players :Array = []
 	for i in _lobby_players:
 		var player = NetworkPlayer.new()
@@ -72,8 +71,6 @@ func _ready():
 	_setup_lobby()
 	
 func _setup_lobby():
-	add_child(_network_player)
-	
 	_server_advertiser = preload("res://addons/LANServerBroadcast/server_advertiser/server_advertiser.tscn").instance()
 	add_child(_server_advertiser)
 	
@@ -89,14 +86,13 @@ func _init_host():
 	if not _network.is_connected("server_player_connected", self ,"_server_player_connected"):
 		_network.connect("server_player_connected", self ,"_server_player_connected")
 		
+	init_connection_watcher()
 	var _configuration :NetworkServer = configuration as NetworkServer
 	var err = _network.create_server(_configuration.max_player, _configuration.port, _network_player.player_name)
 	if err != OK:
 		return
 		
-	init_connection_watcher()
-	
-func _server_player_connected(_player_network_unique_id : int, _network_player :NetworkPlayer):
+func _server_player_connected(_player_network_unique_id : int, _player :NetworkPlayer):
 	_network_player.player_network_unique_id = _player_network_unique_id
 	
 	_server_advertiser.setup()
@@ -115,15 +111,14 @@ func _init_join():
 	if not _network.is_connected("client_player_connected", self , "_client_player_connected"):
 		_network.connect("client_player_connected", self , "_client_player_connected")
 	
+	init_connection_watcher()
 	var _configuration :NetworkClient = configuration as NetworkClient
 	var err = _network.connect_to_server(_configuration.ip, _configuration.port, _network_player.player_name)
 	if err != OK:
 		return
 		
-	init_connection_watcher()
 	
-	
-func _client_player_connected(_player_network_unique_id : int, _network_player :NetworkPlayer):
+func _client_player_connected(_player_network_unique_id : int, _player :NetworkPlayer):
 	_network_player.player_network_unique_id = _player_network_unique_id
 	rpc_id(host_id, "_request_append_player_joined", _player_network_unique_id, _network_player.to_dictionary())
 	emit_signal("on_client_player_connected")
@@ -245,7 +240,8 @@ func is_network_on() -> bool:
 func is_any_params_null() -> bool:
 	var checks = [
 		is_instance_valid(_network),
-		is_instance_valid(configuration)
+		is_instance_valid(configuration),
+		is_instance_valid(_network_player)
 	]
 	return (false in checks)
 	
