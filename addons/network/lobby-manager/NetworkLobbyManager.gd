@@ -55,6 +55,7 @@ func set_host_ready():
 	if not is_server():
 		return
 		
+	_server_advertiser.dismantle()
 	rpc("_on_host_ready")
 	
 # call if player ready
