@@ -45,6 +45,7 @@ func on_unit_on_dead(_current_unit :BaseUnit, _hit_by :PlayerData):
 func on_respawn_press():
 	_unit.reset()
 	_unit.translation = _map.get_recomended_spawn_position()
+	_ui.update_bar(_unit.max_hp, _unit.max_hp)
 	
 func all_player_ready():
 	.all_player_ready()
