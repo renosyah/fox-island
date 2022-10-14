@@ -15,8 +15,7 @@ onready var day_night_dome = $test_map/day_night_dome
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	camera.translation = camera_main_menu
-	day_night_dome.set_enable(false)
-	day_night_dome.set_time(1.5)
+	day_night_dome.set_time(1.5, true)
 
 func get_rand_pos() -> Vector3:
 	var angle := rand_range(0, TAU)

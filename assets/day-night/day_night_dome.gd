@@ -16,8 +16,10 @@ func set_enable(enable :bool):
 	else:
 		animation_player.stop()
 	
-func set_time(at :float):
+func set_time(at :float, stop:bool = true):
 	animation_player.seek(at, true)
+	if stop:
+		animation_player.stop()
 	
 func _on_morning_time():
 	emit_signal("morning")
