@@ -10,12 +10,6 @@ onready var animation_player = $AnimationPlayer
 func _ready():
 	pass
 	
-func set_enable(enable :bool):
-	if enable:
-		animation_player.play("day_night_cicle")
-	else:
-		animation_player.stop()
-	
 func set_time(at :float, stop:bool = true):
 	animation_player.seek(at, true)
 	if stop:
