@@ -2,17 +2,25 @@ extends Node
 
 const fox_scene = preload("res://entity/unit/ground-unit/fox/fox.tscn")
 
+const camera_main_menu = Vector3(0.661, 13.47, -25.33)
+const camera_lobby_menu = Vector3(-11.667, 7.325, 1.276)
+
+onready var players_spawn_pos = $players_spawn_pos
 onready var players_holder = $players
-onready var players_spawn_pos = $Camera/players_spawn_pos
 onready var ui = $ui
+onready var camera = $Camera
+onready var tween = $Tween
+onready var day_night_dome = $test_map/day_night_dome
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	camera.translation = camera_main_menu
+	day_night_dome.set_enable(false)
+	day_night_dome.set_time(1.5)
 
 func get_rand_pos() -> Vector3:
 	var angle := rand_range(0, TAU)
-	var distance := rand_range(0, 5)
+	var distance := rand_range(0, 3)
 	var posv2 = polar2cartesian(distance, angle)
 	var posv3 = players_spawn_pos.global_transform.origin + Vector3(posv2.x, 1.0, posv2.y)
 	return posv3
@@ -35,5 +43,12 @@ func _on_ui_lobby_player_update(players :Array):
 		players_holder.add_child(fox)
 		fox.translation = get_rand_pos()
 	
-	
-	
+func _on_ui_to_main_menu():
+	tween.interpolate_property(camera, "translation", camera.translation, camera_main_menu, 2.0)
+	tween.start()
+
+func _on_ui_to_lobby_menu():
+	tween.interpolate_property(camera, "translation", camera.translation, camera_lobby_menu, 2.0)
+	tween.start()
+
+

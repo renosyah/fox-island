@@ -1,6 +1,8 @@
 extends BaseUi
 
 signal lobby_player_update(players)
+signal to_main_menu
+signal to_lobby_menu
 
 onready var loading_bar = $CanvasLayer/loading/VBoxContainer/loading_bar
 onready var loading_label = $CanvasLayer/loading/VBoxContainer/Label
@@ -73,8 +75,11 @@ func _on_host_button_pressed():
 func on_host_player_connected():
 	main_menu_control.visible = false
 	lobby_menu_control.visible = true
+	
 	seed_input.visible = true
 	play_button.visible = true
+	
+	emit_signal("to_lobby_menu")
 	
 func _on_join_button_pressed():
 	server_browser.start_finding()
@@ -94,6 +99,8 @@ func on_client_player_connected():
 	seed_input.visible = false
 	play_button.visible = false
 	
+	emit_signal("to_lobby_menu")
+	
 func on_lobby_player_update(players :Array):
 	emit_signal("lobby_player_update", players)
 
@@ -110,6 +117,7 @@ func _on_leave_button_pressed():
 func on_leave():
 	main_menu_control.visible = true
 	lobby_menu_control.visible = false
+	emit_signal("to_main_menu")
 
 
 

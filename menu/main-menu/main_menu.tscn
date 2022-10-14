@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://map/test_map/test_map.tscn" type="PackedScene" id=1]
 [ext_resource path="res://menu/main-menu/ui/ui.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://entity/resources/model/Rock3.obj" type="ArrayMesh" id=8]
 [ext_resource path="res://entity/resources/model/Tree3.obj" type="ArrayMesh" id=9]
 [ext_resource path="res://entity/resources/model/Tree1.obj" type="ArrayMesh" id=10]
+[ext_resource path="res://entity/structure/moving-structure/ship/BoatWSail.obj" type="ArrayMesh" id=11]
 
 [node name="main_menu" type="Node"]
 script = ExtResource( 3 )
@@ -63,17 +64,27 @@ transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.
 mesh = ExtResource( 9 )
 skeleton = NodePath("../../Camera")
 
+[node name="BoatWSail" type="MeshInstance" parent="test_map"]
+transform = Transform( 5.68728, 0, -1.91177, 0, 6, 0, 1.91177, 0, 5.68728, -11.9717, 0.980918, -1.9311 )
+mesh = ExtResource( 11 )
+
+[node name="BoatWSail2" type="MeshInstance" parent="test_map"]
+transform = Transform( -3.45885, 0, -4.90269, 0, 6, 0, 4.90269, 0, -3.45885, 4.97373, 0.980918, 24.0154 )
+mesh = ExtResource( 11 )
+
 [node name="day_night_dome2" parent="test_map" instance=ExtResource( 4 )]
-enable = false
+
+[node name="players_spawn_pos" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13.0359, 6.73946, 9.73508 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( -0.800009, -0.104187, 0.590873, 0, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -11.6668, 7.32534, 1.27591 )
+transform = Transform( -0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, -0.819152, 0.661167, 13.4697, -25.3297 )
 current = true
-far = 40.0
-
-[node name="players_spawn_pos" type="Position3D" parent="Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
 
 [node name="ui" parent="." instance=ExtResource( 2 )]
 
+[node name="Tween" type="Tween" parent="."]
+
 [connection signal="lobby_player_update" from="ui" to="." method="_on_ui_lobby_player_update"]
+[connection signal="to_lobby_menu" from="ui" to="." method="_on_ui_to_lobby_menu"]
+[connection signal="to_main_menu" from="ui" to="." method="_on_ui_to_main_menu"]
