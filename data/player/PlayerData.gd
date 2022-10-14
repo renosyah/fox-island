@@ -3,7 +3,7 @@ class_name PlayerData
 
 export var player_id : String = GDUUID.v4()
 export var player_name : String = ""
-export var player_team:int = 0
+export var player_team :int = 0
 
 func is_empty() -> bool:
 	return player_id.empty() or player_name.empty()

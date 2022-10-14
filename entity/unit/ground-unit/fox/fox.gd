@@ -4,6 +4,8 @@ export var hood_texture :Texture = preload("res://entity/unit/ground-unit/fox/Te
 export var enable_hp_bar :bool = true
 export var enable_name_tag :bool = true
 
+export var attack_damage :int = 15
+
 onready var _collision_shape = $CollisionShape
 onready var _animation_state = $pivot/AnimationTree.get("parameters/playback")
 onready var _audio_stream_player_3d = $AudioStreamPlayer3D
@@ -114,8 +116,12 @@ func fast_attack():
 		
 	rpc("_attack")
 	for target in targets:
+		if target is BaseEntity:
+			if target.team() == team():
+				continue
+			
 		if target.has_method("take_damage"):
-			target.take_damage(5, player)
+			target.take_damage(attack_damage, player)
 	
 func heavy_attack():
 	if is_dead:
@@ -126,11 +132,16 @@ func heavy_attack():
 		
 	rpc("_attack")
 	for target in targets:
+		if target is BaseEntity:
+			if target.team() == team():
+				continue
+			
 		if target.has_method("take_damage"):
-			target.take_damage(15, player)
+			target.take_damage(attack_damage * 2, player)
 			
 		if target.has_method("knock_back"):
 			target.knock_back(global_transform.basis.z * -8.0)
+	
 	
 func knock_back(_from_velocity :Vector3) -> void:
 	rpc("_knock_back", _from_velocity)

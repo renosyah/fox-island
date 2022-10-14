@@ -44,11 +44,11 @@ func _on_ui_lobby_player_update(players :Array):
 		fox.translation = get_rand_pos()
 	
 func _on_ui_to_main_menu():
-	tween.interpolate_property(camera, "translation", camera.translation, camera_main_menu, 2.0)
+	tween.interpolate_property(camera, "translation", camera.translation, camera_main_menu, 1.0)
 	tween.start()
 
 func _on_ui_to_lobby_menu():
-	tween.interpolate_property(camera, "translation", camera.translation, camera_lobby_menu, 2.0)
+	tween.interpolate_property(camera, "translation", camera.translation, camera_lobby_menu, 1.0)
 	tween.start()
 
 

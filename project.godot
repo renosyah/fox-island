@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/maujoe.custom_gradient_texture/custom_gradient_texture.gd"
 }, {
+"base": "MarginContainer",
+"class": "CustomTouchButton",
+"language": "GDScript",
+"path": "res://assets/ui/touch_button/touch_button.gd"
+}, {
 "base": "Spatial",
 "class": "DayNightDome",
 "language": "GDScript",
@@ -204,6 +209,7 @@ _global_script_class_icons={
 "BaseUi": "",
 "BaseUnit": "",
 "CustomGradientTexture": "",
+"CustomTouchButton": "",
 "DayNightDome": "",
 "Explosion": "",
 "GDUUID": "",

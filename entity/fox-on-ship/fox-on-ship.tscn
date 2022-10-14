@@ -15,6 +15,7 @@ speed = 4.0
 [node name="fox_enemy" parent="raft" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.148699, 0.7481, 1.78015 )
 hood_texture = ExtResource( 4 )
+attack_damage = 5
 
 [node name="mob_ai" parent="raft/fox_enemy" instance=ExtResource( 1 )]
 unit = NodePath("..")
@@ -23,6 +24,7 @@ enable_ai = false
 [node name="fox_enemy2" parent="raft" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.718909, 0.767951, 0.0489528 )
 hood_texture = ExtResource( 4 )
+attack_damage = 5
 
 [node name="mob_ai" parent="raft/fox_enemy2" instance=ExtResource( 1 )]
 unit = NodePath("..")
@@ -31,6 +33,7 @@ enable_ai = false
 [node name="fox_enemy3" parent="raft" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.355059, 0.767951, -1.45085 )
 hood_texture = ExtResource( 4 )
+attack_damage = 10
 
 [node name="mob_ai" parent="raft/fox_enemy3" instance=ExtResource( 1 )]
 unit = NodePath("..")

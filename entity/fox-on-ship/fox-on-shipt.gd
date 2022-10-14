@@ -34,6 +34,7 @@ func set_spawn_position(spawn_pos :Vector3):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for fox in foxs:
+		fox.player.player_team = 2
 		fox.set_process(false)
 		
 	raft.set_process(false)

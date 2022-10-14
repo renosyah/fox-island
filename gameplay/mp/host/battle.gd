@@ -24,6 +24,7 @@ func init_characters():
 			
 		fox.player.player_id = id
 		fox.player.player_name = i.player_name
+		fox.player.player_team = 1
 		fox.name = id
 		fox.set_network_master(i.player_network_unique_id)
 		players_holder.add_child(fox)
