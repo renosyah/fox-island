@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://menu/main-menu/ui/ui.gd" type="Script" id=1]
 [ext_resource path="res://assets/ui/fonts/montserrat_eb_16.tres" type="DynamicFont" id=2]
 [ext_resource path="res://assets/ui/fonts/montserrat_eb_32.tres" type="DynamicFont" id=3]
 [ext_resource path="res://assets/ui/bar/hp_bar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/server-browser/server_browser.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/ui/fonts/montserrat_eb_48.tres" type="DynamicFont" id=6]
+[ext_resource path="res://assets/ui/input-name/input_name.tscn" type="PackedScene" id=7]
+[ext_resource path="res://assets/ui/icon/rename.png" type="Texture" id=8]
 
 [node name="ui" type="Control"]
 anchor_right = 1.0
@@ -64,8 +67,62 @@ alignment = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
 margin_right = 291.0
-margin_bottom = 304.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="Label" type="Label" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 291.0
+margin_bottom = 84.0
+custom_fonts/font = ExtResource( 6 )
+text = "Fox island"
+align = 1
+valign = 1
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
+margin_top = 88.0
+margin_right = 291.0
+margin_bottom = 216.0
+rect_min_size = Vector2( 0, 100 )
 size_flags_vertical = 3
+
+[node name="change_name_button" type="Button" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
+margin_top = 220.0
+margin_right = 291.0
+margin_bottom = 280.0
+rect_min_size = Vector2( 40, 60 )
+flat = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/change_name_button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/change_name_button/HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 40, 40 )
+texture = ExtResource( 8 )
+stretch_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/change_name_button/HBoxContainer"]
+margin_left = 44.0
+margin_right = 54.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="player_name" type="Label" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/change_name_button/HBoxContainer"]
+margin_left = 58.0
+margin_top = 10.0
+margin_right = 154.0
+margin_bottom = 50.0
+custom_fonts/font = ExtResource( 3 )
+text = "name"
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
+margin_top = 284.0
+margin_right = 291.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 0, 20 )
 
 [node name="host_button" type="Button" parent="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
 margin_top = 308.0
@@ -128,6 +185,7 @@ margin_bottom = 600.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="lobby_menu_control2" type="Control" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -178,8 +236,21 @@ alignment = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
 margin_right = 291.0
-margin_bottom = 216.0
+margin_bottom = 158.0
 size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
+margin_top = 162.0
+margin_right = 291.0
+margin_bottom = 202.0
+custom_fonts/font = ExtResource( 3 )
+text = "Seed"
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
+margin_top = 206.0
+margin_right = 291.0
+margin_bottom = 216.0
+rect_min_size = Vector2( 0, 10 )
 
 [node name="seed" type="TextEdit" parent="CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
 margin_top = 220.0
@@ -187,7 +258,6 @@ margin_right = 291.0
 margin_bottom = 280.0
 rect_min_size = Vector2( 0, 60 )
 custom_fonts/font = ExtResource( 2 )
-text = "1"
 
 [node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer"]
 margin_top = 284.0
@@ -258,6 +328,9 @@ rect_min_size = Vector2( 20, 0 )
 [node name="server_browser" parent="CanvasLayer" instance=ExtResource( 5 )]
 visible = false
 
+[node name="input_name" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
+
 [node name="loading" type="ColorRect" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
@@ -291,8 +364,10 @@ margin_bottom = 361.0
 rect_min_size = Vector2( 400, 50 )
 size_flags_horizontal = 4
 
+[connection signal="pressed" from="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/change_name_button" to="." method="_on_change_name_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/host_button" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/join_button" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/play_button" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/leave_button" to="." method="_on_leave_button_pressed"]
 [connection signal="on_join" from="CanvasLayer/server_browser" to="." method="_on_server_browser_on_join"]
+[connection signal="on_continue" from="CanvasLayer/input_name" to="." method="_on_input_name_on_continue"]

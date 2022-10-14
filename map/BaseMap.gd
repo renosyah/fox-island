@@ -20,7 +20,10 @@ export var map_height :int = 20
 
 var thread = Thread.new()
 var recomended_spawn_pos :Vector3 = Vector3.ZERO
+
 var water :MeshInstance
+var land_mesh :MeshInstance
+var collision :CollisionShape
 
 onready var _land_shader :ShaderMaterial = land_shader
 onready var _water_shader :ShaderMaterial = water_shader
@@ -68,7 +71,7 @@ func _generate_map():
 	noise.period = 80.0
 	
 	var lands = _create_land(noise)
-	var land_mesh :MeshInstance = lands[0]
+	land_mesh = lands[0]
 	var inland_positions = lands[1]
 	add_child(land_mesh)
 	
@@ -78,7 +81,7 @@ func _generate_map():
 	
 	emit_signal("on_generating_map", GENERATING_LAND, 0, 1)
 	
-	var collision = land_mesh.get_child(0).get_child(0)
+	collision = land_mesh.get_child(0).get_child(0)
 	land_mesh.get_child(0).remove_child(collision)
 	add_child(collision)
 	land_mesh.get_child(0).queue_free()

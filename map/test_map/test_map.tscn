@@ -1,6 +1,35 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://map/test_map/test_map.gd" type="Script" id=1]
+[ext_resource path="res://map/water_shadermaterial.tres" type="Material" id=1]
+[ext_resource path="res://map/shadermaterial.tres" type="Material" id=2]
+[ext_resource path="res://map/test_map/map_collision.tres" type="Shape" id=3]
+[ext_resource path="res://map/test_map/map_mesh.tres" type="ArrayMesh" id=4]
+[ext_resource path="res://addons/grass/Grass.tscn" type="PackedScene" id=5]
+[ext_resource path="res://map/test_map/test_map.gd" type="Script" id=6]
+[ext_resource path="res://assets/day-night/day_night_dome.tscn" type="PackedScene" id=7]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 400, 400 )
 
 [node name="test_map" type="StaticBody"]
-script = ExtResource( 1 )
+script = ExtResource( 6 )
+
+[node name="Grass" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.789279, 0 )
+mesh = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.789279, 0 )
+shape = ExtResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.789279, 0 )
+mesh = ExtResource( 4 )
+material/0 = ExtResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.789279, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+
+[node name="day_night_dome" parent="." instance=ExtResource( 7 )]

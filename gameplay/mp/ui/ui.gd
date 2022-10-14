@@ -10,10 +10,14 @@ onready var camera_control = $CanvasLayer/Control/MarginContainer2/camera_contro
 onready var loading = $CanvasLayer/loading
 onready var loading_bar =  $CanvasLayer/loading/VBoxContainer/loading_bar
 onready var loading_label = $CanvasLayer/loading/VBoxContainer/Label
-onready var hp_bar = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/hp_bar
+onready var hp_bar = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/hp_bar
+onready var player_name = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/player_name
 
 func _ready():
 	pass
+
+func set_player_name(_name :String):
+	player_name.text = _name
 
 func update_bar(hp, max_hp : int):
 	hp_bar.update_bar(hp, max_hp)

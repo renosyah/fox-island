@@ -256,10 +256,14 @@ func _on_receive_player_info(_player_network_unique_id : int, data :NetworkPlaye
 	
 func _server_disconnected():
 	configuration = null
+	_lobby_players.clear()
+	_broadcast_players_update()
 	emit_signal("on_host_disconnected")
 	
 func _connection_closed():
 	configuration = null
+	_lobby_players.clear()
+	_broadcast_players_update()
 	emit_signal("connection_closed")
 	
 ################################################################

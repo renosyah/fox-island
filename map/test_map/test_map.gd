@@ -1,1 +1,2 @@
-extends BaseMap
+extends StaticBody
+tool
