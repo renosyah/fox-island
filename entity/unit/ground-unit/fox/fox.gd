@@ -15,12 +15,26 @@ onready var _hood = $pivot/IdleDemo/Skeleton/Hood
 onready var _hand_001 = $pivot/IdleDemo/Skeleton/Hand001
 onready var _hand = $pivot/IdleDemo/Skeleton/Hand
 
+onready var stun_timer = $stun_timer
+
 var _hp_bar :HpBar3D
 var _name_tag :Message3D
 var _tween :Tween
 
 onready var _walk_sound = preload("res://entity/unit/ground-unit/fox/sound/walk.wav")
 onready var _jump_sound = preload("res://entity/unit/ground-unit/fox/sound/jump.wav")
+
+onready var _hit_sounds = [
+	preload("res://entity/unit/ground-unit/fox/sound/fight_1.wav"),
+	preload("res://entity/unit/ground-unit/fox/sound/fight_2.wav"),
+	preload("res://entity/unit/ground-unit/fox/sound/fight_3.wav")
+]
+onready var _dead_sounds = [
+	preload("res://entity/unit/ground-unit/fox/sound/maledeath1.wav"),
+	preload("res://entity/unit/ground-unit/fox/sound/maledeath2.wav"),
+	preload("res://entity/unit/ground-unit/fox/sound/maledeath3.wav"),
+	preload("res://entity/unit/ground-unit/fox/sound/maledeath4.wav")
+]
 
 var _node_not_move = ["Attack", "Jump", "ToucheGround", "Fall"]
 var enable_walk_sound = false
@@ -64,15 +78,23 @@ func _ready():
 		
 remotesync func _knock_back(_from_velocity :Vector3) -> void:
 	_velocity = _from_velocity
+	stun_timer.start()
 	
 remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> void:
 	._take_damage(_hp_left, _damage, _hit_by)
-
+	var hit_sound = _hit_sounds[rand_range(0, _hit_sounds.size())]
+	_audio_stream_player_3d.stream = hit_sound
+	_audio_stream_player_3d.play()
+	
 	_update_hp_bar(_hp_left, max_hp)
 	_tween.interpolate_property(_pivot, "scale", Vector3.ONE * 0.6, Vector3.ONE, 0.3)
 	
 remotesync func _dead(_kill_by :Dictionary) -> void:
 	#._dead(_kill_by)
+	var _dead_sound = _dead_sounds[rand_range(0, _dead_sounds.size())]
+	_audio_stream_player_3d.stream = _dead_sound
+	_audio_stream_player_3d.play()
+	
 	is_dead = true
 	set_process(false)
 	hit_by_player.from_dictionary(_kill_by)
@@ -114,6 +136,9 @@ func fast_attack():
 	if not _is_master():
 		return
 		
+	if not stun_timer.is_stopped():
+		return
+		
 	rpc("_attack")
 	for target in targets:
 		if target is BaseEntity:
@@ -122,12 +147,18 @@ func fast_attack():
 			
 		if target.has_method("take_damage"):
 			target.take_damage(attack_damage, player)
+			
+		if target.has_method("knock_back"):
+			target.knock_back(global_transform.basis.z * -8.0)
 	
 func heavy_attack():
 	if is_dead:
 		return
 		
 	if not _is_master():
+		return
+		
+	if not stun_timer.is_stopped():
 		return
 		
 	rpc("_attack")
@@ -140,7 +171,7 @@ func heavy_attack():
 			target.take_damage(attack_damage * 2, player)
 			
 		if target.has_method("knock_back"):
-			target.knock_back(global_transform.basis.z * -8.0)
+			target.knock_back(global_transform.basis.z * -18.0)
 	
 	
 func knock_back(_from_velocity :Vector3) -> void:
@@ -151,6 +182,9 @@ func jump():
 		return
 	
 	if not _is_master():
+		return
+		
+	if not stun_timer.is_stopped():
 		return
 		
 	if is_on_floor() and _enable_snap:
@@ -167,6 +201,9 @@ func roll():
 		return
 		
 	if move_direction.length() < 0.6:
+		return
+		
+	if not stun_timer.is_stopped():
 		return
 		
 	if is_on_floor():

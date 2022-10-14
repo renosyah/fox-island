@@ -69,6 +69,7 @@ func setup_ui():
 	_ui.connect("on_dodge_on_press", self, "on_dodge_on_press")
 	_ui.connect("on_fast_attack_on_press", self, "on_fast_attack_on_press")
 	_ui.connect("on_heavy_attack_on_press", self, "on_heavy_attack_on_press")
+	_ui.connect("on_respawn_press", self, "on_respawn_press")
 	
 func on_jump_on_press():
 	pass # Replace with function body.
@@ -81,6 +82,9 @@ func on_fast_attack_on_press():
 	
 func on_heavy_attack_on_press():
 	pass # Replace with function body.
+	
+func on_respawn_press():
+	pass
 	
 ################################################################
 # camera

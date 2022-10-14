@@ -103,7 +103,17 @@ func _generate_map():
 		emit_signal("on_generating_map", GENERATING_RESOURCE, stuff_pos, stuffs.size())
 		add_child(stuff)
 		stuff_pos += 1
-		
+	
+	var _timer = Timer.new()
+	add_child(_timer)
+	_timer.wait_time = 2
+	_timer.autostart = false
+	_timer.one_shot = true
+	_timer.start()
+	
+	yield(_timer,"timeout")
+	_timer.queue_free()
+	
 	emit_signal("on_generate_map_completed")
 	
 	

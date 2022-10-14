@@ -39,7 +39,12 @@ func on_unit_on_take_damage(_current_unit :BaseUnit, _damage : int, _hit_by :Pla
 	_ui.update_bar(_current_unit.hp, _current_unit.max_hp)
 	
 func on_unit_on_dead(_current_unit :BaseUnit, _hit_by :PlayerData):
+	_ui.show_deadscreen()
 	_ui.update_bar(0, _current_unit.max_hp)
+	
+func on_respawn_press():
+	_unit.reset()
+	_unit.translation = _map.get_recomended_spawn_position()
 	
 func all_player_ready():
 	.all_player_ready()

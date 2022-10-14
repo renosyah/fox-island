@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/fight_3.wav-cfcf53d1bfbd1d53a4f6aa0d9bbf2f20.sample"
+
+[deps]
+
+source_file="res://entity/unit/ground-unit/fox/sound/fight_3.wav"
+dest_files=[ "res://.import/fight_3.wav-cfcf53d1bfbd1d53a4f6aa0d9bbf2f20.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

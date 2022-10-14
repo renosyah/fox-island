@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://addons/joystick/virtual_joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://gameplay/mp/ui/ui.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://assets/ui/icon/dodge.png" type="Texture" id=11]
 [ext_resource path="res://assets/ui/icon/attack_heavy.png" type="Texture" id=12]
 [ext_resource path="res://assets/ui/icon/jump.png" type="Texture" id=13]
+[ext_resource path="res://assets/ui/fonts/montserrat_eb_48.tres" type="DynamicFont" id=14]
 
 [node name="ui" type="Control"]
 anchor_right = 1.0
@@ -23,6 +24,7 @@ script = ExtResource( 2 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Control" type="HBoxContainer" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -220,6 +222,58 @@ margin_right = 510.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 0, 100 )
 
+[node name="deadscreen" type="VBoxContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/deadscreen"]
+margin_right = 1024.0
+margin_bottom = 171.0
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/deadscreen"]
+margin_top = 175.0
+margin_right = 1024.0
+margin_bottom = 425.0
+rect_min_size = Vector2( 0, 250 )
+color = Color( 0, 0, 0, 0.882353 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/deadscreen/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/deadscreen/ColorRect/VBoxContainer"]
+margin_top = 41.0
+margin_right = 1024.0
+margin_bottom = 101.0
+custom_fonts/font = ExtResource( 14 )
+text = "You Dead"
+align = 1
+valign = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/deadscreen/ColorRect/VBoxContainer"]
+margin_top = 105.0
+margin_right = 1024.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="respawn" type="Button" parent="CanvasLayer/deadscreen/ColorRect/VBoxContainer"]
+margin_left = 418.0
+margin_top = 129.0
+margin_right = 606.0
+margin_bottom = 209.0
+rect_min_size = Vector2( 150, 80 )
+size_flags_horizontal = 4
+custom_fonts/font = ExtResource( 3 )
+text = " Respawn "
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/deadscreen"]
+margin_top = 429.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+
 [node name="loading" type="ColorRect" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
@@ -257,3 +311,4 @@ size_flags_horizontal = 4
 [connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge" to="." method="_on_dodge_on_press"]
 [connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack" to="." method="_on_heavy_attack_on_press"]
 [connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/jump" to="." method="_on_jump_on_press"]
+[connection signal="pressed" from="CanvasLayer/deadscreen/ColorRect/VBoxContainer/respawn" to="." method="_on_respawn_pressed"]

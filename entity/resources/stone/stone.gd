@@ -6,10 +6,16 @@ var tween :Tween
 var hp_bar :HpBar3D
 var collision :CollisionShape
 var visibility_notifier :VisibilityNotifier
+var audio :AudioStreamPlayer3D
+
+var _mine_sound = preload("res://entity/resources/sound/mine_rock.wav")
 
 remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	._take_damage(_hp_left, _damage)
 	hp_bar.update_bar(_hp_left, max_hp)
+	
+	audio.stream = _mine_sound
+	audio.play()
 	
 	tween.interpolate_property(mesh, "scale", Vector3.ONE * 0.6, Vector3.ONE, 0.3)
 	tween.interpolate_property(hp_bar, "modulate:a", 1, 0, 4)
@@ -40,6 +46,10 @@ func camera_exited(camera: Camera):
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	audio = AudioStreamPlayer3D.new()
+	audio.unit_db = Global.sound_amplified
+	add_child(audio)
+	
 	mesh = MeshInstance.new()
 	add_child(mesh)
 	mesh.mesh = mesh_model
