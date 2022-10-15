@@ -23,13 +23,13 @@ fox island is a tower defence with multiplayer coop feature, survival ascpect an
 
 ## Gameplay
 
-<img src="https://raw.githubusercontent.com/renosyah/fox-island/master/ss/menu.png" width="200" height="150" />
+<img src="https://raw.githubusercontent.com/renosyah/fox-island/master/ss/menu.png" width="500" height="250" />
 
  
-<img src="https://raw.githubusercontent.com/renosyah/fox-island/master/ss/lobby.png" width="200" height="150" />
+<img src="https://raw.githubusercontent.com/renosyah/fox-island/master/ss/lobby.png" width="500" height="250" />
 
 
-<img src="https://raw.githubusercontent.com/renosyah/fox-island/master/ss/gameplay.png" width="200" height="150" />
+<img src="https://raw.githubusercontent.com/renosyah/fox-island/master/ss/gameplay.png" width="500" height="250" />
 
 
 
