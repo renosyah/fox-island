@@ -7,15 +7,15 @@ onready var enemy_holder = $enemies
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	NetworkLobbyManager.set_host_ready()
+	.init_characters(players_holder)
 	
 func all_player_ready():
 	.all_player_ready()
-	init_characters(players_holder)
-
+	_unit.is_dead = false
+	_unit.translation = _map.get_recomended_spawn_position()
+	enemy_spawner_timer.start()
+	
 func _process(delta):
-	if not is_instance_valid(_unit):
-		return
-		
 	_camera.facing_direction = _ui.camera_facing_direction()
 	_camera.translation = _unit.translation
 	_unit.move_direction = _ui.joystick_move_direction()

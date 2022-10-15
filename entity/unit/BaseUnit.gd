@@ -101,9 +101,6 @@ func _direction_input() -> void:
 	_aim_direction = _aim.z * move_direction.y + _aim.x * move_direction.x
 	
 func _accelerate(delta: float) -> void:
-	if is_dead:
-		return
-		
 	var temp_vel = _velocity
 	temp_vel.y = 0.0
 	

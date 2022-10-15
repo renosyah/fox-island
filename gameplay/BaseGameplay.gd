@@ -35,12 +35,7 @@ func on_back_pressed():
 var _map :BaseMap
 
 func load_map():
-#	var rng :RandomNumberGenerator  = RandomNumberGenerator.new()
-#	rng.seed = Global.mp_game_data["seed"]
-	
 	_map = preload("res://map/spring_island/spring_map.tscn").instance()
-	#_map.map_land_color = Color(rng.randf(),rng.randf(),rng.randf(),1.0)
-	#_map.map_sand_color = Color(randf(),randf(),randf(),1.0)
 	add_child(_map)
 	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
 	_map.connect("on_generating_map", self, "on_generating_map")
@@ -51,7 +46,6 @@ func load_map():
 	_ui.loading(true)
 	
 func on_generate_map_completed():
-	_ui.loading(false)
 	NetworkLobbyManager.set_ready()
 	
 func on_generating_map(message :String, progress, max_progress :int):
@@ -141,7 +135,7 @@ func on_host_disconnected():
 	get_tree().change_scene("res://menu/main-menu/main_menu.tscn")
 	
 func all_player_ready():
-	pass
+	_ui.loading(false)
 	
 ################################################################
 # gameplay
@@ -149,6 +143,7 @@ var _unit :BaseUnit
 	
 func init_characters(_parent :Node):
 	var players = NetworkLobbyManager.get_players()
+	
 	for i in players:
 		var fox = fox_scene.instance()
 		var id :String = str(i.player_network_unique_id)
@@ -162,15 +157,16 @@ func init_characters(_parent :Node):
 		fox.player.player_name = i.player_name
 		fox.player.player_team = 1
 		fox.name = id
+		
 		fox.set_network_master(i.player_network_unique_id)
 		_parent.add_child(fox)
-		
+	
+	_unit.is_dead = true
 	_unit.enable_walk_sound = true
 	_unit.connect("on_take_damage", self, "on_unit_on_take_damage")
 	_unit.connect("on_dead", self ,"on_unit_on_dead")
-	_unit.translation = _map.get_recomended_spawn_position()
 	
-	_ui.update_bar(_unit.hp, _unit.max_hp)
+	_ui.update_bar(_unit.max_hp, _unit.max_hp)
 	_ui.set_player_name(_unit.player.player_name)
 	
 func on_unit_on_take_damage(_current_unit :BaseUnit, _damage : int, _hit_by :PlayerData):

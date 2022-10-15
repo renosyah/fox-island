@@ -15,7 +15,7 @@
 [node name="main_menu" type="Node"]
 script = ExtResource( 3 )
 
-[node name="players" type="Node" parent="."]
+[node name="players_holder" type="Node" parent="."]
 
 [node name="test_map" parent="." instance=ExtResource( 1 )]
 

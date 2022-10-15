@@ -66,13 +66,11 @@ func set_ready():
 	if not is_network_on():
 		return
 		
-	if is_server():
-		_request_update_player_joined_status(
-			_network_player.player_network_unique_id, _network_player.to_dictionary()) 
-	else:
-		rpc_id(host_id, "_request_update_player_joined_status",
+	_network_player.player_status = NetworkPlayer.PLAYER_STATUS_READY
+		
+	rpc("_request_update_player_joined_status",
 			_network_player.player_network_unique_id, _network_player.to_dictionary())
-	
+		
 # get current player in lobby
 func get_players() -> Array:
 	var players :Array = []
@@ -166,9 +164,9 @@ func _client_player_connected(_player_network_unique_id : int, _player :NetworkP
 	
 ################################################################
 # lobby rpc function
-remote func _request_append_player_joined(from : int, data :Dictionary):
+remote func _request_append_player_joined(_player_network_unique_id :int, data :Dictionary):
 	for i in _lobby_players:
-		if i["player_network_unique_id"] == data["player_network_unique_id"]:
+		if i["player_network_unique_id"] == _player_network_unique_id:
 			_lobby_players.erase(i)
 			break
 			
@@ -186,13 +184,17 @@ remote func _request_erase_player_joined(_player_network_unique_id :int):
 	_server_advertiser.serverInfo["player"] = _lobby_players.size()
 	rpc("_update_player_joined", _lobby_players)
 	
-remote func _request_update_player_joined_status(from : int, data : Dictionary):
+remotesync func _request_update_player_joined_status(_player_network_unique_id :int, data : Dictionary):
 	for i in _lobby_players:
-		if i["player_network_unique_id"] == data["player_network_unique_id"]:
-			i["player_status"] = NetworkPlayer.PLAYER_STATUS_READY
+		if i["player_network_unique_id"] == _player_network_unique_id:
+			i["player_status"] = data["player_status"] 
 			break
+	
+	for i in _lobby_players:
+		if i["player_status"] != NetworkPlayer.PLAYER_STATUS_READY:
+			return
 		
-	rpc("_update_player_joined", _lobby_players)
+	emit_signal("all_player_ready")
 	
 remotesync func _update_player_joined(data : Array):
 	if not is_server():
@@ -201,12 +203,6 @@ remotesync func _update_player_joined(data : Array):
 	_lobby_players.sort_custom(_CustomSorter, "sort")
 	
 	emit_signal("lobby_player_update", get_players())
-	
-	for i in _lobby_players:
-		if i["player_status"] != NetworkPlayer.PLAYER_STATUS_READY:
-			return
-			
-	emit_signal("all_player_ready")
 	
 remotesync func _update_argument(data :Dictionary):
 	if is_server():

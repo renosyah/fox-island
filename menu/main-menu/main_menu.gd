@@ -6,7 +6,7 @@ const camera_main_menu = Vector3(0.661, 13.47, -25.33)
 const camera_lobby_menu = Vector3(-11.667, 7.325, 1.276)
 
 onready var players_spawn_pos = $players_spawn_pos
-onready var players_holder = $players
+onready var players_holder = $players_holder
 onready var ui = $ui
 onready var camera = $Camera
 onready var tween = $Tween
@@ -36,12 +36,13 @@ func _on_ui_lobby_player_update(players :Array):
 		fox.player.player_id = id
 		fox.player.player_name = player.player_name
 		fox.name = id
-		fox.set_network_master(player.player_network_unique_id)
+		fox.set_network_master(1)
 		fox.enable_hp_bar = false
 		fox.enable_name_tag = true
+		
 		players_holder.add_child(fox)
 		fox.translation = get_rand_pos()
-	
+		
 func _on_ui_to_main_menu():
 	tween.interpolate_property(camera, "translation", camera.translation, camera_main_menu, 1.0)
 	tween.start()
@@ -49,5 +50,3 @@ func _on_ui_to_main_menu():
 func _on_ui_to_lobby_menu():
 	tween.interpolate_property(camera, "translation", camera.translation, camera_lobby_menu, 1.0)
 	tween.start()
-
-
