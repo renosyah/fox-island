@@ -38,7 +38,7 @@ onready var _network :Node = get_node_or_null("/root/Network")
 func init_lobby():
 	_lobby_players.clear()
 	
-	if is_any_params_null():
+	if _is_any_params_null():
 		return
 		
 	_network_player.player_name = player_name
@@ -60,7 +60,7 @@ func set_host_ready():
 	
 # call if player ready
 func set_ready():
-	if is_any_params_null():
+	if _is_any_params_null():
 		return
 		
 	if not is_network_on():
@@ -103,7 +103,7 @@ func leave():
 	_network.disconnect_from_server()
 	_lobby_players.clear()
 	
-	_broadcast_players_update()
+	emit_signal("lobby_player_update", get_players())
 	emit_signal("on_leave")
 	
 # get current player network id
@@ -127,7 +127,7 @@ func _init_host():
 	if not _network.is_connected("server_player_connected", self ,"_server_player_connected"):
 		_network.connect("server_player_connected", self ,"_server_player_connected")
 		
-	init_connection_watcher()
+	_init_connection_watcher()
 	var _configuration :NetworkServer = configuration as NetworkServer
 	var err = _network.create_server(_configuration.max_player, _configuration.port, _network_player.player_name)
 	if err != OK:
@@ -152,7 +152,7 @@ func _init_join():
 	if not _network.is_connected("client_player_connected", self , "_client_player_connected"):
 		_network.connect("client_player_connected", self , "_client_player_connected")
 	
-	init_connection_watcher()
+	_init_connection_watcher()
 	var _configuration :NetworkClient = configuration as NetworkClient
 	var err = _network.connect_to_server(_configuration.ip, _configuration.port, _network_player.player_name)
 	if err != OK:
@@ -191,15 +191,22 @@ remote func _request_update_player_joined_status(from : int, data : Dictionary):
 		if i["player_network_unique_id"] == data["player_network_unique_id"]:
 			i["player_status"] = NetworkPlayer.PLAYER_STATUS_READY
 			break
-			
+		
 	rpc("_update_player_joined", _lobby_players)
 	
 remotesync func _update_player_joined(data : Array):
 	if not is_server():
 		_lobby_players = data
 		
-	_lobby_players.sort_custom(MyCustomSorter, "sort")
-	_broadcast_players_update()
+	_lobby_players.sort_custom(_CustomSorter, "sort")
+	
+	emit_signal("lobby_player_update", get_players())
+	
+	for i in _lobby_players:
+		if i["player_status"] != NetworkPlayer.PLAYER_STATUS_READY:
+			return
+			
+	emit_signal("all_player_ready")
 	
 remotesync func _update_argument(data :Dictionary):
 	if is_server():
@@ -218,16 +225,7 @@ remotesync func _kick_player(_player_network_unique_id :int):
 		emit_signal("on_kicked_by_host")
 		return
 		
-	_broadcast_players_update()
-	
-func _broadcast_players_update():
 	emit_signal("lobby_player_update", get_players())
-	
-	for i in _lobby_players:
-		if i["player_status"] != NetworkPlayer.PLAYER_STATUS_READY:
-			return
-			
-	emit_signal("all_player_ready")
 	
 remotesync func _on_host_ready():
 	if is_server():
@@ -238,7 +236,7 @@ remotesync func _on_host_ready():
 ################################################################
 # network connection watcher
 # for both client and host
-func init_connection_watcher():
+func _init_connection_watcher():
 	if not _network.is_connected("server_disconnected", self , "_server_disconnected"):
 		_network.connect("server_disconnected", self , "_server_disconnected")
 	
@@ -257,13 +255,13 @@ func _on_receive_player_info(_player_network_unique_id : int, data :NetworkPlaye
 func _server_disconnected():
 	configuration = null
 	_lobby_players.clear()
-	_broadcast_players_update()
+	emit_signal("lobby_player_update", get_players())
 	emit_signal("on_host_disconnected")
 	
 func _connection_closed():
 	configuration = null
 	_lobby_players.clear()
-	_broadcast_players_update()
+	emit_signal("lobby_player_update", get_players())
 	emit_signal("connection_closed")
 	
 ################################################################
@@ -276,7 +274,7 @@ func _set_argument(val :Dictionary):
 		
 	rpc("_update_argument", argument)
 	
-class MyCustomSorter:
+class _CustomSorter:
 	static func sort(a, b):
 		if a["player_network_unique_id"] < b["player_network_unique_id"]:
 			return true
@@ -301,7 +299,7 @@ func is_network_on() -> bool:
 		
 	return true
 	
-func is_any_params_null() -> bool:
+func _is_any_params_null() -> bool:
 	var checks = [
 		is_instance_valid(_network),
 		is_instance_valid(configuration),

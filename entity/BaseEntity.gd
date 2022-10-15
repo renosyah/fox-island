@@ -99,7 +99,7 @@ func take_damage(_damage : int, hit_by_player : PlayerData) -> void:
 		return
 		
 	hp -= _damage
-
+	
 	if hp < 1:
 		dead(hit_by_player)
 		return

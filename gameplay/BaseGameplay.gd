@@ -84,7 +84,9 @@ func on_heavy_attack_on_press():
 	pass # Replace with function body.
 	
 func on_respawn_press():
-	pass
+	_unit.reset()
+	_unit.translation = _map.get_recomended_spawn_position()
+	_ui.update_bar(_unit.max_hp, _unit.max_hp)
 	
 ################################################################
 # camera
@@ -143,6 +145,41 @@ func all_player_ready():
 	
 ################################################################
 # gameplay
+var _unit :BaseUnit
+	
+func init_characters(_parent :Node):
+	var players = NetworkLobbyManager.get_players()
+	for i in players:
+		var fox = fox_scene.instance()
+		var id :String = str(i.player_network_unique_id)
+		
+		if i.player_network_unique_id == NetworkLobbyManager.get_id():
+			_unit = fox
+			_unit.enable_hp_bar = false
+			_unit.enable_name_tag = false
+			
+		fox.player.player_id = id
+		fox.player.player_name = i.player_name
+		fox.player.player_team = 1
+		fox.name = id
+		fox.set_network_master(i.player_network_unique_id)
+		_parent.add_child(fox)
+		
+	_unit.enable_walk_sound = true
+	_unit.connect("on_take_damage", self, "on_unit_on_take_damage")
+	_unit.connect("on_dead", self ,"on_unit_on_dead")
+	_unit.translation = _map.get_recomended_spawn_position()
+	
+	_ui.update_bar(_unit.hp, _unit.max_hp)
+	_ui.set_player_name(_unit.player.player_name)
+	
+func on_unit_on_take_damage(_current_unit :BaseUnit, _damage : int, _hit_by :PlayerData):
+	_ui.update_bar(_current_unit.hp, _current_unit.max_hp)
+	
+func on_unit_on_dead(_current_unit :BaseUnit, _hit_by :PlayerData):
+	_ui.show_deadscreen()
+	_ui.update_bar(0, _current_unit.max_hp)
+	
 func spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
 	if not is_server():
 		return
