@@ -88,9 +88,6 @@ func _generate_map():
 	
 	water = _create_water()
 	add_child(water)
-	water.cast_shadow = false
-	water.generate_lightmap = false
-	water.software_skinning_transform_normals = false
 	
 	var grass = _generate_grass(land_mesh.mesh)
 	add_child(grass)
@@ -210,6 +207,11 @@ func _create_water() -> MeshInstance:
 	var water_mesh_instance = MeshInstance.new()
 	water_mesh_instance.mesh = water_mesh
 	water_mesh_instance.set_surface_material(0, _water_shader)
+	
+	water_mesh_instance.cast_shadow = false
+	water_mesh_instance.generate_lightmap = false
+	water_mesh_instance.software_skinning_transform_normals = false
+	
 	return water_mesh_instance
 	
 func _generate_grass(land_mesh :Mesh):

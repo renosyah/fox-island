@@ -63,7 +63,7 @@ static func generate(
 			var k = indices[index + 1]
 			var l = indices[index + 2]
 			
-			if positions[j].y < 3.5:
+			if positions[j].y < 3.4:
 				continue
 				
 			var area:float = triangle_area(

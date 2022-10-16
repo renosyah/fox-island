@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://map/main_menu_map/map_mesh.tres" type="ArrayMesh" id=2]
+[ext_resource path="res://map/water_shadermaterial.tres" type="Material" id=3]
+[ext_resource path="res://map/shadermaterial.tres" type="Material" id=4]
+[ext_resource path="res://assets/day-night/day_night_dome.tscn" type="PackedScene" id=5]
+[ext_resource path="res://map/main_menu_map/main_menu_map.gd" type="Script" id=6]
+[ext_resource path="res://map/main_menu_map/map_collision.tres" type="Shape" id=7]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 400, 400 )
+
+[node name="main_menu_map" type="StaticBody"]
+script = ExtResource( 6 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.789279, 0 )
+shape = ExtResource( 7 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.789279, 0 )
+cast_shadow = 0
+generate_lightmap = false
+mesh = ExtResource( 2 )
+software_skinning_transform_normals = false
+material/0 = ExtResource( 4 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.789279, 0 )
+cast_shadow = 0
+generate_lightmap = false
+mesh = SubResource( 1 )
+software_skinning_transform_normals = false
+material/0 = ExtResource( 3 )
+
+[node name="day_night_dome" parent="." instance=ExtResource( 5 )]

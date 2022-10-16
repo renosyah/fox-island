@@ -10,7 +10,7 @@ onready var players_holder = $players_holder
 onready var ui = $ui
 onready var camera = $Camera
 onready var tween = $Tween
-onready var day_night_dome = $test_map/day_night_dome
+onready var day_night_dome = $main_menu_map/day_night_dome2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

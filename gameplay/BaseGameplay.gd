@@ -36,11 +36,11 @@ var _map :BaseMap
 
 func load_map():
 	_map = preload("res://map/spring_island/spring_map.tscn").instance()
-	add_child(_map)
-	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
-	_map.connect("on_generating_map", self, "on_generating_map")
 	_map.map_seed = NetworkLobbyManager.argument["seed"]
 	_map.map_size = 200
+	_map.connect("on_generate_map_completed", self, "on_generate_map_completed")
+	_map.connect("on_generating_map", self, "on_generating_map")
+	add_child(_map)
 	_map.generate_map()
 	
 	_ui.loading(true)
