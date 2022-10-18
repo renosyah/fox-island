@@ -105,7 +105,9 @@ func on_lobby_player_update(players :Array):
 	emit_signal("lobby_player_update", players)
 
 func _on_play_button_pressed():
-	NetworkLobbyManager.argument["seed"] = int(seed_input.text) if seed_input.text != "" else rand_range(-100,100)
+	var seed_value :int =  int(seed_input.text) if seed_input.text != "" else int(rand_range(-100,100))
+	NetworkLobbyManager.argument["seed"] = seed_value
+	NetworkLobbyManager.set_host_ready()
 	get_tree().change_scene("res://gameplay/mp/host/battle.tscn")
 	
 func on_host_ready():
