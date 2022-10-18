@@ -8,10 +8,11 @@ const map_chunk = preload("res://map/map_chunk/map_chunk.tscn")
 export var map_seed :int = 1
 export var map_size :int = 200
 export var map_height :int = 20
-export var chunk_size :int = 50
+export var chunk_size :int = 25
 
 var recomended_spawn_pos :Vector3 = Vector3.ZERO
-
+	
+var chunks = []
 var thread = Thread.new()
 	
 func get_recomended_spawn_position() -> Vector3:
@@ -20,11 +21,34 @@ func get_recomended_spawn_position() -> Vector3:
 	return spawn_pos
 	
 func _ready():
-	pass
+	connect("on_generate_map_completed", self, "_on_generate_map_completed")
+	set_process(false)
+	
+func _on_generate_map_completed():
+	set_process(true)
+	
+func _process(delta):
+	var camera :Camera = get_viewport().get_camera()
+	if not is_instance_valid(camera):
+		return
+		
+	var camera_origin :Vector3 = Vector3(
+		camera.global_transform.origin.x ,0.0, camera.global_transform.origin.z
+	)
+	
+	for chunk in chunks:
+		var chunk_origin :Vector3 = Vector3(
+			chunk.global_transform.origin.x ,0.0, chunk.global_transform.origin.z
+		)
+		var distance :float = stepify(chunk_origin.distance_to(camera_origin), 1.0)
+		var is_camera_close = distance < 60.0
+		var is_camera_so_close = stepify(distance, 1.0) < 40.0
+		var is_camera_too_close = stepify(distance, 1.0) < 20.0
+		chunk.show_chunk(is_camera_close, is_camera_so_close, is_camera_too_close)
 	
 #func _exit_tree():
 #	thread.wait_to_finish()
-#
+	
 func generate_map():
 	_generate_map()
 #	if not thread.is_active():
@@ -37,7 +61,6 @@ func _generate_map():
 	noise.period = 80.0
 	
 	var chunk_pos = []
-	
 	for x in range(-map_size / 2, map_size / 2, chunk_size):
 		for z in range(map_size / 2, -map_size / 2, -chunk_size):
 			chunk_pos.append(Vector3(x, 0.0, z))
@@ -52,22 +75,20 @@ func _generate_map():
 		chunk.noise = noise
 		chunk.noise_offset = pos
 		add_child(chunk)
+		chunks.append(chunk)
 		chunk.translation = pos
 		chunk.generate()
 		emit_signal("on_generating_map", "", cursor, chunk_pos.size())
 		inland_positions.append_array(chunk.hight_vertex_points)
 		cursor += 1
 		
-	cursor = 0
-	var stuffs = _create_spawn_stuff(inland_positions)
-	for stuff in stuffs:
-		add_child(stuff)
-		emit_signal("on_generating_map", "", cursor, stuffs.size())
-		cursor += 1
-
+	for pos in inland_positions:
+		if pos.y > recomended_spawn_pos.y:
+			recomended_spawn_pos = pos
+			
+		
 	var water = _create_water()
 	add_child(water)
-
 	
 	var timer = Timer.new()
 	add_child(timer)
@@ -92,62 +113,6 @@ func _create_water() -> MeshInstance:
 	water_mesh_instance.software_skinning_transform_normals = false
 	
 	return water_mesh_instance
-	
-func _create_spawn_stuff(inland_positions :Array) -> Array:
-	var stuffs = []
-	
-	var rng  = RandomNumberGenerator.new()
-	rng.seed = map_seed * 2
-	
-	var _resources = [
-		preload("res://entity/resources/tree/bush_1/tree.tscn"),
-		preload("res://entity/resources/tree/bush_2/tree.tscn"),
-		preload("res://entity/resources/tree/bush_3/tree.tscn"),
-		
-		preload("res://entity/resources/stone/stone_1/stone.tscn"),
-		preload("res://entity/resources/stone/stone_2/stone.tscn"),
-		preload("res://entity/resources/stone/stone_3/stone.tscn"),
-		
-		preload("res://entity/resources/tree/tree_1/tree.tscn"),
-		preload("res://entity/resources/tree/tree_2/tree.tscn"),
-		preload("res://entity/resources/tree/tree_3/tree.tscn"),
-		preload("res://entity/resources/tree/tree_4/tree.tscn"),
-	]
-	
-	var trimed_inland_positions = _trim_array(inland_positions, 22)
-	
-	for pos in trimed_inland_positions:
-		if pos.y > recomended_spawn_pos.y:
-			recomended_spawn_pos = pos
-			
-		var index :int = int(rng.randf_range(0, _resources.size()))
-		var res :Resource = _resources[index]
-		
-		stuffs.append(
-			_resources_instance_placement(res, pos)
-		)
-		
-	return stuffs
-	
-func _trim_array(arr :Array, step :int) -> Array:
-	var new_arr = []
-	for i in range(0, arr.size(), step):
-		new_arr.append(arr[i])
-		
-	return new_arr
-	
-	
-	
-func _resources_instance_placement(resources_instance :Resource, _pos :Vector3) -> MineableResource:
-	var instance :MineableResource = resources_instance.instance()
-	instance.name = "resources-" + _str(_pos.x) + "-" + _str(_pos.y)+ "-" + _str(_pos.z)
-	instance.translation = _pos
-	return instance
-	
-func _str(i :float) -> String:
-	return str(stepify(i, 0.01))
-	
-	
 	
 func get_rand_pos(from :Vector3) -> Vector3:
 	var angle := rand_range(0, TAU)

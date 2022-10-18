@@ -114,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/Godot-Touch-Input-Manager/CustomInputEvents/InputEventSingleScreenTouch.gd"
 }, {
+"base": "StaticBody",
+"class": "MapChunk",
+"language": "GDScript",
+"path": "res://map/map_chunk/map_chunk.gd"
+}, {
 "base": "Sprite",
 "class": "MarkerItem",
 "language": "GDScript",
@@ -221,6 +226,7 @@ _global_script_class_icons={
 "InputEventSingleScreenDrag": "",
 "InputEventSingleScreenTap": "",
 "InputEventSingleScreenTouch": "",
+"MapChunk": "",
 "MarkerItem": "",
 "Message3D": "",
 "MineableResource": "",

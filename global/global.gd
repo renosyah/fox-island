@@ -1,6 +1,5 @@
 extends Node
 
-
 ################################################################
 # sound
 const is_dekstop =  ["Server", "Windows", "WinRT", "X11"]

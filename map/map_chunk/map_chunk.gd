@@ -1,4 +1,5 @@
 extends StaticBody
+class_name MapChunk
 
 const land_shader = preload("res://map/shadermaterial.tres")
 
@@ -6,16 +7,22 @@ var size :int
 var height :int
 var noise :OpenSimplexNoise
 var noise_offset :Vector3
+var map_seed :int
 
 var grass :Grass
 var land_mesh :MeshInstance
 var collision :CollisionShape
 var highest_point :Vector3 = Vector3.ZERO
+var holder :Spatial
 var hight_vertex_points :Array = []
+
 #var visibility_notifier :VisibilityNotifier
 
 func _ready():
-	pass
+	set_process(false)
+	
+	holder = Spatial.new()
+	add_child(holder)
 #	visibility_notifier = VisibilityNotifier.new()
 #	add_child(visibility_notifier)
 #	visibility_notifier.aabb.size = Vector3.ONE * size
@@ -34,15 +41,14 @@ func generate():
 	grass = _generate_grass(land_mesh.mesh)
 	add_child(grass)
 	
-func _process(delta):
-	var camera :Camera = get_viewport().get_camera()
-	if not is_instance_valid(camera) or not grass:
-		return
-		
-	var camera_origin :Vector3 = camera.global_transform.origin
-	var distance :float = global_transform.origin.distance_to(camera_origin)
-	var is_camera_close = stepify(distance, 1.0) < 20
-	grass.visible = is_camera_close
+	var stuffs = _create_spawn_stuff(hight_vertex_points)
+	for stuff in stuffs:
+		holder.add_child(stuff)
+	
+func show_chunk(_show_land, _show_stuff, _show_grass :bool):
+	visible = _show_land
+	holder.visible = _show_stuff
+	grass.visible = _show_grass
 	
 func _generate_land(noise :OpenSimplexNoise) -> MeshInstance:
 	var land_mesh = PlaneMesh.new()
@@ -70,7 +76,7 @@ func _generate_land(noise :OpenSimplexNoise) -> MeshInstance:
 			highest_point = vertext + noise_offset
 			
 		if value > 0.2:
-			hight_vertex_points.append(vertext + noise_offset)
+			hight_vertex_points.append(vertext)
 			
 		data_tool.set_vertex(i, vertext)
 		
@@ -98,7 +104,58 @@ func _generate_grass(land_mesh :Mesh) -> Grass:
 	grass.mesh = land_mesh
 	return grass
 	
-
+	
+func _create_spawn_stuff(inland_positions :Array) -> Array:
+	var stuffs = []
+	
+	var rng  = RandomNumberGenerator.new()
+	rng.seed = map_seed * 2
+	
+	var _resources = [
+		preload("res://entity/resources/tree/bush_1/tree.tscn"),
+		preload("res://entity/resources/tree/bush_2/tree.tscn"),
+		preload("res://entity/resources/tree/bush_3/tree.tscn"),
+		
+		preload("res://entity/resources/stone/stone_1/stone.tscn"),
+		preload("res://entity/resources/stone/stone_2/stone.tscn"),
+		preload("res://entity/resources/stone/stone_3/stone.tscn"),
+		
+		preload("res://entity/resources/tree/tree_1/tree.tscn"),
+		preload("res://entity/resources/tree/tree_2/tree.tscn"),
+		preload("res://entity/resources/tree/tree_3/tree.tscn"),
+		preload("res://entity/resources/tree/tree_4/tree.tscn"),
+	]
+	
+	var trimed_inland_positions = _trim_array(inland_positions, 22)
+	
+	for pos in trimed_inland_positions:
+		var index :int = int(rng.randf_range(0, _resources.size() - 1))
+		var res :Resource = _resources[index]
+		
+		stuffs.append(
+			_resources_instance_placement(res, pos)
+		)
+		
+	return stuffs
+	
+func _trim_array(arr :Array, step :int) -> Array:
+	var new_arr = []
+	for i in range(0, arr.size(), step):
+		new_arr.append(arr[i])
+		
+	return new_arr
+	
+	
+	
+func _resources_instance_placement(resources_instance :Resource, _pos :Vector3) -> MineableResource:
+	var instance :MineableResource = resources_instance.instance()
+	instance.name = "resources-" + _str(_pos.x) + "-" + _str(_pos.y)+ "-" + _str(_pos.z)
+	instance.translation = _pos
+	return instance
+	
+func _str(i :float) -> String:
+	return str(stepify(i, 0.01))
+	
 
 
 
