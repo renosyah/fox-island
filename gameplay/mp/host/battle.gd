@@ -6,7 +6,6 @@ onready var enemy_holder = $enemies
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	NetworkLobbyManager.set_host_ready()
 	.init_characters(players_holder)
 	
 func all_player_ready():

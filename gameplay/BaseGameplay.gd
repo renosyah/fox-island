@@ -114,22 +114,13 @@ func init_connection_watcher():
 	NetworkLobbyManager.connect("on_host_disconnected", self, "on_host_disconnected")
 	NetworkLobbyManager.connect("connection_closed", self, "connection_closed")
 	NetworkLobbyManager.connect("all_player_ready", self, "all_player_ready")
+	NetworkLobbyManager.connect("on_player_disconnected", self, "on_player_disconnected")
 	
-	# if some player decide or happen to be disconect
-	Network.connect("player_disconnected", self, "on_player_disconnected")
-	Network.connect("receive_player_info", self,"on_receive_player_info")
-	
-func on_player_disconnected(_player_network_unique_id : int):
-	Network.request_player_info(_player_network_unique_id)
-	
-func on_receive_player_info(_player_network_unique_id : int, data :NetworkPlayer):
-	on_player_disynchronize(data.player_name)
+func on_player_disconnected(_player_network :NetworkPlayer):
+	pass
 	
 func connection_closed():
 	get_tree().change_scene("res://menu/main-menu/main_menu.tscn")
-	
-func on_player_disynchronize(_player_name : String):
-	pass
 	
 func on_host_disconnected():
 	get_tree().change_scene("res://menu/main-menu/main_menu.tscn")

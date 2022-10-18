@@ -110,6 +110,8 @@ func get_id() -> int:
 	
 ################################################################
 func _ready():
+	_init_connection_watcher()
+	
 	_server_advertiser = preload("res://addons/LANServerBroadcast/server_advertiser/server_advertiser.tscn").instance()
 	add_child(_server_advertiser)
 	
@@ -122,10 +124,6 @@ func _ready():
 ################################################################
 # host player section
 func _init_host():
-	if not _network.is_connected("server_player_connected", self ,"_server_player_connected"):
-		_network.connect("server_player_connected", self ,"_server_player_connected")
-		
-	_init_connection_watcher()
 	var _configuration :NetworkServer = configuration as NetworkServer
 	var err = _network.create_server(_configuration.max_player, _configuration.port, _network_player.player_name)
 	if err != OK:
@@ -147,16 +145,11 @@ func _server_player_connected(_player_network_unique_id : int, _player :NetworkP
 ################################################################
 # join player section
 func _init_join():
-	if not _network.is_connected("client_player_connected", self , "_client_player_connected"):
-		_network.connect("client_player_connected", self , "_client_player_connected")
-	
-	_init_connection_watcher()
 	var _configuration :NetworkClient = configuration as NetworkClient
 	var err = _network.connect_to_server(_configuration.ip, _configuration.port, _network_player.player_name)
 	if err != OK:
 		return
 		
-	
 func _client_player_connected(_player_network_unique_id : int, _player :NetworkPlayer):
 	_network_player.player_network_unique_id = _player_network_unique_id
 	rpc_id(host_id, "_request_append_player_joined", _player_network_unique_id, _network_player.to_dictionary())
@@ -233,21 +226,26 @@ remotesync func _on_host_ready():
 # network connection watcher
 # for both client and host
 func _init_connection_watcher():
-	if not _network.is_connected("server_disconnected", self , "_server_disconnected"):
-		_network.connect("server_disconnected", self , "_server_disconnected")
+	_network.connect("client_player_connected", self , "_client_player_connected")
+	_network.connect("server_player_connected", self ,"_server_player_connected")
 	
-	if not _network.is_connected("connection_closed", self , "_connection_closed"):
-		_network.connect("connection_closed", self , "_connection_closed")
-	
-	if not _network.is_connected("receive_player_info", self, "_on_receive_player_info"):
-		_network.connect("receive_player_info", self,"_on_receive_player_info")
+	_network.connect("server_disconnected", self , "_server_disconnected")
+	_network.connect("connection_closed", self , "_connection_closed")
+	_network.connect("player_disconnected", self, "_on_player_disconnected")
 	
 func _on_player_disconnected(_player_network_unique_id : int):
-	_network.request_player_info(_player_network_unique_id)
-	
-func _on_receive_player_info(_player_network_unique_id : int, data :NetworkPlayer):
-	emit_signal("on_player_disconnected", data)
-	
+	var _disconnected_player_network :NetworkPlayer = NetworkPlayer.new()
+	for i in _lobby_players:
+		if i["player_network_unique_id"] == _player_network_unique_id:
+			_disconnected_player_network.from_dictionary(i)
+			emit_signal("on_player_disconnected", _disconnected_player_network)
+			break
+			
+	for i in _lobby_players:
+		if i["player_network_unique_id"] == _player_network_unique_id:
+			_lobby_players.erase(i)
+			return
+			
 func _server_disconnected():
 	configuration = null
 	_lobby_players.clear()
