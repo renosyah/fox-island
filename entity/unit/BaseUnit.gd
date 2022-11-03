@@ -30,8 +30,8 @@ func _network_timmer_timeout() -> void:
 		return
 		
 	if _is_master():
-		rset_unreliable("_puppet_translation", translation)
-		rset_unreliable("_puppet_rotation", rotation)
+		rset_unreliable("_puppet_translation", global_transform.origin)
+		rset_unreliable("_puppet_rotation", global_transform.basis.get_euler())
 		rset_unreliable("_puppet_facing_direction", facing_direction)
 		rset_unreliable("_puppet_move_direction", move_direction)
 		
@@ -90,7 +90,7 @@ func master_moving(delta :float) -> void:
 	
 func puppet_moving(delta :float) -> void:
 	.puppet_moving(delta)
-	translation = translation.linear_interpolate(_puppet_translation, 2.5 * delta)
+	global_transform.origin = global_transform.origin.linear_interpolate(_puppet_translation, 2.5 * delta)
 	rotation.x = lerp_angle(rotation.x, _puppet_rotation.x, 5 * delta)
 	rotation.y = lerp_angle(rotation.y, _puppet_rotation.y, 5 * delta)
 	rotation.z = lerp_angle(rotation.z, _puppet_rotation.z, 5 * delta)

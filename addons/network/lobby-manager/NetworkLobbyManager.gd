@@ -23,7 +23,7 @@ signal on_host_ready
 
 var player_name :String = ""
 var configuration :NetworkConfiguration
-var argument :Dictionary = {} setget _set_argument
+var argument :Dictionary = {}
 
 # array of player joined in lobby
 # in dictionary format
@@ -56,7 +56,7 @@ func set_host_ready():
 		return
 		
 	_server_advertiser.dismantle()
-	rpc("_on_host_ready")
+	rpc("_on_host_ready", argument)
 	
 # call if player ready
 func set_ready():
@@ -197,12 +197,6 @@ remotesync func _update_player_joined(data : Array):
 	
 	emit_signal("lobby_player_update", get_players())
 	
-remotesync func _update_argument(data :Dictionary):
-	if is_server():
-		return
-		
-	argument = data
-	
 remotesync func _kick_player(_player_network_unique_id :int):
 	for i in _lobby_players:
 		if i["player_network_unique_id"] == _player_network_unique_id:
@@ -216,10 +210,12 @@ remotesync func _kick_player(_player_network_unique_id :int):
 		
 	emit_signal("lobby_player_update", get_players())
 	
-remotesync func _on_host_ready():
+remotesync func _on_host_ready(data :Dictionary):
 	if is_server():
 		return
 		
+	argument = data
+	
 	emit_signal("on_host_ready")
 	
 ################################################################
@@ -260,14 +256,6 @@ func _connection_closed():
 	
 ################################################################
 # utils
-func _set_argument(val :Dictionary):
-	argument = val
-	
-	if not is_server():
-		return
-		
-	rpc("_update_argument", argument)
-	
 class _CustomSorter:
 	static func sort(a, b):
 		if a["player_network_unique_id"] < b["player_network_unique_id"]:
