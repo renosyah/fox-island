@@ -43,7 +43,7 @@ func master_moving(delta):
 	transform = transform.interpolate_with(new_transform, 5 * delta)
 	
 	if distance_to_target > margin:
-		translation += direction_to_waypoint * speed * delta
+		move_and_slide(direction_to_waypoint * speed)
 		
 	if is_colliding_with_land():
 		rpc("_hit_shore")
