@@ -5,7 +5,9 @@ signal on_dodge_on_press
 signal on_fast_attack_on_press
 signal on_heavy_attack_on_press
 signal on_respawn_press
-	
+
+onready var aim = $CanvasLayer/aim
+
 onready var virtual_joystick = $CanvasLayer/Control/VBoxContainer/HBoxContainer/virtual_joystick
 onready var camera_control = $CanvasLayer/Control/MarginContainer2/camera_control
 onready var loading_bar =  $CanvasLayer/loading/VBoxContainer/loading_bar
@@ -65,5 +67,6 @@ func joystick_move_direction() -> Vector2:
 func camera_facing_direction() -> Vector2:
 	return camera_control.get_facing_direction()
 	
-
+func get_crosshair() ->NodePath:
+	return aim.get_path()
 

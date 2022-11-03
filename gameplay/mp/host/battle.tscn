@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://gameplay/mp/host/battle.gd" type="Script" id=2]
+
+[sub_resource type="SphereMesh" id=1]
+radius = 0.2
+height = 0.3
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+albedo_color = Color( 1, 0, 0, 1 )
 
 [node name="battle" type="Node"]
 script = ExtResource( 2 )
@@ -12,5 +20,10 @@ script = ExtResource( 2 )
 [node name="enemy_spawner_timer" type="Timer" parent="."]
 wait_time = 15.0
 one_shot = true
+
+[node name="aim_locator" type="MeshInstance" parent="."]
+visible = false
+mesh = SubResource( 1 )
+material/0 = SubResource( 2 )
 
 [connection signal="timeout" from="enemy_spawner_timer" to="." method="_on_enemy_spawner_timer_timeout"]

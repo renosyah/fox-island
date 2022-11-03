@@ -100,6 +100,7 @@ func leave():
 	
 	_network.disconnect_from_server()
 	_lobby_players.clear()
+	argument.clear()
 	
 	emit_signal("lobby_player_update", get_players())
 	emit_signal("on_leave")

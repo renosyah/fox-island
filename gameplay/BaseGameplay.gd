@@ -5,8 +5,6 @@ const fox_scene = preload("res://entity/unit/ground-unit/fox/fox.tscn")
 const fox_on_raft_scene = preload("res://entity/fox-on-raft/fox-on-raft.tscn")
 const fox_on_ship_scene = preload("res://entity/fox-on-ship/fox-on-ship.tscn")
 
-export var ui :Resource
-
 func _ready():
 	get_tree().set_quit_on_go_back(false)
 	get_tree().set_auto_accept_quit(false)
@@ -88,8 +86,8 @@ var _camera :RotatingCamera
 
 func setup_camera():
 	_camera = preload("res://assets/rotating-camera/rotating-camera.tscn").instance()
+	_camera.crosshair = _ui.get_crosshair()
 	add_child(_camera)
-	_camera.translation.y = 5.0
 	
 ################################################################
 # directional light

@@ -4,6 +4,8 @@ onready var players_holder = $players
 onready var enemy_spawner_timer = $enemy_spawner_timer
 onready var enemy_holder = $enemies
 
+onready var aim_locator = $aim_locator
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	.init_characters(players_holder)
@@ -12,6 +14,7 @@ func all_player_ready():
 	.all_player_ready()
 	_unit.is_dead = false
 	_unit.translation = _map.get_recomended_spawn_position()
+	_camera.exclude_aim = [_unit]
 	enemy_spawner_timer.start()
 	
 func _process(delta):
@@ -22,6 +25,8 @@ func _process(delta):
 	
 	if _unit is BaseGroundUnit:
 		_unit.camera_basis = _camera.get_camera_basis()
+		
+	aim_locator.translation = _camera.get_camera_aim()
 	
 func on_jump_on_press():
 	.on_jump_on_press()
