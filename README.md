@@ -13,7 +13,7 @@ fox island is a tower defence with multiplayer coop feature, survival ascpect an
 ## Addons
 - server browser/finder use modify addon from [LANServerBroadcast by Wavesonics](https://github.com/Wavesonics/LANServerBroadcast).
 - virtual joystick use modify addon from [godot-touch-input by Rayuse](https://github.com/Rayuse/godot-touch-input).
-
+- my very own custom addons : network and server-browser
 
 
 ## Asset

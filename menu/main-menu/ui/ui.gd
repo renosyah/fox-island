@@ -55,7 +55,7 @@ func loading_message(message :String, progress, max_progress :int):
 	.loading_message(message, progress, max_progress)
 	loading_label.text = "Loading ({progress}/{max_progress})".format({"progress": progress, "max_progress" :max_progress})
 	loading_bar.update_bar(progress, max_progress)
-
+	
 func _on_change_name_button_pressed():
 	input_name.visible = true
 	
@@ -103,7 +103,7 @@ func on_client_player_connected():
 	
 func on_lobby_player_update(players :Array):
 	emit_signal("lobby_player_update", players)
-
+	
 func _on_play_button_pressed():
 	var seed_value :int =  int(seed_input.text) if seed_input.text != "" else int(rand_range(-100,100))
 	NetworkLobbyManager.argument["seed"] = seed_value
