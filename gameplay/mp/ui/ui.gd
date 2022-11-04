@@ -64,9 +64,9 @@ func loading_message(message :String, progress, max_progress :int):
 func joystick_move_direction() -> Vector2:
 	return virtual_joystick.get_output()
 	
-func camera_facing_direction() -> Vector2:
-	return camera_control.get_facing_direction()
+func camera_input_direction() -> Vector2:
+	return camera_control.get_input_direction()
 	
-func get_crosshair() ->NodePath:
-	return aim.get_path()
+func get_crosshair() -> Control:
+	return aim
 

@@ -3,8 +3,10 @@ class_name BaseUnit
 
 export var gravity_multiplier :float = 0.075
 
+# represented of direction input from UI
+# vector2.UP = foward, vector2.DOWN = reverse
+# Vector2.LEFT = left, Vector2.RIGHT = right
 export var move_direction :Vector2 = Vector2.ZERO
-export var facing_direction :Vector2 = Vector2.ZERO
 
 export var speed :float = 2.0
 export var acceleration :float = 2.0
@@ -32,35 +34,14 @@ func _network_timmer_timeout() -> void:
 	if _is_master():
 		rset_unreliable("_puppet_translation", global_transform.origin)
 		rset_unreliable("_puppet_rotation", global_transform.basis.get_euler())
-		rset_unreliable("_puppet_facing_direction", facing_direction)
-		rset_unreliable("_puppet_move_direction", move_direction)
 		
 puppet var _puppet_rotation :Vector3
 puppet var _puppet_translation :Vector3
-
-puppet var _puppet_facing_direction :Vector2 setget _set_puppet_facing_direction
-func _set_puppet_facing_direction(val :Vector2) -> void:
-	_puppet_facing_direction = val
-		
-	if _is_master():
-		return
-		
-	facing_direction = _puppet_facing_direction
-	
-puppet var _puppet_move_direction :Vector2 setget _set_puppet_move_direction
-func _set_puppet_move_direction(val :Vector2) -> void:
-	_puppet_move_direction = val
-		
-	if _is_master():
-		return
-		
-	move_direction = _puppet_move_direction
 	
 remotesync func _attack() -> void:
 	if is_dead:
 		return
 		
-	
 ################################################################
 # function main
 func _ready() -> void:

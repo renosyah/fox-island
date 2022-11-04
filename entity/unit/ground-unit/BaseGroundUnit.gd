@@ -39,7 +39,7 @@ func master_moving(delta :float) -> void:
 		global_transform = global_transform.interpolate_with(xform, rotation_speed * delta)
 		
 	if _is_on_floor and _enable_snap:
-		_snap = -_floor_normal - get_floor_velocity() * delta
+		_snap = (-_floor_normal) - get_floor_velocity() * delta
 		
 	else:
 		_snap = Vector3.ZERO

@@ -39,6 +39,29 @@ onready var _dead_sounds = [
 var _node_not_move = ["Attack", "Jump", "ToucheGround", "Fall"]
 var enable_walk_sound = false
 
+################################################################
+# multiplayer
+func _network_timmer_timeout() -> void:
+	._network_timmer_timeout()
+	
+	if is_dead:
+		return
+		
+	if _is_master():
+		rset_unreliable("_puppet_move_direction", move_direction)
+		
+puppet var _puppet_move_direction :Vector2 setget _set_puppet_move_direction
+	
+func _set_puppet_move_direction(val :Vector2) -> void:
+	_puppet_move_direction = val
+		
+	if _is_master():
+		return
+		
+	move_direction = _puppet_move_direction
+	
+################################################################
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var material :SpatialMaterial = preload("res://entity/unit/ground-unit/fox/Material.material").duplicate(true)

@@ -1,15 +1,14 @@
 extends Spatial
 class_name MobAi
 
-export var unit :NodePath
 export var margin :float = 2
 export var attack_delay :float = 2
 export var enable_ai = true
 
 var target :BaseUnit
 
+var _unit :BaseUnit
 onready var _attack_delay_timer = $attack_delay
-onready var _unit :BaseUnit = get_node_or_null(unit)
 onready var _pivot = $pivot
 
 # Called when the node enters the scene tree for the first time.
@@ -17,12 +16,15 @@ func _ready():
 	_attack_delay_timer.wait_time = attack_delay
 	_pivot.set_as_toplevel(true)
 	
+	if get_parent() is BaseUnit:
+		_unit = get_parent()
+		
 	if not is_instance_valid(_unit):
 		return
 		
 	if _unit is BaseGroundUnit:
 		_unit.enable_steering = true
-	
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if not enable_ai:
@@ -74,14 +76,14 @@ func _see_destination(delta :float):
 	_pivot.rotation_degrees.y = wrapf(_pivot.rotation_degrees.y, 0.0, 360.0)
 	_pivot.rotation_degrees.x = clamp(_pivot.rotation_degrees.x, -60, 40)
 	
-	_unit.facing_direction = Vector2(_pivot.rotation.x, _pivot.rotation.y)
-	
 func _to_destination(delta :float):
 	if _is_arrive():
 		_unit.move_direction  = Vector2.ZERO
 		return
 		
-	_unit.move_direction = Vector2(0.0, -1.0)
+	# simulate joystick to
+	# make unit move foward only
+	_unit.move_direction = Vector2.UP
 	
 	if _unit is BaseGroundUnit:
 		_unit.camera_basis = _pivot.transform.basis

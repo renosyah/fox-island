@@ -12,10 +12,9 @@ func all_player_ready():
 	_unit.translation = _map.get_recomended_spawn_position()
 	
 func _process(delta):
-	_camera.facing_direction = _ui.camera_facing_direction()
+	_camera.facing_direction = _ui.camera_input_direction()
 	_camera.translation = _unit.translation
 	_unit.move_direction = _ui.joystick_move_direction()
-	_unit.facing_direction = _camera.get_facing_direction()
 	
 	if _unit is BaseGroundUnit:
 		_unit.camera_basis = _camera.get_camera_basis()

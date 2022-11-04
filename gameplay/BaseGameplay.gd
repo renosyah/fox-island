@@ -86,7 +86,6 @@ var _camera :RotatingCamera
 
 func setup_camera():
 	_camera = preload("res://assets/rotating-camera/rotating-camera.tscn").instance()
-	_camera.crosshair = _ui.get_crosshair()
 	add_child(_camera)
 	
 ################################################################
