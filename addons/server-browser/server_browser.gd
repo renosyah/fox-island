@@ -3,13 +3,13 @@ extends Control
 const ITEM = preload("res://addons/server-browser/item/item.tscn")
 
 signal on_join(info)
-signal on_error(msg)
 signal close
 
 onready var _item_holder = $VBoxContainer/ScrollContainer/VBoxContainer
 onready var _server_list = $VBoxContainer/ScrollContainer
 onready var _find_server = $VBoxContainer/Label
 onready var _server_listener = $server_listener
+onready var _error = $VBoxContainer/error
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,9 +35,9 @@ func _on_server_listener_new_server(serverInfo):
 	item.connect("join", self, "_join")
 	_item_holder.add_child(item)
 	
-func _on_server_listener_remove_server(serverIp):
+func _on_server_listener_remove_server(serverIps):
 	for child in _item_holder.get_children():
-		if child.info["ip"] == serverIp:
+		if child.info["ip"] in serverIps:
 			_item_holder.remove_child(child)
 			break
 			
@@ -62,7 +62,9 @@ func _on_refresh_pressed():
 	start_finding()
 	
 func _on_server_listener_error_listening(_msg):
-	emit_signal("on_error", _msg)
+	stop_finding()
+	_error.visible = true
+	_error.text = _msg
 
 
 

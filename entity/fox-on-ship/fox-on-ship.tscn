@@ -18,7 +18,6 @@ hood_texture = ExtResource( 4 )
 attack_damage = 5
 
 [node name="mob_ai" parent="raft/fox_enemy" instance=ExtResource( 1 )]
-unit = NodePath("..")
 enable_ai = false
 
 [node name="fox_enemy2" parent="raft" instance=ExtResource( 3 )]
@@ -27,7 +26,6 @@ hood_texture = ExtResource( 4 )
 attack_damage = 5
 
 [node name="mob_ai" parent="raft/fox_enemy2" instance=ExtResource( 1 )]
-unit = NodePath("..")
 enable_ai = false
 
 [node name="fox_enemy3" parent="raft" instance=ExtResource( 3 )]
@@ -36,7 +34,6 @@ hood_texture = ExtResource( 4 )
 attack_damage = 10
 
 [node name="mob_ai" parent="raft/fox_enemy3" instance=ExtResource( 1 )]
-unit = NodePath("..")
 enable_ai = false
 
 [connection signal="hit_shore" from="raft" to="." method="_on_raft_hit_shore"]

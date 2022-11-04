@@ -28,22 +28,21 @@ func _ready():
 func setup():
 	knownServers.clear()
 		
-	if not is_listening:
-		if socketUDP.listen(listenPort) != OK:
-			emit_signal("error_listening", "GameServer LAN service: Error listening on port: " + str(listenPort))
-			return
-		else:
-			is_listening = true
-			#print("GameServer LAN service: Listening on port: " + str(listenPort))
+	if socketUDP.is_listening():
+		return
+		
+	var listen = socketUDP.listen(listenPort)
+	if  listen != OK:
+		emit_signal("error_listening", "GameServer LAN service: Error listening on port: " + str(listenPort))
+		return
 		
 	set_process(true)
 	
 func stop():
 	set_process(false)
-	for ip in knownServers:
-		emit_signal("remove_server", ip)
-		
+	emit_signal("remove_server", knownServers.keys())
 	knownServers.clear()
+	socketUDP.close()
 	
 	
 func _process(delta):
@@ -60,7 +59,7 @@ func _process(delta):
 				gameInfo.ip = serverIp
 				gameInfo.lastSeen = OS.get_unix_time()
 				knownServers[serverIp] = gameInfo
-				print("New server found: %s - %s:%s" % [gameInfo.name, gameInfo.ip, gameInfo.port])
+				#print("New server found: %s - %s:%s" % [gameInfo.name, gameInfo.ip, gameInfo.port])
 				emit_signal("new_server", gameInfo)
 			
 func clean_up():
@@ -70,7 +69,7 @@ func clean_up():
 		var serverInfo = knownServers[serverIp]
 		if (now - serverInfo.lastSeen) > server_cleanup_threshold:
 			erased_servers.append(serverIp)
-			emit_signal("remove_server", serverIp)
+			emit_signal("remove_server", [serverIp])
 			
 	for i in erased_servers:
 		knownServers.erase(i)
@@ -83,7 +82,6 @@ func force_clean_up():
 	for i in erased_servers:
 		knownServers.erase(i)
 	
-	
-	
 func _exit_tree():
-	socketUDP.close()
+	if socketUDP.is_listening():
+		socketUDP.close()

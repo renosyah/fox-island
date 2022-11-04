@@ -13,4 +13,8 @@ script = ExtResource( 2 )
 wait_time = 15.0
 one_shot = true
 
+[node name="enemy_target_update_timer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="enemy_spawner_timer" to="." method="_on_enemy_spawner_timer_timeout"]
+[connection signal="timeout" from="enemy_target_update_timer" to="." method="_on_enemy_target_update_timer_timeout"]
