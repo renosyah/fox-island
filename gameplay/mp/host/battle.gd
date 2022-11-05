@@ -92,6 +92,9 @@ func _on_enemy_target_update_timer_timeout():
 		if not ai is MobAi:
 			continue
 		
+		if not is_instance_valid(ai.target):
+			continue
+		
 		if not ai.target.is_dead:
 			continue
 			

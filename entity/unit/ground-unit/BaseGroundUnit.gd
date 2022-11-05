@@ -6,12 +6,19 @@ export var rotation_speed :float = 6.25
 export var enable_steering = false
 
 var _enable_snap = true
+var _raycast :RayCast
 
 func _ready() -> void:
 	camera_basis = transform.basis
 	gravity_multiplier = 2.0
 	_gravity = (ProjectSettings.get_setting("physics/3d/default_gravity") * gravity_multiplier)
-
+	
+	_raycast = RayCast.new()
+	add_child(_raycast)
+	_raycast.cast_to = Vector3(0, -2, 0)
+	_raycast.enabled = true
+	_raycast.exclude_parent = true
+	
 func _direction_input() -> void:
 	# full override
 	# dont remove comment
@@ -31,11 +38,12 @@ func master_moving(delta :float) -> void:
 	var _is_on_floor :bool = is_on_floor()
 	var _floor_normal :Vector3 = get_floor_normal()
 	
-	if _aim_direction != Vector3.ZERO:
+	if _aim_direction != Vector3.ZERO and _velocity != Vector3.ZERO:
 		_transform_turning(_aim_direction if not enable_steering else _velocity, delta)
-		
-	if _is_on_floor:
-		var xform = align_with_y(global_transform, _floor_normal)
+	
+	if _raycast.is_colliding():
+		var n = _raycast.get_collision_normal()
+		var xform = align_with_y(global_transform, n)
 		global_transform = global_transform.interpolate_with(xform, rotation_speed * delta)
 		
 	if _is_on_floor and _enable_snap:
