@@ -41,12 +41,10 @@ func master_moving(delta :float) -> void:
 	if _aim_direction != Vector3.ZERO and _velocity != Vector3.ZERO:
 		_transform_turning(_aim_direction if not enable_steering else _velocity, delta)
 	
-	if _is_on_floor and _raycast.is_colliding():
-		var xform = align_with_y(global_transform, _raycast.get_collision_normal())
-		global_transform = global_transform.interpolate_with(xform, rotation_speed * delta)
-		
 	if _is_on_floor and _enable_snap:
 		_snap = (-_floor_normal) - get_floor_velocity() * delta
+		var xform = align_with_y(global_transform, _raycast.get_collision_normal())
+		global_transform = global_transform.interpolate_with(xform, rotation_speed * delta)
 		
 	else:
 		_snap = Vector3.ZERO
