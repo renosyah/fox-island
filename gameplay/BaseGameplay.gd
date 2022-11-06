@@ -62,6 +62,7 @@ func setup_ui():
 	_ui.connect("on_fast_attack_on_press", self, "on_fast_attack_on_press")
 	_ui.connect("on_heavy_attack_on_press", self, "on_heavy_attack_on_press")
 	_ui.connect("on_respawn_press", self, "on_respawn_press")
+	_ui.connect("on_exit", self, "on_exit_game_session")
 	
 func on_jump_on_press():
 	pass # Replace with function body.
@@ -77,8 +78,16 @@ func on_heavy_attack_on_press():
 	
 func on_respawn_press():
 	_unit.reset()
-	_unit.translation = _map.get_recomended_spawn_position()
 	_ui.update_bar(_unit.max_hp, _unit.max_hp)
+	
+	rpc("_respawn", _unit.get_path(), _map.get_recomended_spawn_position())
+	
+remotesync func _respawn(_unit_node_path :NodePath, _respawn_position :Vector3):
+	var _unit_node :BaseUnit = get_node_or_null(_unit_node_path)
+	if not is_instance_valid(_unit_node):
+		return
+		
+	_unit_node.translation = _respawn_position
 	
 ################################################################
 # camera

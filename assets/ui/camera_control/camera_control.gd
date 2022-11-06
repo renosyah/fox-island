@@ -9,19 +9,19 @@ func get_input_direction() -> Vector2:
 	# product of current user input
 	# from ui and will return
 	# vector2 of UP, DOWN, LEFT & RIGHT
-	if not inverted_axis:
+	if inverted_axis:
 		_facing_direction.y = -_facing_direction.y
 		
 	return _facing_direction
 	
 func _input(event : InputEvent):
 	if event is InputEventScreenTouch:
-		if event.pressed:
-			if _is_point_inside_area(event.position) and _touch_index == -1:
+		if event.pressed and _touch_index == -1:
+			if _is_point_inside_area(event.position):
 				_touch_index = event.index
 				get_tree().set_input_as_handled()
 				
-		elif event.index == _touch_index:
+		elif not event.pressed and event.index == _touch_index:
 			_touch_index = -1
 			_facing_direction = Vector2.ZERO
 			get_tree().set_input_as_handled()

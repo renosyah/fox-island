@@ -79,8 +79,8 @@ func _process(delta):
 	
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
-		if event.pressed:
-			if _is_point_inside_joystick_area(event.position) and _touch_index == -1:
+		if event.pressed and _touch_index == -1:
+			if _is_point_inside_joystick_area(event.position):
 				if joystick_mode == JoystickMode.DYNAMIC or (joystick_mode == JoystickMode.FIXED and _is_point_inside_base(event.position)):
 					if joystick_mode == JoystickMode.DYNAMIC:
 						_move_base(event.position)
@@ -89,7 +89,7 @@ func _input(event: InputEvent) -> void:
 					_update_joystick(event.position)
 					get_tree().set_input_as_handled()
 					
-		elif event.index == _touch_index:
+		elif not event.pressed and event.index == _touch_index:
 			_reset()
 			get_tree().set_input_as_handled()
 			

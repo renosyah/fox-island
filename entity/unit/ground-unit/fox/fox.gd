@@ -17,6 +17,9 @@ onready var _hand = $pivot/IdleDemo/Skeleton/Hand
 
 onready var stun_timer = $stun_timer
 
+var can_attack :bool = true
+var can_roll :bool = true
+
 var _hp_bar :HpBar3D
 var _name_tag :Message3D
 var _tween :Tween
@@ -196,7 +199,6 @@ func heavy_attack():
 		if target.has_method("knock_back"):
 			target.knock_back(global_transform.basis.z * -18.0)
 	
-	
 func knock_back(_from_velocity :Vector3) -> void:
 	rpc("_knock_back", _from_velocity)
 	
@@ -246,6 +248,9 @@ func master_moving(delta):
 		_enable_snap = true
 		rpc_unreliable("_land")
 		
+	can_attack = stun_timer.is_stopped() and not targets.empty()
+	can_roll = stun_timer.is_stopped() and move_direction.length() > 0.6
+	
 func _on_animation_checker_timeout():
 	if is_dead:
 		return

@@ -5,6 +5,7 @@ signal on_dodge_on_press
 signal on_fast_attack_on_press
 signal on_heavy_attack_on_press
 signal on_respawn_press
+signal on_exit
 
 onready var aim = $CanvasLayer/aim
 
@@ -18,11 +19,28 @@ onready var player_name = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBo
 onready var control = $CanvasLayer/Control
 onready var loading = $CanvasLayer/loading
 onready var deadscreen = $CanvasLayer/deadscreen
+onready var menu = $CanvasLayer/menu
+
+onready var fast_attack_button = $CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack
+onready var heavy_attack_button = $CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack
+onready var dodge = $CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge
 
 func _ready():
 	control.visible = true
 	deadscreen.visible = false
 	loading.visible = false
+	menu.visible = false
+	
+	Global.connect("on_setting_update", self, "on_setting_update")
+	camera_control.inverted_axis = Global.setting_data.is_invert_y
+	
+func on_setting_update():
+	 camera_control.inverted_axis = Global.setting_data.is_invert_y
+	
+func set_action_enable(can_attack, can_roll :bool):
+	fast_attack_button.enable_button = can_attack
+	heavy_attack_button.enable_button = can_attack
+	dodge.enable_button = can_roll
 	
 func set_player_name(_name :String):
 	player_name.text = _name
@@ -69,4 +87,9 @@ func camera_input_direction() -> Vector2:
 	
 func get_crosshair() -> Control:
 	return aim
-
+	
+func _on_menu_pressed():
+	menu.visible = true
+	
+func _on_menu_on_main_menu_press():
+	emit_signal("on_exit")
