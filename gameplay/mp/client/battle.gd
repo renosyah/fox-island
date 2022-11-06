@@ -18,6 +18,8 @@ func _process(delta):
 	
 	if _unit is BaseGroundUnit:
 		_unit.camera_basis = _camera.get_camera_basis()
+		
+	_ui.set_action_enable(_unit.can_attack, _unit.can_roll)
 	
 func on_jump_on_press():
 	.on_jump_on_press()

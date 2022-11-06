@@ -97,3 +97,22 @@ func _accelerate(delta: float) -> void:
 	
 	_velocity.x = temp_vel.x
 	_velocity.z = temp_vel.z
+	
+func validate_targets():
+	var target_pos_to_erase = []
+	var pos = 0
+	
+	for i in targets:
+		if not is_instance_valid(i):
+			target_pos_to_erase.append(pos)
+			
+		pos += 1
+		
+	if target_pos_to_erase.empty():
+		return
+		
+	for i in target_pos_to_erase:
+		targets.remove(i)
+	
+	
+	

@@ -12,7 +12,7 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -209.0
-margin_top = -265.5
+margin_top = -255.5
 margin_right = 209.0
 margin_bottom = 255.5
 script = ExtResource( 4 )
@@ -196,13 +196,13 @@ rect_min_size = Vector2( 80, 0 )
 [node name="MarginContainer5" type="MarginContainer" parent="VBoxContainer2"]
 margin_top = 388.0
 margin_right = 418.0
-margin_bottom = 413.0
-rect_min_size = Vector2( 0, 25 )
+margin_bottom = 398.0
+rect_min_size = Vector2( 0, 10 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2"]
-margin_top = 417.0
+margin_top = 402.0
 margin_right = 418.0
-margin_bottom = 497.0
+margin_bottom = 482.0
 alignment = 1
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer2/HBoxContainer"]
@@ -225,9 +225,9 @@ margin_bottom = 80.0
 rect_min_size = Vector2( 80, 0 )
 
 [node name="MarginContainer4" type="MarginContainer" parent="VBoxContainer2"]
-margin_top = 501.0
+margin_top = 486.0
 margin_right = 418.0
-margin_bottom = 521.0
+margin_bottom = 506.0
 rect_min_size = Vector2( 0, 20 )
 
 [connection signal="pressed" from="VBoxContainer2/HBoxContainer2/sfx_setting" to="." method="_on_sfx_setting_pressed"]
