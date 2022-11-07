@@ -30,7 +30,7 @@ signal on_ping(_ping)
 
 var ping_interval_timer :Timer
 var ping_increment_timer :Timer
-var ping :int = 28
+var ping :int = 0
 
 func _ready():
 	get_tree().connect('network_peer_connected', self, '_network_peer_connected')
