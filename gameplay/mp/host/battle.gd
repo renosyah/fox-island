@@ -60,9 +60,23 @@ func get_player_as_target() ->NodePath:
 	
 	
 func _on_enemy_spawner_timer_timeout():
-	enemy_spawner_timer.start()
+	var max_enemy :int = 1
+	var big_ship :bool = false
+	
+	match (_day_night_dome.current_time):
+		DayNightDome.TIME_MORNING:
+			max_enemy = 0
+			big_ship = false
+			enemy_spawner_timer.wait_time = 25
+			enemy_spawner_timer.start()
+			
+		DayNightDome. TIME_NIGHT:
+			max_enemy = 2
+			big_ship = true
+			enemy_spawner_timer.wait_time = 15
+			enemy_spawner_timer.start()
 		
-	if enemy_holder.get_child_count() > 2:
+	if enemy_holder.get_child_count() > max_enemy:
 		return
 		
 	var id :String = GDUUID.v4()
@@ -70,17 +84,16 @@ func _on_enemy_spawner_timer_timeout():
 	var spawn_pos :Vector3 = _map.get_random_radius_pos()
 	var target :NodePath = get_player_as_target()
 		
-	if randf() < 0.5:
+	if big_ship:
 		spawn_enemy_on_ship(id, parent, spawn_pos, target)
-		return
-		
-	spawn_enemy_on_raft(id, parent, spawn_pos, target)
+	else:
+		spawn_enemy_on_raft(id, parent, spawn_pos, target)
 	
 	
 func _on_enemy_target_update_timer_timeout():
 	enemy_target_update_timer.start()
 	
-	var foxs_ai = []
+	var foxs_ai :Array = []
 	for attack_wave in enemy_holder.get_children():
 		foxs_ai.append_array(attack_wave.foxs_ai)
 		
@@ -99,10 +112,11 @@ func _on_enemy_target_update_timer_timeout():
 		
 		if not ai.target.is_dead:
 			continue
-			
-		var target_path :NodePath = get_player_as_target()
-		var target :BaseUnit = get_node_or_null(target_path)
-			
+		
+		var target :BaseUnit = get_node_or_null(
+			get_player_as_target()
+		)
+		
 		if is_instance_valid(target):
 			ai.target = target
 	
