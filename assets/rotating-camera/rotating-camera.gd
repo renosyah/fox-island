@@ -7,9 +7,9 @@ export var facing_direction :Vector2 = Vector2.ZERO
 
 onready var _camera :Camera = $SpringArm/Camera
 
-	# will returning position of camera looking at
-	# instead of using value facing direction
-	# this can be use for more accurate aiming
+# will returning position of camera looking at
+# instead of using value facing direction
+# this can be use for more accurate aiming
 func get_camera_aiming_at(_crosshair :Vector2, exclude_body :Array = []) -> Vector3:
 	var ray_from :Vector3 = _camera.project_ray_origin(_crosshair)
 	var ray_dir :Vector3 = _camera.project_ray_normal(_crosshair)

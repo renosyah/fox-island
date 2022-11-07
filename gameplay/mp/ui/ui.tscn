@@ -120,35 +120,25 @@ margin_right = 160.0
 margin_bottom = 600.0
 size_flags_horizontal = 0
 
-[node name="MarginContainer2" type="Control" parent="CanvasLayer/Control"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control"]
 margin_left = 514.0
 margin_right = 1024.0
 margin_bottom = 600.0
-mouse_filter = 2
+mouse_filter = 0
 size_flags_horizontal = 3
 
-[node name="camera_control" parent="CanvasLayer/Control/MarginContainer2" instance=ExtResource( 4 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer2"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 0
-
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer2"]
 margin_right = 510.0
 margin_bottom = 10.0
 rect_min_size = Vector2( 0, 10 )
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer2"]
 margin_top = 14.0
 margin_right = 510.0
 margin_bottom = 74.0
 alignment = 2
 
-[node name="menu" type="Button" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer2"]
+[node name="menu" type="Button" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer2"]
 margin_left = 396.0
 margin_right = 496.0
 margin_bottom = 60.0
@@ -156,36 +146,37 @@ rect_min_size = Vector2( 100, 60 )
 custom_fonts/font = ExtResource( 6 )
 text = "Menu"
 
-[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer2"]
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer2"]
 margin_left = 500.0
 margin_right = 510.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 10, 0 )
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+[node name="camera_control" parent="CanvasLayer/Control/VBoxContainer2" instance=ExtResource( 4 )]
 margin_top = 78.0
 margin_right = 510.0
 margin_bottom = 244.0
+mouse_filter = 2
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer2"]
 margin_top = 248.0
 margin_right = 510.0
 margin_bottom = 496.0
 mouse_filter = 2
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer"]
 margin_right = 174.0
 margin_bottom = 248.0
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer"]
 margin_left = 178.0
 margin_right = 426.0
 margin_bottom = 248.0
 mouse_filter = 2
 
-[node name="fast_attack" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
+[node name="fast_attack" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
 margin_left = 84.0
 margin_right = 164.0
 margin_bottom = 80.0
@@ -197,13 +188,13 @@ __meta__ = {
 }
 icon_button = ExtResource( 8 )
 
-[node name="MarginContainer3" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer"]
+[node name="MarginContainer3" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer"]
 margin_top = 84.0
 margin_right = 248.0
 margin_bottom = 164.0
 rect_min_size = Vector2( 0, 40 )
 
-[node name="dodge" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
+[node name="dodge" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
 margin_right = 80.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 80 )
@@ -215,13 +206,13 @@ __meta__ = {
 colldown_time = 2.0
 icon_button = ExtResource( 11 )
 
-[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3"]
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3"]
 margin_left = 84.0
 margin_right = 164.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 80, 25 )
 
-[node name="heavy_attack" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
+[node name="heavy_attack" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
 margin_left = 168.0
 margin_right = 248.0
 margin_bottom = 80.0
@@ -234,7 +225,7 @@ __meta__ = {
 colldown_time = 3.0
 icon_button = ExtResource( 12 )
 
-[node name="jump" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
+[node name="jump" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
 margin_left = 84.0
 margin_top = 168.0
 margin_right = 164.0
@@ -248,13 +239,13 @@ __meta__ = {
 colldown_time = 2.0
 icon_button = ExtResource( 13 )
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer2/HBoxContainer"]
 margin_left = 430.0
 margin_right = 510.0
 margin_bottom = 248.0
 rect_min_size = Vector2( 80, 0 )
 
-[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer2/VBoxContainer2"]
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer2"]
 margin_top = 500.0
 margin_right = 510.0
 margin_bottom = 600.0
@@ -349,10 +340,10 @@ margin_bottom = 361.0
 rect_min_size = Vector2( 400, 50 )
 size_flags_horizontal = 4
 
-[connection signal="pressed" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer2/menu" to="." method="_on_menu_pressed"]
-[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack" to="." method="_on_fast_attack_on_press"]
-[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge" to="." method="_on_dodge_on_press"]
-[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack" to="." method="_on_heavy_attack_on_press"]
-[connection signal="on_press" from="CanvasLayer/Control/MarginContainer2/VBoxContainer2/HBoxContainer/VBoxContainer/jump" to="." method="_on_jump_on_press"]
+[connection signal="pressed" from="CanvasLayer/Control/VBoxContainer2/HBoxContainer2/menu" to="." method="_on_menu_pressed"]
+[connection signal="on_press" from="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack" to="." method="_on_fast_attack_on_press"]
+[connection signal="on_press" from="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge" to="." method="_on_dodge_on_press"]
+[connection signal="on_press" from="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack" to="." method="_on_heavy_attack_on_press"]
+[connection signal="on_press" from="CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/jump" to="." method="_on_jump_on_press"]
 [connection signal="pressed" from="CanvasLayer/deadscreen/ColorRect/VBoxContainer/respawn" to="." method="_on_respawn_pressed"]
 [connection signal="on_main_menu_press" from="CanvasLayer/menu" to="." method="_on_menu_on_main_menu_press"]
