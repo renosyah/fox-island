@@ -14,10 +14,12 @@ func _ready():
 	
 	rect_pivot_offset = rect_size / 2
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func validate_press(delta):
+	# full override
+	#.validate_press(delta)
+	
 	if pressed and not _is_pressed:
-		if cooldown_timer.is_stopped():
+		if cooldown_timer.is_stopped() and enable_button:
 			tween.interpolate_property(self, "rect_scale", Vector2(0.9, 0.9), Vector2.ONE, 0.2)
 			tween.start()
 			
@@ -27,3 +29,4 @@ func _process(delta):
 		_is_pressed = true
 		
 	texture_progress.value = cooldown_timer.time_left
+	modulate.a = 1 if enable_button else 0.5

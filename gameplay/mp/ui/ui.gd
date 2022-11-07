@@ -10,7 +10,7 @@ signal on_exit
 onready var aim = $CanvasLayer/aim
 
 onready var virtual_joystick = $CanvasLayer/Control/VBoxContainer/HBoxContainer/virtual_joystick
-onready var camera_control = $CanvasLayer/Control/VBoxContainer2/camera_control
+onready var camera_control = $CanvasLayer/Control/Control/camera_control
 onready var loading_bar = $CanvasLayer/loading/VBoxContainer/loading_bar
 onready var loading_label = $CanvasLayer/loading/VBoxContainer/Label
 onready var hp_bar = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/hp_bar
@@ -21,9 +21,9 @@ onready var loading = $CanvasLayer/loading
 onready var deadscreen = $CanvasLayer/deadscreen
 onready var menu = $CanvasLayer/menu
 
-onready var fast_attack_button =  $CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack
-onready var heavy_attack_button = $CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack
-onready var dodge = $CanvasLayer/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge
+onready var fast_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack
+onready var heavy_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack
+onready var dodge = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge
 
 func _ready():
 	control.visible = true

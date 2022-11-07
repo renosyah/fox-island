@@ -14,9 +14,6 @@ func _ready():
 	pass # Replace with function body.
 	
 func _input(event : InputEvent):
-	if not enable_button:
-		return
-		
 	if event is InputEventScreenTouch:
 		if event.pressed and _touch_index == -1:
 			if _is_point_inside_area(event.position):
@@ -31,11 +28,18 @@ func _input(event : InputEvent):
 			get_tree().set_input_as_handled()
 			
 func _process(delta):
+	validate_press(delta)
+	
+func validate_press(delta):
 	modulate.a = 1 if enable_button else 0.5
+	if not enable_button:
+		return
+		
 	if pressed and not _is_pressed:
 		emit_signal("on_press")
 		_is_pressed = true
 		
+	
 func _is_point_inside_area(point: Vector2) -> bool:
 	var x: bool = point.x >= rect_global_position.x and point.x <= rect_global_position.x + (rect_size.x * get_global_transform_with_canvas().get_scale().x)
 	var y: bool = point.y >= rect_global_position.y and point.y <= rect_global_position.y + (rect_size.y * get_global_transform_with_canvas().get_scale().y)
