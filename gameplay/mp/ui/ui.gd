@@ -85,8 +85,8 @@ func joystick_move_direction() -> Vector2:
 func camera_input_direction() -> Vector2:
 	return camera_control.get_input_direction()
 	
-func get_crosshair() -> Control:
-	return aim
+func get_crosshair_position() -> Vector2:
+	return aim.rect_position
 	
 func _on_menu_pressed():
 	menu.visible = true

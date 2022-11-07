@@ -33,6 +33,7 @@ margin_left = -20.0
 margin_top = -120.0
 margin_right = 20.0
 margin_bottom = -80.0
+rect_pivot_offset = Vector2( 20, 20 )
 mouse_filter = 2
 
 [node name="Control" type="HBoxContainer" parent="CanvasLayer"]

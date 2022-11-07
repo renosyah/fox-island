@@ -6,11 +6,6 @@ onready var players_holder = $players
 func _ready():
 	.init_characters(players_holder)
 	
-func all_player_ready():
-	.all_player_ready()
-	_unit.is_dead = false
-	_unit.translation = _map.get_recomended_spawn_position()
-	
 func _process(delta):
 	_camera.facing_direction = _ui.camera_input_direction()
 	_camera.translation = _unit.translation
@@ -20,6 +15,11 @@ func _process(delta):
 		_unit.camera_basis = _camera.get_camera_basis()
 		
 	_ui.set_action_enable(_unit.can_attack, _unit.can_roll)
+	
+func all_player_ready():
+	.all_player_ready()
+	_unit.is_dead = false
+	_unit.translation = _map.get_recomended_spawn_position()
 	
 func on_jump_on_press():
 	.on_jump_on_press()

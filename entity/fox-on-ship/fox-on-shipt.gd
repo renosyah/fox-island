@@ -35,6 +35,7 @@ func set_spawn_position(spawn_pos :Vector3):
 func _ready():
 	for fox in foxs:
 		fox.player.player_team = 2
+		fox.set_network_master(Network.PLAYER_HOST_ID)
 		fox.set_process(false)
 		
 	raft.set_process(false)

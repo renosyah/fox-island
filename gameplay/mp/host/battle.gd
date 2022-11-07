@@ -1,20 +1,17 @@
 extends BaseGameplay
 
 onready var players_holder = $players
-onready var enemy_spawner_timer = $enemy_spawner_timer
 onready var enemy_holder = $enemies
+
+onready var enemy_spawner_timer = $enemy_spawner_timer
 onready var enemy_target_update_timer = $enemy_target_update_timer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	.init_characters(players_holder)
 	
-func all_player_ready():
-	.all_player_ready()
-	_unit.is_dead = false
-	_unit.translation = _map.get_recomended_spawn_position()
-	enemy_spawner_timer.start()
-	enemy_target_update_timer.start()
+	enemy_spawner_timer.connect("timeout", self, "on_enemy_spawner_timer_timeout")
+	enemy_target_update_timer.connect("timeout", self, "on_enemy_target_update_timer_timeout")
 	
 func _process(delta):
 	_camera.facing_direction = _ui.camera_input_direction()
@@ -25,6 +22,13 @@ func _process(delta):
 		_unit.camera_basis = _camera.get_camera_basis()
 		
 	_ui.set_action_enable(_unit.can_attack, _unit.can_roll)
+	
+func all_player_ready():
+	.all_player_ready()
+	_unit.is_dead = false
+	_unit.translation = _map.get_recomended_spawn_position()
+	enemy_spawner_timer.start()
+	enemy_target_update_timer.start()
 	
 func on_jump_on_press():
 	.on_jump_on_press()
@@ -59,7 +63,7 @@ func get_player_as_target() ->NodePath:
 	return players[0].get_path()
 	
 	
-func _on_enemy_spawner_timer_timeout():
+func on_enemy_spawner_timer_timeout():
 	var max_enemy :int = 1
 	var big_ship :bool = false
 	
@@ -90,7 +94,7 @@ func _on_enemy_spawner_timer_timeout():
 		spawn_enemy_on_raft(id, parent, spawn_pos, target)
 	
 	
-func _on_enemy_target_update_timer_timeout():
+func on_enemy_target_update_timer_timeout():
 	enemy_target_update_timer.start()
 	
 	var foxs_ai :Array = []
