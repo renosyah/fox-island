@@ -65,10 +65,8 @@ func generate_map():
 		thread.start(self, "_generate_map")
 
 func _generate_map():
-	var noise = OpenSimplexNoise.new()
-	noise.seed = map_seed
-	noise.octaves = 4
-	noise.period = 80.0
+	var noise = NoiseMaker.new()
+	noise.make_noise(map_seed, 3)
 	
 	var lands = _create_land(noise)
 	land_mesh = lands[0]
@@ -125,7 +123,7 @@ func _create_spawn_stuff(inland_positions :Array) -> Array:
 		preload("res://entity/resources/tree/tree_4/tree.tscn"),
 	]
 	
-	var trimed_inland_positions = _trim_array(inland_positions, 22)
+	var trimed_inland_positions = _trim_array(inland_positions, 16)
 	
 	for pos in trimed_inland_positions:
 		if pos.y > recomended_spawn_pos.y:
@@ -147,7 +145,7 @@ func _trim_array(arr :Array, step :int) -> Array:
 		
 	return new_arr
 	
-func _create_land(noise :OpenSimplexNoise) -> Array:
+func _create_land(noise :NoiseMaker) -> Array:
 	var inland_positions :Array = []
 	
 	var land_mesh = PlaneMesh.new()
@@ -167,16 +165,16 @@ func _create_land(noise :OpenSimplexNoise) -> Array:
 	gradient.gradient = Gradient.new()
 	gradient.type = CustomGradientTexture.GradientType.RADIAL
 	gradient.size = Vector2.ONE * map_size + Vector2.ONE
-
+	
 	var data = gradient.get_data()
 	data.lock()
 	
 	for i in range(data_tool.get_vertex_count()):
 		var vertext = data_tool.get_vertex(i)
-		var value = noise.get_noise_3d(vertext.x * map_scale ,vertext.y * map_scale, vertext.z * map_scale)
-		var gradient_value = data.get_pixel((vertext.x + map_size) * 0.5, (vertext.z + map_size) * 0.5).r * 0.8
+		var value = noise.get_noise(vertext * map_scale)
+		var gradient_value = data.get_pixel((vertext.x + map_size) * 0.5, (vertext.z + map_size) * 0.5).r * 2
 		value -= gradient_value
-		value = clamp(value, -0.075, 2)
+		value = clamp(value, -0.075, 1)
 		vertext.y = value * (map_height + 2.0)
 		if value > 0.1:
 			inland_positions.append(vertext)

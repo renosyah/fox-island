@@ -2169,7 +2169,7 @@ auto_advance = true
 
 [sub_resource type="AnimationNodeStateMachine" id=29]
 states/Attack/node = SubResource( 15 )
-states/Attack/position = Vector2( 522, 168 )
+states/Attack/position = Vector2( 522, 177 )
 states/Dead/node = SubResource( 36 )
 states/Dead/position = Vector2( 312, 232 )
 states/Fall/node = SubResource( 16 )
@@ -2181,7 +2181,7 @@ states/Jump/position = Vector2( 125, 54 )
 states/Roll/node = SubResource( 41 )
 states/Roll/position = Vector2( 312, -51.5496 )
 states/Run/node = SubResource( 19 )
-states/Run/position = Vector2( 522, 54 )
+states/Run/position = Vector2( 528, 54 )
 states/ToucheGround/node = SubResource( 20 )
 states/ToucheGround/position = Vector2( 125, 197 )
 transitions = [ "Idle", "Run", SubResource( 21 ), "Run", "Idle", SubResource( 22 ), "Idle", "Attack", SubResource( 23 ), "Attack", "Idle", SubResource( 24 ), "Idle", "Jump", SubResource( 25 ), "Jump", "Fall", SubResource( 26 ), "Fall", "ToucheGround", SubResource( 27 ), "ToucheGround", "Idle", SubResource( 28 ), "Run", "Jump", SubResource( 32 ), "Idle", "Dead", SubResource( 37 ), "Run", "Attack", SubResource( 38 ), "Attack", "Run", SubResource( 39 ), "Run", "Roll", SubResource( 42 ), "Roll", "Run", SubResource( 43 ), "Idle", "Roll", SubResource( 44 ), "Roll", "Idle", SubResource( 45 ) ]
