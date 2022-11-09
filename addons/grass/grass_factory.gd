@@ -58,12 +58,12 @@ static func generate(
 		var indices:PoolIntArray = surface[Mesh.ARRAY_INDEX]
 		var positions:PoolVector3Array = surface[Mesh.ARRAY_VERTEX]
 		var normals:PoolVector3Array = surface[Mesh.ARRAY_NORMAL]
-		for index in range(0, indices.size(), 12):
+		for index in range(0, indices.size(), 14):
 			var j = indices[index]
 			var k = indices[index + 1]
 			var l = indices[index + 2]
 			
-			if positions[j].y < 3.4:
+			if positions[j].y < 3.6:
 				continue
 				
 			var area:float = triangle_area(
@@ -71,7 +71,7 @@ static func generate(
 				positions[k],
 				positions[l]
 			)
-			var blades_per_face:int = int(round(area * p_density))
+			var blades_per_face:int = int(round(area * p_density * 0.5))
 			for _i in range(0, blades_per_face):
 				var uvw:Vector3 = rand_bcc()
 				var position:Vector3 = from_bcc_vector3(
