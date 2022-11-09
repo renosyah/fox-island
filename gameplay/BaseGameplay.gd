@@ -184,9 +184,13 @@ remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vect
 	if not is_instance_valid(parent):
 		return
 		
+	var target :BaseUnit = get_node_or_null( _target)
+	if not is_instance_valid(target):
+		return
+		
 	var enemy = fox_on_raft_scene.instance()
 	enemy.name = _name
-	enemy.target = _target
+	enemy.target = target
 	enemy.is_server = is_server()
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
@@ -202,13 +206,16 @@ remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vect
 	if not is_instance_valid(parent):
 		return
 		
+	var target :BaseUnit = get_node_or_null( _target)
+	if not is_instance_valid(target):
+		return
+		
 	var enemy = fox_on_ship_scene.instance()
 	enemy.name = _name
-	enemy.target = _target
+	enemy.target = target
 	enemy.is_server = is_server()
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
-	
 	
 ################################################################
 # exit

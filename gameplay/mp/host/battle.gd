@@ -74,7 +74,7 @@ func on_enemy_spawner_timer_timeout():
 			enemy_spawner_timer.wait_time = 25
 			enemy_spawner_timer.start()
 			
-		DayNightDome. TIME_NIGHT:
+		DayNightDome.TIME_NIGHT:
 			max_enemy = 2
 			big_ship = true
 			enemy_spawner_timer.wait_time = 15
@@ -97,24 +97,14 @@ func on_enemy_spawner_timer_timeout():
 func on_enemy_target_update_timer_timeout():
 	enemy_target_update_timer.start()
 	
-	var foxs_ai :Array = []
 	for attack_wave in enemy_holder.get_children():
-		foxs_ai.append_array(attack_wave.foxs_ai)
-		
-	if foxs_ai.empty():
-		return
-		
-	for ai in foxs_ai:
-		if not is_instance_valid(ai):
+		if not is_instance_valid(attack_wave):
 			continue
 			
-		if not ai is MobAi:
+		if not is_instance_valid(attack_wave.target):
 			continue
 		
-		if not is_instance_valid(ai.target):
-			continue
-		
-		if not ai.target.is_dead:
+		if not attack_wave.target.is_dead:
 			continue
 		
 		var target :BaseUnit = get_node_or_null(
@@ -122,7 +112,7 @@ func on_enemy_target_update_timer_timeout():
 		)
 		
 		if is_instance_valid(target):
-			ai.target = target
+			attack_wave.target = target
 	
 
 

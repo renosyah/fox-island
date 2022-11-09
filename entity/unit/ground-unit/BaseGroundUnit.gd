@@ -66,6 +66,7 @@ func align_with_y(xform, new_y):
 func _transform_turning(direction :Vector3, delta :float) -> void:
 	var _pos = global_transform.origin
 	var _direction :Vector3 = direction * 100 + _pos
+	_direction.y = _pos.y
 	var new_transform :Transform = transform.looking_at(_direction, Vector3.UP)
 	transform = transform.interpolate_with(new_transform, rotation_speed * delta)
 

@@ -12,20 +12,17 @@ func make_noise(noise_seed, noise_count :int):
 	for i in range(noise_count):
 		var noise = OpenSimplexNoise.new()
 		noise.seed = noise_seed + i
-		noise.octaves = _rng.randi_range(4,8)
+		noise.octaves = _rng.randi_range(6,8)
 		noise.period = float(_rng.randi_range(70,80))
 		_noises.append(noise)
 		
 func get_noise(_at : Vector3):
 	var value :float = 0.0
-#	var _rng = RandomNumberGenerator.new()
-#	_rng.seed = _rng_noise_seed
-	
 	for _noise in _noises:
 		var val = _noise.get_noise_3d(
 			_at.x ,_at.y ,_at.z 
 		)
-		value += val# if _rng.randf() > 0.5 else -val
+		value += val
 		value = clamp(value, 0.2, 1.0)
 		
 	return value

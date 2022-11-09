@@ -4,7 +4,7 @@
 [ext_resource path="res://entity/structure/moving-structure/ship/ship.tscn" type="PackedScene" id=2]
 [ext_resource path="res://entity/unit/ground-unit/fox/fox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entity/unit/ground-unit/fox/Textures/fox_diffuse_red.png" type="Texture" id=4]
-[ext_resource path="res://entity/fox-on-ship/fox-on-shipt.gd" type="Script" id=5]
+[ext_resource path="res://entity/fox-on-ship/fox-on-ship.gd" type="Script" id=5]
 
 [node name="fox-on-ship" type="Spatial"]
 script = ExtResource( 5 )
