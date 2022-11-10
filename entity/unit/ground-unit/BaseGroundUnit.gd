@@ -3,13 +3,13 @@ class_name BaseGroundUnit
 
 var camera_basis :Basis
 export var rotation_speed :float = 6.25
-export var enable_steering = false
+export var enable_steering :bool = false
+
+export var manual_turning :bool = false
+export var manual_turning_direction :Vector3 = Vector3.ZERO
 
 var _enable_snap = true
 var _raycast :RayCast
-
-var manual_turning :bool = false
-var manual_turning_direction :Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	camera_basis = transform.basis
@@ -41,7 +41,7 @@ func master_moving(delta :float) -> void:
 	var _is_on_floor :bool = is_on_floor()
 	var _inverse_floor_normal :Vector3 = - get_floor_normal()
 	var _pos = global_transform.origin
-
+	
 	if manual_turning:
 		var turning_direction :Vector3 = manual_turning_direction
 		turning_direction.y = _pos.y
