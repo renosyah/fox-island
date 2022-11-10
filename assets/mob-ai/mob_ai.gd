@@ -33,9 +33,11 @@ func _process(delta):
 	if not is_instance_valid(_unit):
 		return
 		
+	var _is_arrive :bool = _is_arrive()
+	
 	_check_target()
-	_see_destination(delta)
-	_to_destination(delta)
+	_see_destination(_is_arrive, delta)
+	_to_destination(_is_arrive, delta)
 	_pivot.translation = global_transform.origin
 	
 func _check_target():
@@ -63,8 +65,8 @@ func _is_arrive() -> bool:
 	var distance :float = global_transform.origin.distance_to(move_to)
 	return distance < margin
 	
-func _see_destination(delta :float):
-	if _is_arrive():
+func _see_destination(_is_arrive :bool, delta :float):
+	if _is_arrive:
 		return
 		
 	var unit_y :float = _unit.global_transform.origin.y
@@ -74,16 +76,14 @@ func _see_destination(delta :float):
 	_pivot.rotation_degrees.y = wrapf(_pivot.rotation_degrees.y, 0.0, 360.0)
 	_pivot.rotation_degrees.x = clamp(_pivot.rotation_degrees.x, -60, 40)
 	
-func _to_destination(delta :float):
-	if _is_arrive():
-		_unit.move_direction  = Vector2.ZERO
-		return
-		
+func _to_destination(_is_arrive :bool, delta :float):
 	# simulate joystick to
 	# make unit move foward only
-	_unit.move_direction = Vector2.UP
+	_unit.move_direction = Vector2.ZERO if _is_arrive else Vector2.UP
 	
 	if _unit is BaseGroundUnit:
 		_unit.camera_basis = _pivot.transform.basis
+		_unit.manual_turning = _is_arrive
+		_unit.manual_turning_direction = move_to
 	
 	

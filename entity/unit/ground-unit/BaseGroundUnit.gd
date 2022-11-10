@@ -8,6 +8,9 @@ export var enable_steering = false
 var _enable_snap = true
 var _raycast :RayCast
 
+var manual_turning :bool = false
+var manual_turning_direction :Vector3 = Vector3.ZERO
+
 func _ready() -> void:
 	camera_basis = transform.basis
 	gravity_multiplier = 2.0
@@ -36,15 +39,24 @@ func master_moving(delta :float) -> void:
 	_direction_input()
 	
 	var _is_on_floor :bool = is_on_floor()
-	var _floor_normal :Vector3 = get_floor_normal()
-	
-	if _aim_direction != Vector3.ZERO and _velocity != Vector3.ZERO:
-		_transform_turning(_aim_direction if not enable_steering else _velocity, delta)
-	
+	var _inverse_floor_normal :Vector3 = - get_floor_normal()
+	var _pos = global_transform.origin
+
+	if manual_turning:
+		var turning_direction :Vector3 = manual_turning_direction
+		turning_direction.y = _pos.y
+		_transform_turning(turning_direction, delta)
+		
+	else:
+		if _aim_direction != Vector3.ZERO and _velocity != Vector3.ZERO:
+			var turning_direction :Vector3 = _aim_direction if not enable_steering else _velocity
+			turning_direction = turning_direction * 100 + _pos
+			turning_direction.y = _pos.y
+			_transform_turning(turning_direction, delta)
+		
 	if _is_on_floor and _enable_snap:
-		_snap = (-_floor_normal) - get_floor_velocity() * delta
-		var xform = align_with_y(global_transform, _raycast.get_collision_normal())
-		global_transform = global_transform.interpolate_with(xform, rotation_speed * delta)
+		_snap = _inverse_floor_normal - get_floor_velocity() * delta
+		_transform_elevation(_raycast.get_collision_normal(), delta)
 		
 	else:
 		_snap = Vector3.ZERO
@@ -57,17 +69,18 @@ func master_moving(delta :float) -> void:
 	
 ############################################################
 # utils
+func _transform_turning(look_direction :Vector3, delta :float) -> void:
+	var new_transform :Transform = transform.looking_at(look_direction, Vector3.UP)
+	transform = transform.interpolate_with(new_transform, rotation_speed * delta)
+	
+func _transform_elevation(collision_normal :Vector3, delta :float) -> void:
+	var xform = align_with_y(global_transform, collision_normal)
+	global_transform = global_transform.interpolate_with(xform, rotation_speed * delta)
+	
 func align_with_y(xform, new_y):
 	xform.basis.y = new_y
 	xform.basis.x = -xform.basis.z.cross(new_y)
 	xform.basis = xform.basis.orthonormalized()
 	return xform
 	
-func _transform_turning(direction :Vector3, delta :float) -> void:
-	var _pos = global_transform.origin
-	var _direction :Vector3 = direction * 100 + _pos
-	_direction.y = _pos.y
-	var new_transform :Transform = transform.looking_at(_direction, Vector3.UP)
-	transform = transform.interpolate_with(new_transform, rotation_speed * delta)
-
 

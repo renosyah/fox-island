@@ -1,9 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://map/main_menu_map/map_mesh.tres" type="ArrayMesh" id=2]
 [ext_resource path="res://map/water_shadermaterial.tres" type="Material" id=3]
 [ext_resource path="res://map/shadermaterial.tres" type="Material" id=4]
-[ext_resource path="res://assets/day-night/day_night_dome.tscn" type="PackedScene" id=5]
 [ext_resource path="res://map/main_menu_map/main_menu_map.gd" type="Script" id=6]
 [ext_resource path="res://map/main_menu_map/map_collision.tres" type="Shape" id=7]
 
@@ -32,5 +31,3 @@ generate_lightmap = false
 mesh = SubResource( 1 )
 software_skinning_transform_normals = false
 material/0 = ExtResource( 3 )
-
-[node name="day_night_dome" parent="." instance=ExtResource( 5 )]
