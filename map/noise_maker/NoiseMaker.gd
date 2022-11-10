@@ -18,11 +18,12 @@ func make_noise(noise_seed, noise_count :int):
 		
 func get_noise(_at : Vector3):
 	var value :float = 0.0
+	
 	for _noise in _noises:
 		var val = _noise.get_noise_3d(
 			_at.x ,_at.y ,_at.z 
 		)
-		value += val
+		value += (value + val) / 2
 		value = clamp(value, 0.2, 1.0)
 		
 	return value

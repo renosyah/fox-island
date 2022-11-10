@@ -32,8 +32,8 @@ func _input(event : InputEvent):
 			get_tree().set_input_as_handled()
 			
 		
-func _process(delta):
-	_facing_direction = _facing_direction.linear_interpolate(Vector2.ZERO , 25 * delta)
+func _physics_process(delta):
+	_facing_direction = _facing_direction.linear_interpolate(Vector2.ZERO , 10 * delta)
 	
 func _is_point_inside_area(point: Vector2) -> bool:
 	var x: bool = point.x >= rect_global_position.x and point.x <= rect_global_position.x + (rect_size.x * get_global_transform_with_canvas().get_scale().x)

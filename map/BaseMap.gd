@@ -105,7 +105,7 @@ func _generate_map():
 func _create_spawn_stuff(inland_positions :Array) -> Array:
 	var stuffs = []
 	
-	var rng  = RandomNumberGenerator.new()
+	var rng = RandomNumberGenerator.new()
 	rng.seed = map_seed * 2
 	
 	var _resources = [
@@ -129,11 +129,12 @@ func _create_spawn_stuff(inland_positions :Array) -> Array:
 		if pos.y > recomended_spawn_pos.y:
 			recomended_spawn_pos = pos
 			
-		var index :int = int(rng.randf_range(0, _resources.size()))
+		var index :int = rng.randi_range(0, _resources.size() - 1)
 		var res :Resource = _resources[index]
+		var y_rotate = rng.randi_range(0, 180)
 		
 		stuffs.append(
-			_resources_instance_placement(res, pos)
+			_resources_instance_placement(res, pos, y_rotate)
 		)
 		
 	return stuffs
@@ -176,7 +177,7 @@ func _create_land(noise :NoiseMaker) -> Array:
 		value -= gradient_value
 		value = clamp(value, -0.075, 1)
 		vertext.y = value * (map_height + 2.0)
-		if value > 0.1:
+		if value > 0.15:
 			inland_positions.append(vertext)
 			
 		data_tool.set_vertex(i, vertext)
@@ -218,10 +219,11 @@ func _generate_grass(land_mesh :Mesh):
 	grass.mesh = land_mesh
 	return grass
 	
-func _resources_instance_placement(resources_instance :Resource, _pos :Vector3) -> MineableResource:
+func _resources_instance_placement(resources_instance :Resource, _pos :Vector3, _y_rotate :float) -> MineableResource:
 	var instance :MineableResource = resources_instance.instance()
 	instance.name = "resources-" + _str(_pos.x) + "-" + _str(_pos.y)+ "-" + _str(_pos.z)
 	instance.translation = _pos
+	instance.rotation_degrees.y = _y_rotate
 	return instance
 	
 func get_rand_pos(from :Vector3) -> Vector3:
