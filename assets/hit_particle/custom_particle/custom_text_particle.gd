@@ -14,6 +14,8 @@ func display_hit(s :String):
 		return
 		
 	(mesh as TextMesh).text = s
-
+	
 	timer.start()
+	
+	amount = int(rand_range(2, 4))
 	emitting = true

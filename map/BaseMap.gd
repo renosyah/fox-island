@@ -92,10 +92,12 @@ func _generate_map():
 	
 	translation.y = 3.0
 	
+	
 	var stuff_pos = 1
 	var stuffs = _create_spawn_stuff(inland_positions)
 	for stuff in stuffs:
 		emit_signal("on_generating_map", GENERATING_RESOURCE, stuff_pos, stuffs.size())
+		stuff.set_network_master(Network.PLAYER_HOST_ID)
 		add_child(stuff)
 		stuff_pos += 1
 	

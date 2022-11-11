@@ -5,8 +5,10 @@ signal on_destroyed(_resources)
 signal on_take_damage(_resources, _damage)
 
 export var is_dead :bool = false
-export var hp : int = 100.0
-export var max_hp : int = 100.0
+export var hp : int = 100
+export var max_hp : int = 100
+
+export var reset_delay : int = 60
 
 ############################################################
 remotesync func _take_damage(_hp_left, _damage : int) -> void:
@@ -17,14 +19,30 @@ remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	emit_signal("on_take_damage", self, _damage)
 	
 remotesync func _dead() -> void:
+	if is_instance_valid(_reset_timer):
+		_reset_timer.start()
+		
 	is_dead = true
 	set_process(false)
-	emit_signal("on_destroyed",self)
+	emit_signal("on_destroyed", self)
+	
+remotesync func _reset() -> void:
+	hp = max_hp
+	is_dead = false
+	set_process(true)
 	
 ############################################################
+var _reset_timer :Timer
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	if _is_master():
+		_reset_timer = Timer.new()
+		_reset_timer.wait_time = reset_delay
+		_reset_timer.one_shot = true
+		_reset_timer.autostart = false
+		add_child(_reset_timer)
+		_reset_timer.connect("timeout", self, "reset")
 	
 func take_damage(_damage : int, hit_by_player :PlayerData) -> void:
 	if is_dead:
@@ -40,6 +58,9 @@ func take_damage(_damage : int, hit_by_player :PlayerData) -> void:
 	
 func dead(hit_by_player : PlayerData) -> void:
 	rpc("_dead")
+	
+func reset():
+	rpc("_reset")
 	
 ############################################################
 # multiplayer func

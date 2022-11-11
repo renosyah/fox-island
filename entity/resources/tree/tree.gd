@@ -35,6 +35,14 @@ remotesync func _dead() -> void:
 	set_visible(false)
 	hp_bar.update_bar(0, max_hp)
 	
+remotesync func _reset() -> void:
+	._reset()
+	
+	mesh.scale = Vector3.ZERO
+	set_visible(true)
+	tween.interpolate_property(mesh, "scale", Vector3.ZERO, Vector3.ONE, 2.0)
+	tween.start()
+	
 func set_visible(_show :bool):
 	collision.set_deferred("disabled", not _show)
 	mesh.visible = _show
