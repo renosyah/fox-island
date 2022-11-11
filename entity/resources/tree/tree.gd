@@ -40,8 +40,11 @@ remotesync func _reset() -> void:
 	
 	mesh.scale = Vector3.ZERO
 	set_visible(true)
+	hp_bar.update_bar(hp, max_hp)
+	
 	tween.interpolate_property(mesh, "scale", Vector3.ZERO, Vector3.ONE, 2.0)
 	tween.start()
+	
 	
 func set_visible(_show :bool):
 	collision.set_deferred("disabled", not _show)
@@ -62,14 +65,6 @@ func camera_exited(camera: Camera):
 		
 	visible = false
 	
-func _process(delta):
-	var camera :Camera = get_viewport().get_camera()
-	if not is_instance_valid(camera):
-		return
-		
-	var camera_origin :Vector3 = camera.global_transform.origin
-	var is_camera_close = global_transform.origin.distance_to(camera_origin) < 5
-	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	audio = AudioStreamPlayer3D.new()
@@ -77,7 +72,6 @@ func _ready():
 	add_child(audio)
 	
 	visible = false
-	set_process(false)
 
 	mesh = MeshInstance.new()
 	add_child(mesh)
@@ -97,9 +91,12 @@ func _ready():
 	add_child(tween)
 	
 	visibility_notifier = VisibilityNotifier.new()
+	visibility_notifier.max_distance = 40
 	add_child(visibility_notifier)
 	visibility_notifier.connect("camera_entered", self, "camera_entered")
 	visibility_notifier.connect("camera_exited", self, "camera_exited")
+	
+	visible = false
 	
 	var timer = Timer.new()
 	timer.wait_time = 0.1

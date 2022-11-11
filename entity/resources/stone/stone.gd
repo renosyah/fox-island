@@ -40,6 +40,8 @@ remotesync func _reset() -> void:
 	
 	mesh.scale = Vector3.ZERO
 	set_visible(true)
+	hp_bar.update_bar(hp, max_hp)
+	
 	tween.interpolate_property(mesh, "scale", Vector3.ZERO, Vector3.ONE, 2.0)
 	tween.start()
 	
@@ -86,9 +88,12 @@ func _ready():
 	add_child(tween)
 	
 	visibility_notifier = VisibilityNotifier.new()
+	visibility_notifier.max_distance = 40
 	add_child(visibility_notifier)
 	visibility_notifier.connect("camera_entered", self, "camera_entered")
 	visibility_notifier.connect("camera_exited", self, "camera_exited")
+	
+	visible = false
 	
 	var timer = Timer.new()
 	timer.wait_time = 0.1
