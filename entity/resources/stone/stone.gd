@@ -38,6 +38,7 @@ remotesync func _dead() -> void:
 func set_visible(_show :bool):
 	collision.set_deferred("disabled", not _show)
 	mesh.visible = _show
+	hp_bar.visible = _show
 	
 func camera_entered(camera: Camera):
 	if is_dead:

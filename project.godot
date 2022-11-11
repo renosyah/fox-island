@@ -59,6 +59,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/maujoe.custom_gradient_texture/custom_gradient_texture.gd"
 }, {
+"base": "CPUParticles",
+"class": "CustomTextParticle",
+"language": "GDScript",
+"path": "res://assets/hit_particle/custom_particle/custom_text_particle.gd"
+}, {
 "base": "MarginContainer",
 "class": "CustomTouchButton",
 "language": "GDScript",
@@ -84,7 +89,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/grass/grass.gd"
 }, {
-"base": "CPUParticles",
+"base": "Spatial",
 "class": "HitParticle",
 "language": "GDScript",
 "path": "res://assets/hit_particle/hit_particle.gd"
@@ -235,6 +240,7 @@ _global_script_class_icons={
 "BaseUnit": "",
 "BorderButton": "",
 "CustomGradientTexture": "",
+"CustomTextParticle": "",
 "CustomTouchButton": "",
 "DayNightDome": "",
 "Explosion": "",
