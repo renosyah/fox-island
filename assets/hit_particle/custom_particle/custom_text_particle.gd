@@ -7,13 +7,13 @@ func is_emitting() -> bool:
 	return not timer.is_stopped()
 	
 func display_hit(s :String):
+	if is_emitting():
+		return
+		
 	if not mesh is TextMesh:
 		return
 		
 	(mesh as TextMesh).text = s
-	
-	if is_emitting():
-		return
-		
+
 	timer.start()
 	emitting = true
