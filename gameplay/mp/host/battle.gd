@@ -69,18 +69,18 @@ func on_enemy_spawner_timer_timeout():
 	
 	match (_day_night_dome.current_time):
 		DayNightDome.TIME_MORNING:
-			max_enemy = 0
+			max_enemy = 1
 			big_ship = false
-			enemy_spawner_timer.wait_time = 25
+			enemy_spawner_timer.wait_time = 20
 			enemy_spawner_timer.start()
 			
 		DayNightDome.TIME_NIGHT:
 			max_enemy = 2
 			big_ship = true
-			enemy_spawner_timer.wait_time = 15
+			enemy_spawner_timer.wait_time = 10
 			enemy_spawner_timer.start()
 		
-	if enemy_holder.get_child_count() > max_enemy:
+	if enemy_holder.get_child_count() >= max_enemy:
 		return
 		
 	var id :String = GDUUID.v4()

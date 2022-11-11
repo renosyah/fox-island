@@ -43,6 +43,9 @@ func _process(delta):
 func _check_target():
 	if not _attack_delay_timer.is_stopped():
 		return
+	
+	if _unit.targets.empty():
+		return
 		
 	var unit_team :int = _unit.player.player_team
 	var is_enemy_in_range :bool = false
@@ -56,7 +59,7 @@ func _check_target():
 			break
 			
 	if is_enemy_in_range:
-		_unit.fast_attack()
+		_unit_perform_attack()
 		_attack_delay_timer.start()
 	
 func _is_arrive() -> bool:
@@ -86,4 +89,17 @@ func _to_destination(_is_arrive :bool, delta :float):
 		_unit.manual_turning = _is_arrive
 		_unit.manual_turning_direction = move_to
 	
+func _unit_perform_attack():
+	if randf() > 0.4:
+		_unit.fast_attack()
+	else:
+		_unit.heavy_attack()
 	
+	
+	
+
+
+
+
+
+

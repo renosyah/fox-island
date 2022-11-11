@@ -7,8 +7,10 @@ var hp_bar :HpBar3D
 var collision :CollisionShape
 var visibility_notifier :VisibilityNotifier
 var audio :AudioStreamPlayer3D
+var hit_particle :CPUParticles
 
 var _mine_sound = preload("res://entity/resources/sound/mine_wood.wav")
+var _hit_particle :HitParticle
 
 remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	._take_damage(_hp_left, _damage)
@@ -17,18 +19,25 @@ remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	audio.stream = _mine_sound
 	audio.play()
 	
+	_hit_particle.display_hit(str(_damage))
+	_hit_particle.translation = global_transform.origin + Vector3(0, 0.8, 0)
+	
 	tween.interpolate_property(mesh, "scale", Vector3.ONE * 0.6, Vector3.ONE, 0.3)
 	tween.interpolate_property(hp_bar, "modulate:a", 1, 0, 4)
 	tween.start()
 	
 remotesync func _dead() -> void:
 	._dead()
+	
+	_hit_particle.display_hit("Wack!")
+	_hit_particle.translation = global_transform.origin + Vector3(0, 0.8, 0)
+	
 	set_visible(false)
 	hp_bar.update_bar(0, max_hp)
 	
 func set_visible(_show :bool):
 	collision.set_deferred("disabled", not _show)
-	visible = _show
+	mesh.visible = _show
 	
 func camera_entered(camera: Camera):
 	if is_dead:
@@ -96,8 +105,10 @@ func _ready():
 	hp_bar.translation.y -= 1
 	hp_bar.modulate.a = 0
 	hp_bar.update_bar(hp, max_hp)
-	
-
+		
+	_hit_particle = preload("res://assets/hit_particle/hit_particle.tscn").instance()
+	add_child(_hit_particle)
+	_hit_particle.set_as_toplevel(true)
 
 
 

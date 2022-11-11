@@ -23,6 +23,7 @@ var can_roll :bool = true
 var _hp_bar :HpBar3D
 var _name_tag :Message3D
 var _tween :Tween
+var _hit_particle :HitParticle
 
 onready var _walk_sound = preload("res://entity/unit/ground-unit/fox/sound/walk.wav")
 onready var _jump_sound = preload("res://entity/unit/ground-unit/fox/sound/jump.wav")
@@ -102,24 +103,36 @@ func _ready():
 		_name_tag.set_message(player.player_name)
 		_name_tag.set_color(Color.white)
 		
+	_hit_particle = preload("res://assets/hit_particle/hit_particle.tscn").instance()
+	add_child(_hit_particle)
+	_hit_particle.set_as_toplevel(true)
+	
+	
 remotesync func _knock_back(_from_velocity :Vector3) -> void:
 	_velocity = _from_velocity
 	stun_timer.start()
 	
 remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> void:
 	._take_damage(_hp_left, _damage, _hit_by)
+	
 	var hit_sound = _hit_sounds[rand_range(0, _hit_sounds.size())]
 	_audio_stream_player_3d.stream = hit_sound
 	_audio_stream_player_3d.play()
 	
-	_update_hp_bar(_hp_left, max_hp)
+	_hit_particle.display_hit(str(_damage))
+	_hit_particle.translation = global_transform.origin + Vector3(0, 0.8, 0)
+	
 	_tween.interpolate_property(_pivot, "scale", Vector3.ONE * 0.6, Vector3.ONE, 0.3)
+	_update_hp_bar(_hp_left, max_hp)
 	
 remotesync func _dead(_kill_by :Dictionary) -> void:
 	#._dead(_kill_by)
 	var _dead_sound = _dead_sounds[rand_range(0, _dead_sounds.size())]
 	_audio_stream_player_3d.stream = _dead_sound
 	_audio_stream_player_3d.play()
+	
+	_hit_particle.display_hit("Wack!")
+	_hit_particle.translation = global_transform.origin + Vector3(0, 0.8, 0)
 	
 	is_dead = true
 	set_process(false)
@@ -172,7 +185,7 @@ func fast_attack():
 				continue
 			
 		if target.has_method("take_damage"):
-			target.take_damage(attack_damage, player)
+			target.take_damage(get_attack_damage(), player)
 			
 		if target.has_method("knock_back"):
 			target.knock_back(global_transform.basis.z * -8.0)
@@ -194,7 +207,7 @@ func heavy_attack():
 				continue
 			
 		if target.has_method("take_damage"):
-			target.take_damage(attack_damage * 2, player)
+			target.take_damage(get_attack_damage() * 2, player)
 			
 		if target.has_method("knock_back"):
 			target.knock_back(global_transform.basis.z * -18.0)
@@ -286,3 +299,20 @@ func _update_hp_bar(_hp, _max_hp :int):
 	_hp_bar.update_bar(_hp, _max_hp)
 	_tween.interpolate_property(_hp_bar, "modulate:a", 1, 0, 4)
 	_tween.start()
+	
+func get_attack_damage() -> int:
+	var quarter_atk : float = attack_damage * 0.25
+	return int(rand_range(
+		attack_damage - quarter_atk, 
+		attack_damage + quarter_atk
+	))
+
+
+
+
+
+
+
+
+
+

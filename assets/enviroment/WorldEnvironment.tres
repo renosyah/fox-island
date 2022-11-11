@@ -14,7 +14,6 @@ texture_size = 0
 background_mode = 2
 background_sky = SubResource( 1 )
 background_color = Color( 0.254902, 0.823529, 1, 1 )
-fog_enabled = true
 fog_color = Color( 0.364706, 0.733333, 0.968627, 1 )
 fog_sun_color = Color( 1, 1, 1, 1 )
 fog_depth_enabled = false
