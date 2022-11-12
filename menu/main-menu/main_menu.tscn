@@ -20,49 +20,49 @@ script = ExtResource( 3 )
 [node name="main_menu_map" parent="." instance=ExtResource( 1 )]
 
 [node name="Tree2" type="MeshInstance" parent="main_menu_map"]
-transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -8.80408, 5.47576, 12.7886 )
+transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -3.7445, 3.5454, 12.7886 )
 mesh = ExtResource( 7 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Tree3" type="MeshInstance" parent="main_menu_map"]
-transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -14.8215, 6.50501, 14.9743 )
+transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -26.6027, 3.55518, 30.9103 )
 mesh = ExtResource( 9 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Rock1" type="MeshInstance" parent="main_menu_map"]
 transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -25.1855, 3.78481, 7.62499 )
 mesh = ExtResource( 5 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Bush2" type="MeshInstance" parent="main_menu_map"]
 transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -20.7549, 2.66708, 4.61841 )
 mesh = ExtResource( 6 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Rock3" type="MeshInstance" parent="main_menu_map"]
 transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -35.218, 3.06068, 22.2784 )
 mesh = ExtResource( 8 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Rock2" type="MeshInstance" parent="main_menu_map"]
-transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -37.311, 4.2408, 12.7525 )
+transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -43.8011, 4.80656, 12.7525 )
 mesh = ExtResource( 5 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Tree1" type="MeshInstance" parent="main_menu_map"]
 transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -21.9234, 4.68708, 10.0003 )
 mesh = ExtResource( 10 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Tree4" type="MeshInstance" parent="main_menu_map"]
-transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -13.776, 6.24837, 23.4847 )
+transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -13.776, 4.38623, 40.1443 )
 mesh = ExtResource( 7 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="Tree5" type="MeshInstance" parent="main_menu_map"]
 transform = Transform( -0.800009, -0.104187, 0.590873, 5.17512e-09, 0.984808, 0.173648, -0.599988, 0.13892, -0.787855, -31.6137, 2.98257, 25.8254 )
 mesh = ExtResource( 9 )
-skeleton = NodePath("../../Camera")
+skeleton = NodePath("../../Spatial/Camera")
 
 [node name="BoatWSail" type="MeshInstance" parent="main_menu_map"]
 transform = Transform( 5.68728, 0, -1.91177, 0, 6, 0, 1.91177, 0, 5.68728, -11.9717, 0.980918, -1.9311 )
@@ -77,10 +77,13 @@ skeleton = NodePath("")
 [node name="day_night_dome2" parent="main_menu_map" instance=ExtResource( 4 )]
 
 [node name="players_spawn_pos" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13.0359, 6.73946, 9.73508 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.2055, 7.50314, 19.3411 )
 
-[node name="Camera" type="Camera" parent="."]
-transform = Transform( -0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, -0.819152, 0.661167, 13.4697, -25.3297 )
+[node name="Spatial" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.20738, 9.00578, -10.5146 )
+
+[node name="Camera" type="Camera" parent="Spatial"]
+transform = Transform( -0.819152, 0, 0.573576, 0, 1, 0, -0.573576, 0, -0.819152, 0, 0, 0 )
 current = true
 
 [node name="ui" parent="." instance=ExtResource( 2 )]

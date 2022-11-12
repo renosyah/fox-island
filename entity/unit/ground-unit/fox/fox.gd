@@ -107,9 +107,13 @@ func _ready():
 	add_child(_hit_particle)
 	_hit_particle.set_as_toplevel(true)
 	
-	
 remotesync func _knock_back(_from_velocity :Vector3) -> void:
 	_velocity = _from_velocity
+	
+	if is_on_floor() and _enable_snap and _velocity.y > 0.0:
+		_enable_snap = false
+		_snap = Vector3.UP * _velocity.y
+		
 	stun_timer.start()
 	
 remotesync func _take_damage(_hp_left, _damage : int, _hit_by :Dictionary) -> void:
@@ -210,7 +214,9 @@ func heavy_attack():
 			target.take_damage(get_attack_damage() * 2, player)
 			
 		if target.has_method("knock_back"):
-			target.knock_back(global_transform.basis.z * -18.0)
+			target.knock_back(
+				global_transform.basis.z * -18.0 + global_transform.basis.y * 12.0
+			)
 	
 func knock_back(_from_velocity :Vector3) -> void:
 	rpc("_knock_back", _from_velocity)

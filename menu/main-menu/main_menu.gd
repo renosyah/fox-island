@@ -2,13 +2,13 @@ extends Node
 
 const fox_scene = preload("res://entity/unit/ground-unit/fox/fox.tscn")
 
-const camera_main_menu = Vector3(0.661, 13.47, -25.33)
-const camera_lobby_menu = Vector3(-11.667, 7.325, 1.276)
+const camera_main_menu = Vector3(-2.207, 9.006, -10.515)
+const camera_lobby_menu = Vector3(-12.268,8.402, 10.716)
 
 onready var players_spawn_pos = $players_spawn_pos
 onready var players_holder = $players_holder
 onready var ui = $ui
-onready var camera = $Camera
+onready var camera = $Spatial
 onready var tween = $Tween
 onready var day_night_dome = $main_menu_map/day_night_dome2
 
