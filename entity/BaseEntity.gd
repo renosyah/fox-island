@@ -10,6 +10,7 @@ signal on_respawn(_entity)
 var player :PlayerData = PlayerData.new()
 
 # vitality
+export var enable_damage :bool = true
 export var is_dead :bool = false
 var hit_by_player :PlayerData = PlayerData.new()
 export var tag : String = "entity"
@@ -98,7 +99,8 @@ func take_damage(_damage : int, hit_by_player : PlayerData) -> void:
 	if is_dead:
 		return
 		
-	hp -= _damage
+	if enable_damage:
+		hp -= _damage
 	
 	if hp < 1:
 		dead(hit_by_player)
