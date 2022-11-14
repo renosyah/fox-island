@@ -125,18 +125,6 @@ tracks/9/keys = {
 "update": 0,
 "values": [ 0.3 ]
 }
-tracks/10/type = "value"
-tracks/10/path = NodePath("WorldEnvironment:environment:fog_enabled")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ true ]
-}
 
 [sub_resource type="Animation" id=3]
 resource_name = "day_night_cicle"
@@ -161,10 +149,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5, 3.8, 6.7, 6.8, 7.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector3( -180, 0, 0 ), Vector3( -90, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( -180, 0, 0 ), Vector3( -180, 0, 0 ) ]
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8, 6.7, 6.8, 7, 7.2, 7.4, 7.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector3( -180, 0, 0 ), Vector3( -168, 0, 0 ), Vector3( -156, 0, 0 ), Vector3( -144, 0, 0 ), Vector3( -132, 0, 0 ), Vector3( -120, 0, 0 ), Vector3( -108, 0, 0 ), Vector3( -96, 0, 0 ), Vector3( -90, 0, 0 ), Vector3( -81.8182, 0, 0 ), Vector3( -73.6364, 0, 0 ), Vector3( -65.4545, 0, 0 ), Vector3( -57.2727, 0, 0 ), Vector3( -49.0909, 0, 0 ), Vector3( -40.9091, 0, 0 ), Vector3( -32.7273, 0, 0 ), Vector3( -24.5454, 0, 0 ), Vector3( -16.3636, 0, 0 ), Vector3( -8.18181, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( -180, 0, 0 ), Vector3( -180, 0, 0 ), Vector3( -180, 0, 0 ), Vector3( -180, 0, 0 ), Vector3( -180, 0, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("WorldEnvironment:environment:background_sky:sky_top_color")

@@ -11,6 +11,7 @@ const TIME_NIGHT = 3
 
 onready var animation_player = $AnimationPlayer
 var current_time :int = TIME_MORNING
+var day_passed :int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,6 +24,7 @@ func set_time(at :float, stop:bool = true):
 	
 func _on_morning_time():
 	current_time = TIME_MORNING
+	day_passed += 1
 	emit_signal("morning")
 	
 func _on_night_time():

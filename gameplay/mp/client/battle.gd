@@ -1,6 +1,7 @@
 extends BaseGameplay
 
 onready var players_holder = $players
+onready var ally_holder = $allies
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,6 +22,19 @@ func all_player_ready():
 	_unit.is_dead = false
 	_unit.translation = _map.get_recomended_spawn_position()
 	
+#	# ally test
+#	for i in range(5):
+#		var fox = fox_scene.instance()
+#		var id :String = "ally-" + str(i)
+#		fox.player.player_id = id
+#		fox.player.player_name = "ally"
+#		fox.player.player_team = 1
+#		fox.name = id
+#		fox.speed = 2
+#		fox.enable_name_tag = false
+#		fox.set_network_master(Network.PLAYER_HOST_ID)
+#		ally_holder.add_child(fox)
+		
 func on_jump_on_press():
 	.on_jump_on_press()
 	_unit.jump()

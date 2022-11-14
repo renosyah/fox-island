@@ -113,6 +113,8 @@ func validate_targets():
 		
 	for i in target_pos_to_erase:
 		targets.remove(i)
-	
+		
+func get_velocity() -> Vector3:
+	return _aim_direction
 	
 	

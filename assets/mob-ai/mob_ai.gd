@@ -4,6 +4,7 @@ class_name MobAi
 export var margin :float = 2
 export var attack_delay :float = 2
 export var enable_ai = true
+export var enable_manual_turning :bool = true
 
 var move_to :Vector3 = Vector3.ZERO
 
@@ -34,33 +35,49 @@ func _process(delta):
 		return
 		
 	var _is_arrive :bool = _is_arrive()
+	var _is_blocked :bool = _check_target()
 	
-	_check_target()
 	_see_destination(_is_arrive, delta)
-	_to_destination(_is_arrive, delta)
+	_to_destination(_is_arrive or _is_blocked, delta)
 	_pivot.translation = global_transform.origin
 	
-func _check_target():
-	if not _attack_delay_timer.is_stopped():
-		return
-	
-	if _unit.targets.empty():
-		return
-		
-	var unit_team :int = _unit.player.player_team
+func _check_target() -> bool:
 	var is_enemy_in_range :bool = false
 	
+	if not _attack_delay_timer.is_stopped():
+		is_enemy_in_range = true
+		return is_enemy_in_range
+	
+	if _unit.targets.empty():
+		return is_enemy_in_range
+		
+	var unit_team :int = _unit.player.player_team
+	
 	for target in _unit.targets:
-		if not target is BaseEntity:
-			continue
-			
-		if target.player.player_team != unit_team:
+		if _is_enemy_unit(unit_team, target) or _is_obstacle(target):
 			is_enemy_in_range = true
 			break
 			
 	if is_enemy_in_range:
 		_unit_perform_attack()
 		_attack_delay_timer.start()
+		
+	return is_enemy_in_range
+	
+func _is_obstacle(target):
+	if target is MineableResource:
+		return true
+		
+	return false
+	
+func _is_enemy_unit(unit_team :int, target) -> bool:
+	if not target is BaseEntity:
+		return false
+		
+	if target.player.player_team == unit_team:
+		return false
+		
+	return true
 	
 func _is_arrive() -> bool:
 	var unit_y :float = _unit.global_transform.origin.y
@@ -86,8 +103,10 @@ func _to_destination(_is_arrive :bool, delta :float):
 	
 	if _unit is BaseGroundUnit:
 		_unit.camera_basis = _pivot.transform.basis
-		_unit.manual_turning = _is_arrive
-		_unit.manual_turning_direction = move_to
+		
+		if enable_manual_turning:
+			_unit.manual_turning = _is_arrive
+			_unit.manual_turning_direction = move_to
 	
 func _unit_perform_attack():
 	if randf() > 0.4:

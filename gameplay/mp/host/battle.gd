@@ -3,6 +3,9 @@ extends BaseGameplay
 onready var players_holder = $players
 onready var enemy_holder = $enemies
 
+onready var ally_holder = $allies
+var allies_ai = []
+
 onready var enemy_spawner_timer = $enemy_spawner_timer
 onready var enemy_target_update_timer = $enemy_target_update_timer
 
@@ -23,12 +26,39 @@ func _process(delta):
 		
 	_ui.set_action_enable(_unit.can_attack, _unit.can_roll)
 	
+#	# ally test orders
+#	var order_pos = _camera.get_camera_aiming_at(_ui.get_crosshair_position())
+#	var order_distance = _unit.global_transform.origin.distance_to(order_pos)
+#	if order_distance < 100:
+#		for i in allies_ai:
+#			i.move_to = order_pos
+	
 func all_player_ready():
 	.all_player_ready()
 	_unit.is_dead = false
 	_unit.translation = _map.get_recomended_spawn_position()
 	enemy_spawner_timer.start()
 	enemy_target_update_timer.start()
+	
+#	# ally test
+#	for i in range(5):
+#		var fox = fox_scene.instance()
+#		var id :String = "ally-" + str(i)
+#		fox.player.player_id = id
+#		fox.player.player_name = "ally"
+#		fox.player.player_team = 1
+#		fox.name = id
+#		fox.speed = 2
+#		fox.enable_name_tag = false
+#		fox.set_network_master(Network.PLAYER_HOST_ID)
+#		ally_holder.add_child(fox)
+#		fox.translation = _map.get_recomended_spawn_position()
+#
+#		var ai = preload("res://assets/mob-ai/mob_ai.tscn").instance()
+#		ai.enable_manual_turning = false
+#		fox.add_child(ai)
+#		allies_ai.append(ai)
+		
 	
 func on_jump_on_press():
 	.on_jump_on_press()
