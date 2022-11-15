@@ -10,19 +10,24 @@ onready var _camera :Camera = $SpringArm/Camera
 # will returning position of camera looking at
 # instead of using value facing direction
 # this can be use for more accurate aiming
-func get_camera_aiming_at(_crosshair :Vector2, exclude_body :Array = []) -> Vector3:
+func get_camera_aiming_at(_crosshair :Vector2, exclude_body :Array = []) -> CameraAimingData:
+	var aiming_data :CameraAimingData = CameraAimingData.new()
+	
 	var ray_from :Vector3 = _camera.project_ray_origin(_crosshair)
 	var ray_dir :Vector3 = _camera.project_ray_normal(_crosshair)
 	var ray_cast_to :Vector3 = ray_from + ray_dir * 1000
-	var shoot_target :Vector3 = ray_cast_to
+	aiming_data.position = ray_cast_to
 		
 	var col :Dictionary = get_world().direct_space_state.intersect_ray(
 		ray_from, ray_cast_to, exclude_body, 0b11
 	)
 	if not col.empty():
-		shoot_target = col["position"]
+		aiming_data.from_dictionary(col)
 		
-	return shoot_target
+	aiming_data.distance = ray_from.distance_to(
+		aiming_data.position
+	)
+	return aiming_data
 	
 func get_camera_basis() -> Basis:
 	return get_global_transform().basis

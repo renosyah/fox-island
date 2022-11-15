@@ -27,11 +27,12 @@ func _process(delta):
 	_ui.set_action_enable(_unit.can_attack, _unit.can_roll)
 	
 	# ally test orders
-	var order_pos = _camera.get_camera_aiming_at(_ui.get_crosshair_position())
-	var order_distance = _unit.global_transform.origin.distance_to(order_pos)
-	if order_distance < 100:
+	var aiming_data :CameraAimingData = _camera.get_camera_aiming_at(
+		_ui.get_crosshair_position()
+	)
+	if aiming_data.distance < 100:
 		for i in allies_ai:
-			i.move_to = order_pos
+			i.move_to = aiming_data.position
 	
 func all_player_ready():
 	.all_player_ready()
