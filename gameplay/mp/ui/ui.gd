@@ -4,6 +4,11 @@ signal on_jump_on_press
 signal on_dodge_on_press
 signal on_fast_attack_on_press
 signal on_heavy_attack_on_press
+
+signal on_call_ally
+signal on_command_ally
+signal on_command_follow
+
 signal on_respawn_press
 signal on_exit
 
@@ -25,11 +30,19 @@ onready var fast_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBo
 onready var heavy_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack
 onready var dodge = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge
 
+onready var follow = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow
+onready var command = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command
+onready var call = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/call
+
 func _ready():
 	control.visible = true
 	deadscreen.visible = false
 	loading.visible = false
 	menu.visible = false
+	
+	aim.visible = false
+	follow.visible = false
+	command.visible = true
 	
 	Global.connect("on_setting_update", self, "on_setting_update")
 	camera_control.inverted_axis = Global.setting_data.is_invert_y
@@ -41,6 +54,9 @@ func set_action_enable(can_attack, can_roll :bool):
 	fast_attack_button.enable_button = can_attack
 	heavy_attack_button.enable_button = can_attack
 	dodge.enable_button = can_roll
+	
+func show_call_ally_button(_show :bool):
+	call.visible = _show
 	
 func set_player_name(_name :String):
 	player_name.text = _name
@@ -93,3 +109,19 @@ func _on_menu_pressed():
 	
 func _on_menu_on_main_menu_press():
 	emit_signal("on_exit")
+	
+func _on_call_on_press():
+	emit_signal("on_call_ally")
+	
+func _on_command_pressed():
+	aim.visible = true
+	follow.visible = true
+	command.visible = false
+	emit_signal("on_command_ally")
+	
+func _on_follow_pressed():
+	aim.visible = false
+	follow.visible = false
+	command.visible = true
+	emit_signal("on_command_follow")
+	

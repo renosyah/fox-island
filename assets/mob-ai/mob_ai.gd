@@ -1,6 +1,8 @@
 extends Spatial
 class_name MobAi
 
+signal on_unit_dead(_ai, _unit)
+
 export var margin :float = 2
 export var attack_delay :float = 2
 export var enable_ai = true
@@ -19,12 +21,16 @@ func _ready():
 	
 	if get_parent() is BaseUnit:
 		_unit = get_parent()
+		_unit.connect("on_dead", self, "_on_unit_dead")
 		
 	if not is_instance_valid(_unit):
 		return
 		
 	if _unit is BaseGroundUnit:
 		_unit.enable_steering = true
+		
+func _on_unit_dead(_dead_unit :BaseUnit, _kill_by :PlayerData):
+	emit_signal("on_unit_dead", self, _unit)
 		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

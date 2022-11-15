@@ -33,7 +33,7 @@ func _on_ui_lobby_player_update(players :Array):
 		var fox = fox_scene.instance()
 		var id :String = str(player.player_network_unique_id)
 		
-		fox.player.player_id = id
+		fox.player.player_id = player.player_network_unique_id
 		fox.player.player_name = player.player_name
 		fox.name = id
 		fox.set_network_master(1)

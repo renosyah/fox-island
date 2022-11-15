@@ -61,6 +61,9 @@ func setup_ui():
 	_ui.connect("on_dodge_on_press", self, "on_dodge_on_press")
 	_ui.connect("on_fast_attack_on_press", self, "on_fast_attack_on_press")
 	_ui.connect("on_heavy_attack_on_press", self, "on_heavy_attack_on_press")
+	_ui.connect("on_call_ally", self, "on_call_ally")
+	_ui.connect("on_command_ally", self, "on_command_ally")
+	_ui.connect("on_command_follow", self, "on_command_follow")
 	_ui.connect("on_respawn_press", self, "on_respawn_press")
 	_ui.connect("on_exit", self, "on_exit_game_session")
 	
@@ -75,7 +78,17 @@ func on_fast_attack_on_press():
 	
 func on_heavy_attack_on_press():
 	pass # Replace with function body.
-	
+
+func on_call_ally():
+	pass # Replace with function body.
+
+func on_command_ally():
+	pass # Replace with function body.
+
+func on_command_follow():
+	pass # Replace with function body.
+
+
 func on_respawn_press():
 	_unit.reset()
 	_ui.update_bar(_unit.max_hp, _unit.max_hp)
@@ -150,7 +163,7 @@ func init_characters(_parent :Node):
 			_unit.enable_hp_bar = false
 			_unit.enable_name_tag = false
 			
-		fox.player.player_id = id
+		fox.player.player_id = i.player_network_unique_id
 		fox.player.player_name = i.player_name
 		fox.player.player_team = 1
 		fox.name = id
@@ -173,12 +186,14 @@ func on_unit_on_dead(_current_unit :BaseUnit, _hit_by :PlayerData):
 	_ui.show_deadscreen()
 	_ui.update_bar(0, _current_unit.max_hp)
 	
+	
+# enemy
 func spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
 	if not is_server():
 		return
 		
 	rpc("_spawn_enemy_on_raft",_name, _parent, _at, _target)
-
+	
 remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
 	var parent :Node = get_node_or_null(_parent)
 	if not is_instance_valid(parent):
@@ -216,6 +231,55 @@ remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vect
 	enemy.is_server = is_server()
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
+	
+	
+# ally
+func spawn_ally(_owner: PlayerData, _node_name :String, _parent :NodePath, _at :Vector3):
+	rpc("_spawn_ally", _owner.to_dictionary(),_node_name, _parent, _at)
+	
+remotesync func _spawn_ally(_owner : Dictionary, _node_name :String, _parent :NodePath, _at :Vector3):
+	var parent :Node = get_node_or_null(_parent)
+	if not is_instance_valid(parent):
+		return
+		
+	var owner_data :PlayerData = PlayerData.new()
+	owner_data.from_dictionary(_owner)
+	owner_data.player_name = owner_data.player_name + "'s Party"
+	
+	var is_local_payer_is_owner :bool = (owner_data.player_id == NetworkLobbyManager.get_id())
+	
+	var fox = fox_scene.instance()
+	fox.player = owner_data
+	fox.name = _node_name
+	fox.speed = 2
+	fox.hp = 25
+	fox.max_hp = 25
+	fox.enable_name_tag = not is_local_payer_is_owner
+	fox.enable_damage = true
+	fox.set_network_master(owner_data.player_id)
+	parent.add_child(fox)
+	fox.translation = _at
+	
+	if is_local_payer_is_owner:
+		var ai = preload("res://assets/mob-ai/mob_ai.tscn").instance()
+		ai.enable_manual_turning = false
+		ai.connect("on_unit_dead", self, "on_ally_unit_dead")
+		fox.add_child(ai)
+		
+		ally_spawned(ai)
+		
+func ally_spawned(ai :MobAi):
+	pass
+	
+func on_ally_unit_dead(_ai :MobAi, _ais_unit :BaseUnit):
+	rpc("_despawn_ally", _ais_unit.get_path())
+	
+remotesync func _despawn_ally(_ally_unit_path :NodePath):
+	var _ally_unit :BaseUnit = get_node_or_null(_ally_unit_path)
+	if not is_instance_valid(_ally_unit):
+		return
+		
+	_ally_unit.queue_free()
 	
 ################################################################
 # exit
