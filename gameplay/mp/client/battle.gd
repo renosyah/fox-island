@@ -19,7 +19,7 @@ func _process(delta):
 		_unit.camera_basis = _camera.get_camera_basis()
 		
 	_ui.set_action_enable(_unit.can_attack, _unit.can_roll)
-	_ui.show_call_ally_button(allies_ai.size() < 3)
+	_ui.show_call_ally_button(allies_ai.size() <= 3)
 	
 	if _unit.is_dead:
 		return
@@ -29,7 +29,7 @@ func _process(delta):
 			i.move_to = _unit.global_transform.origin + _unit.get_velocity() * 6
 	else:
 		var aiming_data :CameraAimingData = _camera.get_camera_aiming_at(
-		_ui.get_crosshair_position()
+			_ui.get_crosshair_position()
 		)
 		if aiming_data.distance < 100:
 			for i in allies_ai:

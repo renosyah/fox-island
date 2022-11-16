@@ -1,5 +1,7 @@
 extends CustomTouchButton
 
+signal button_ready
+
 export var colldown_time :float = 1.0
 export var icon_button :Texture
 onready var cooldown_timer = $cooldown
@@ -30,3 +32,6 @@ func validate_press(delta):
 		
 	texture_progress.value = cooldown_timer.time_left
 	modulate.a = 1 if enable_button else 0.5
+	
+func _on_cooldown_timeout():
+	emit_signal("button_ready")

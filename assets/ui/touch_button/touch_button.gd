@@ -43,4 +43,4 @@ func validate_press(delta):
 func _is_point_inside_area(point: Vector2) -> bool:
 	var x: bool = point.x >= rect_global_position.x and point.x <= rect_global_position.x + (rect_size.x * get_global_transform_with_canvas().get_scale().x)
 	var y: bool = point.y >= rect_global_position.y and point.y <= rect_global_position.y + (rect_size.y * get_global_transform_with_canvas().get_scale().y)
-	return x and y
+	return x and y and visible
