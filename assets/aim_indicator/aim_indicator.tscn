@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/aim_indicator/aim_indicator.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=12]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+vertex_color_use_as_albedo = true
+
+[sub_resource type="CubeMesh" id=11]
+material = SubResource( 12 )
+size = Vector3( 0.1, 0.4, 0.1 )
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0.0376569, 0.929545 ), 0.0, 0.0, 0, 0, Vector2( 0.982044, 0.156442 ), -1.58776, 0.0, 0, 0 ]
+
+[node name="aim_indicator" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="trail" type="CPUParticles" parent="."]
+amount = 4
+mesh = SubResource( 11 )
+emission_shape = 5
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_height = 1.0
+emission_ring_axis = Vector3( 0, 0, 1 )
+gravity = Vector3( 0, 4, 0 )
+scale_amount_curve = SubResource( 10 )

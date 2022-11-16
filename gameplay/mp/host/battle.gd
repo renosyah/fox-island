@@ -3,7 +3,9 @@ extends BaseGameplay
 onready var players_holder = $players
 onready var enemy_holder = $enemies
 
+onready var aim_indicator = $aim_indicator
 onready var ally_holder = $allies
+
 var allies_ai :Array = []
 var mode_follow :bool = true
 
@@ -38,9 +40,16 @@ func _process(delta):
 		var aiming_data :CameraAimingData = _camera.get_camera_aiming_at(
 			_ui.get_crosshair_position()
 		)
-		if aiming_data.distance < 100:
-			for i in allies_ai:
-				i.move_to = aiming_data.position
+		var is_in_range :bool = aiming_data.distance < 50
+		aim_indicator.show_aim_at(
+			aiming_data.position, is_in_range, delta
+		)
+		
+		if not is_in_range:
+			return
+			
+		for i in allies_ai:
+			i.move_to = aiming_data.position
 		
 		
 func all_player_ready():
@@ -86,10 +95,12 @@ func on_ally_unit_dead(_ai :MobAi, _ais_unit :BaseUnit):
 	
 func on_command_ally():
 	.on_command_ally()
+	aim_indicator.visible = true
 	mode_follow = false
 	
 func on_command_follow():
 	.on_command_follow()
+	aim_indicator.visible = false
 	mode_follow = true
 	
 func get_player_as_target() ->NodePath:
