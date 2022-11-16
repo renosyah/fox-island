@@ -287,6 +287,15 @@ func on_exit_game_session():
 	Network.disconnect_from_server()
 	
 ################################################################
+# utils code
+func get_rand_pos(from :Vector3) -> Vector3:
+	var angle := rand_range(0, TAU)
+	var distance := rand_range(4, 6)
+	var posv2 = polar2cartesian(distance, angle)
+	var posv3 = from + Vector3(posv2.x, 2.0, posv2.y)
+	return posv3
+	
+################################################################
 # network utils code
 func is_server():
 	if not is_network_on():

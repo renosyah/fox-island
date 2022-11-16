@@ -70,7 +70,7 @@ func on_call_ally():
 	.on_call_ally()
 	var node_name :String = GDUUID.v4()
 	var parent :NodePath = ally_holder.get_path()
-	var spawn_pos :Vector3 = _map.get_recomended_spawn_position()
+	var spawn_pos :Vector3 = .get_rand_pos(_unit.transform.origin)
 	.spawn_ally(_unit.player, node_name, parent, spawn_pos)
 	
 func ally_spawned(ai :MobAi):
