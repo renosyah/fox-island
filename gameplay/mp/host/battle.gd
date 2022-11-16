@@ -38,7 +38,9 @@ func _process(delta):
 			i.move_to = _unit.global_transform.origin + _unit.get_velocity() * 6
 	else:
 		var aiming_data :CameraAimingData = _camera.get_camera_aiming_at(
-			_ui.get_crosshair_position()
+			_ui.get_crosshair_position(),
+			players_holder.get_children() + 
+			ally_holder.get_children()
 		)
 		var is_in_range :bool = aiming_data.distance < 50
 		aim_indicator.show_aim_at(

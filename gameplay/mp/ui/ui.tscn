@@ -174,6 +174,7 @@ size_flags_vertical = 3
 [node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = 12.0
 mouse_filter = 0
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
@@ -210,7 +211,7 @@ rect_min_size = Vector2( 0, 10 )
 [node name="MarginContainer4" type="HBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
 margin_top = 92.0
 margin_right = 510.0
-margin_bottom = 340.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 0, 10 )
 mouse_filter = 2
 size_flags_vertical = 3
@@ -219,7 +220,7 @@ alignment = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4"]
 margin_left = 416.0
 margin_right = 496.0
-margin_bottom = 248.0
+margin_bottom = 164.0
 
 [node name="call" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer" instance=ExtResource( 10 )]
 margin_right = 80.0
@@ -230,10 +231,11 @@ size_flags_horizontal = 4
 __meta__ = {
 "_editor_description_": ""
 }
-colldown_time = 45.0
+colldown_time = 25.0
 icon_button = ExtResource( 18 )
 
 [node name="follow" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer"]
+visible = false
 margin_top = 84.0
 margin_right = 80.0
 margin_bottom = 164.0
@@ -247,9 +249,9 @@ texture = ExtResource( 19 )
 expand = true
 
 [node name="command" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer"]
-margin_top = 168.0
+margin_top = 84.0
 margin_right = 80.0
-margin_bottom = 248.0
+margin_bottom = 164.0
 rect_min_size = Vector2( 80, 80 )
 flat = true
 
@@ -262,13 +264,13 @@ expand = true
 [node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4"]
 margin_left = 500.0
 margin_right = 510.0
-margin_bottom = 248.0
+margin_bottom = 164.0
 rect_min_size = Vector2( 10, 0 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_top = 344.0
+margin_top = 260.0
 margin_right = 510.0
-margin_bottom = 592.0
+margin_bottom = 508.0
 mouse_filter = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer"]
@@ -352,9 +354,9 @@ margin_bottom = 248.0
 rect_min_size = Vector2( 80, 0 )
 
 [node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_top = 596.0
+margin_top = 512.0
 margin_right = 510.0
-margin_bottom = 696.0
+margin_bottom = 612.0
 rect_min_size = Vector2( 0, 100 )
 
 [node name="deadscreen" type="VBoxContainer" parent="CanvasLayer"]

@@ -15,6 +15,7 @@ onready var foxs_ai = [
 
 var target :BaseUnit
 var is_server :bool = false
+var enemy_level :int = 1
 
 func set_spawn_position(spawn_pos :Vector3):
 	if not is_instance_valid(target):
@@ -33,6 +34,8 @@ func set_spawn_position(spawn_pos :Vector3):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for fox in foxs:
+		fox.max_hp = fox.max_hp * enemy_level
+		fox.hp = fox.max_hp
 		fox.player.player_team = 2
 		fox.set_network_master(Network.PLAYER_HOST_ID)
 		fox.set_process(false)

@@ -207,6 +207,7 @@ remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vect
 	enemy.name = _name
 	enemy.target = target
 	enemy.is_server = is_server()
+	enemy.enemy_level = _day_night_dome.day_passed + 1
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
 	
@@ -229,6 +230,7 @@ remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vect
 	enemy.name = _name
 	enemy.target = target
 	enemy.is_server = is_server()
+	enemy.enemy_level = _day_night_dome.day_passed + 1
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
 	
