@@ -5,6 +5,7 @@ onready var enemy_holder = $enemies
 
 onready var aim_indicator = $aim_indicator
 onready var ally_holder = $allies
+onready var unit_spotter = $unit_spotter
 
 var allies_ai :Array = []
 var mode_follow :bool = true
@@ -15,6 +16,8 @@ onready var enemy_target_update_timer = $enemy_target_update_timer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	.init_characters(players_holder)
+	unit_spotter.enemy_teams = [2]
+	unit_spotter.ignores = [_map]
 	
 	enemy_spawner_timer.connect("timeout", self, "on_enemy_spawner_timer_timeout")
 	enemy_target_update_timer.connect("timeout", self, "on_enemy_target_update_timer_timeout")
@@ -34,17 +37,22 @@ func _process(delta):
 		return
 		
 	if mode_follow:
+		var player_pos :Vector3 = _unit.global_transform.origin + _unit.get_velocity() * 6
+		unit_spotter.translation = player_pos
+		
+		var target :BaseUnit = unit_spotter.get_target()
+		
 		for i in allies_ai:
-			i.move_to = _unit.global_transform.origin + _unit.get_velocity() * 6
+			i.move_to = target.global_transform.origin if target != null else player_pos
 	else:
 		var aiming_data :CameraAimingData = _camera.get_camera_aiming_at(
 			_ui.get_crosshair_position(),
 			players_holder.get_children() + 
 			ally_holder.get_children()
 		)
-		var is_in_range :bool = aiming_data.distance < 50
+		var is_in_range :bool = aiming_data.distance < 25
 		aim_indicator.show_aim_at(
-			aiming_data.position, is_in_range, delta
+			aiming_data, is_in_range
 		)
 		
 		if not is_in_range:

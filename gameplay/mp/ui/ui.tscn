@@ -294,6 +294,7 @@ size_flags_horizontal = 4
 __meta__ = {
 "_editor_description_": ""
 }
+colldown_time = 0.4
 icon_button = ExtResource( 8 )
 
 [node name="MarginContainer3" type="HBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer"]
@@ -311,7 +312,7 @@ size_flags_horizontal = 4
 __meta__ = {
 "_editor_description_": ""
 }
-colldown_time = 2.0
+colldown_time = 1.7
 icon_button = ExtResource( 11 )
 
 [node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3"]
@@ -330,7 +331,7 @@ size_flags_horizontal = 4
 __meta__ = {
 "_editor_description_": ""
 }
-colldown_time = 3.0
+colldown_time = 1.6
 icon_button = ExtResource( 12 )
 
 [node name="jump" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
@@ -344,7 +345,7 @@ size_flags_horizontal = 4
 __meta__ = {
 "_editor_description_": ""
 }
-colldown_time = 2.0
+colldown_time = 1.2
 icon_button = ExtResource( 13 )
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer"]
