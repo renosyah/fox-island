@@ -293,9 +293,16 @@ func _on_attack_area_body_entered(body):
 		targets.append(body)
 		
 	elif body is BaseUnit:
+		
+		if body.player.player_team == player.player_team:
+			return
+			
 		targets.append(body)
 		
 func _on_attack_area_body_exited(body):
+	if not body in targets:
+		return
+		
 	targets.erase(body)
 	
 func _update_hp_bar(_hp, _max_hp :int):

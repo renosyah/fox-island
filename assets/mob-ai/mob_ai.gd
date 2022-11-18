@@ -48,41 +48,14 @@ func _process(delta):
 	_pivot.translation = global_transform.origin
 	
 func _check_target() -> bool:
-	var is_enemy_in_range :bool = false
-	
 	if not _attack_delay_timer.is_stopped():
-		is_enemy_in_range = true
-		return is_enemy_in_range
+		return true
 	
 	if _unit.targets.empty():
-		return is_enemy_in_range
-		
-	var unit_team :int = _unit.player.player_team
-	
-	for target in _unit.targets:
-		if _is_enemy_unit(unit_team, target) or _is_obstacle(target):
-			is_enemy_in_range = true
-			break
-			
-	if is_enemy_in_range:
-		_unit_perform_attack()
-		_attack_delay_timer.start()
-		
-	return is_enemy_in_range
-	
-func _is_obstacle(target):
-	if target is MineableResource:
-		return true
-		
-	return false
-	
-func _is_enemy_unit(unit_team :int, target) -> bool:
-	if not target is BaseEntity:
 		return false
 		
-	if target.player.player_team == unit_team:
-		return false
-		
+	_unit_perform_attack()
+	_attack_delay_timer.start()
 	return true
 	
 func _is_arrive() -> bool:

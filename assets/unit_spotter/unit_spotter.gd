@@ -31,4 +31,7 @@ func _on_Area_body_entered(body):
 	
 	
 func _on_Area_body_exited(body):
+	if not body in targets:
+		return
+		
 	targets.erase(body)
