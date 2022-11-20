@@ -4,6 +4,7 @@ class_name BaseMap
 const land_shader = preload("res://map/shadermaterial.tres")
 const water_shader = preload("res://map/water_shadermaterial.tres")
 
+signal on_created_inland_position(inland_positions)
 signal on_generating_map(message, progress, max_progress)
 signal on_generate_map_completed
 
@@ -24,6 +25,7 @@ var recomended_spawn_pos :Vector3 = Vector3.ZERO
 var water :MeshInstance
 var land_mesh :MeshInstance
 var collision :CollisionShape
+var inland_positions :Array = []
 
 onready var _land_shader :ShaderMaterial = land_shader
 onready var _water_shader :ShaderMaterial = water_shader
@@ -46,9 +48,14 @@ func _ready():
 	_land_shader.set_shader_param("sand_color", map_sand_color)
 	_water_shader.set_shader_param("out_color", map_water_color)
 	
+	connect("on_created_inland_position", self, "_on_created_inland_position")
+	
+func _on_created_inland_position(pos):
+	inland_positions = pos
+	
 func get_recomended_spawn_position() -> Vector3:
 	var spawn_pos = get_rand_pos(recomended_spawn_pos)
-	spawn_pos.y += 6
+	spawn_pos.y += 3
 	return spawn_pos
 		
 func get_water_height():
@@ -70,8 +77,10 @@ func _generate_map():
 	
 	var lands = _create_land(noise)
 	land_mesh = lands[0]
-	var inland_positions = lands[1]
+	var _inland_positions = lands[1]
 	add_child(land_mesh)
+	
+	emit_signal("on_created_inland_position", _inland_positions)
 	
 	land_mesh.cast_shadow = false
 	land_mesh.generate_lightmap = false
@@ -90,11 +99,8 @@ func _generate_map():
 	var grass = _generate_grass(land_mesh.mesh)
 	add_child(grass)
 	
-	translation.y = 3.0
-	
-	
 	var stuff_pos = 1
-	var stuffs = _create_spawn_stuff(inland_positions)
+	var stuffs = _create_spawn_stuff(_inland_positions)
 	for stuff in stuffs:
 		emit_signal("on_generating_map", GENERATING_RESOURCE, stuff_pos, stuffs.size())
 		stuff.set_network_master(Network.PLAYER_HOST_ID)
@@ -123,6 +129,8 @@ func _create_spawn_stuff(inland_positions :Array) -> Array:
 		preload("res://entity/resources/tree/tree_2/tree.tscn"),
 		preload("res://entity/resources/tree/tree_3/tree.tscn"),
 		preload("res://entity/resources/tree/tree_4/tree.tscn"),
+		
+		
 	]
 	
 	var trimed_inland_positions = _trim_array(inland_positions, 20)

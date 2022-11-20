@@ -49,7 +49,6 @@ func on_generate_map_completed():
 func on_generating_map(message :String, progress, max_progress :int):
 	_ui.loading_message(message, progress, max_progress)
 	
-	
 ################################################################
 # ui
 var _ui :BaseUi
@@ -87,7 +86,7 @@ func on_command_ally():
 
 func on_command_follow():
 	pass # Replace with function body.
-
+	
 
 func on_respawn_press():
 	_unit.reset()
@@ -234,6 +233,28 @@ remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vect
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
 	
+# outpost
+func spawn_outpost(_outpost_parent :NodePath):
+	var parent :Node = get_node_or_null(_outpost_parent)
+	if not is_instance_valid(parent):
+		return
+		
+	var rng = RandomNumberGenerator.new()
+	rng.seed = NetworkLobbyManager.argument["seed"]
+	
+	var outpost_count = rng.randi_range(2, 4)
+	for i in range(outpost_count):
+		var outpos = preload("res://entity/fox-outpost-spawner/fox_outpost_spawner.tscn").instance()
+		outpos.is_server = is_server()
+		outpos.name = "outpost-" + str(i)
+		outpos.connect("on_outpost_destroyed", self, "on_outpost_destroyed")
+		parent.add_child(outpos)
+		outpos.translation = _map.inland_positions[
+			rng.randi_range(0 ,_map.inland_positions.size() - 1)
+		]
+	
+func on_outpost_destroyed():
+	pass
 	
 # ally
 func spawn_ally(_owner: PlayerData, _node_name :String, _parent :NodePath, _at :Vector3):

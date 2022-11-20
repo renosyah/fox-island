@@ -4,6 +4,7 @@ class_name MineableResource
 signal on_destroyed(_resources)
 signal on_take_damage(_resources, _damage)
 
+export var team :int = 0
 export var is_dead :bool = false
 export var hp : int = 100
 export var max_hp : int = 100

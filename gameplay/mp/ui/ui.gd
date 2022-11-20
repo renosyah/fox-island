@@ -24,7 +24,9 @@ onready var player_name = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBo
 onready var control = $CanvasLayer/Control
 onready var loading = $CanvasLayer/loading
 onready var deadscreen = $CanvasLayer/deadscreen
+onready var winscreen = $CanvasLayer/winscreen
 onready var menu = $CanvasLayer/menu
+
 
 onready var fast_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack
 onready var heavy_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack
@@ -33,6 +35,11 @@ onready var dodge = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VB
 onready var follow = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow
 onready var command = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command
 onready var call = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/call
+
+onready var mission_info = $CanvasLayer/VBoxContainer
+onready var mission_info_label = $CanvasLayer/VBoxContainer/Label2
+
+onready var tween = $Tween
 
 func _ready():
 	control.visible = true
@@ -58,12 +65,24 @@ func set_action_enable(can_attack, can_roll :bool):
 func show_call_ally_button(_show :bool):
 	call.visible = _show
 	
+func update_mission_info(outpost_count :int):
+	if outpost_count == 0:
+		show_winscreen()
+		return
+		
+	mission_info_label.text = str(outpost_count) + " Remaining"
+	_on_show_mission_pressed()
+	
 func set_player_name(_name :String):
 	player_name.text = _name
 	
 func show_deadscreen():
 	control.visible = false
 	deadscreen.visible = true
+	
+func show_winscreen():
+	control.visible = false
+	winscreen.visible = true
 	
 func update_bar(hp, max_hp : int):
 	hp_bar.update_bar(hp, max_hp)
@@ -125,3 +144,9 @@ func _on_follow_pressed():
 	command.visible = true
 	emit_signal("on_command_follow")
 	
+func _on_show_mission_pressed():
+	tween.interpolate_property(mission_info, "modulate:a", 1.0, 0.0, 4.5, Tween.TRANS_SINE)
+	tween.start()
+	
+func _on_win_exit_pressed():
+	emit_signal("on_exit")

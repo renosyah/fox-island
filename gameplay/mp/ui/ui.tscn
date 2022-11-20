@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://addons/joystick/virtual_joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://gameplay/mp/ui/ui.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://assets/ui/icon/call_allies.png" type="Texture" id=18]
 [ext_resource path="res://assets/ui/icon/follow_me.png" type="Texture" id=19]
 [ext_resource path="res://assets/ui/icon/command.png" type="Texture" id=20]
+[ext_resource path="res://assets/ui/icon/checkbox_uncheck.png" type="Texture" id=22]
 
 [node name="ui" type="Control"]
 anchor_right = 1.0
@@ -187,6 +188,24 @@ margin_top = 14.0
 margin_right = 510.0
 margin_bottom = 74.0
 alignment = 2
+
+[node name="show_mission" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 278.0
+margin_right = 378.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
+custom_fonts/font = ExtResource( 6 )
+text = "i"
+icon = ExtResource( 22 )
+flat = true
+icon_align = 1
+expand_icon = true
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 382.0
+margin_right = 392.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 10, 0 )
 
 [node name="menu" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2"]
 margin_left = 396.0
@@ -360,6 +379,34 @@ margin_right = 510.0
 margin_bottom = 612.0
 rect_min_size = Vector2( 0, 100 )
 
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -200.5
+margin_right = 200.5
+margin_bottom = 100.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
+margin_right = 408.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_top = 84.0
+margin_right = 408.0
+margin_bottom = 124.0
+custom_fonts/font = ExtResource( 3 )
+text = "Destroy Enemy Outpost"
+align = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/VBoxContainer"]
+margin_top = 128.0
+margin_right = 408.0
+margin_bottom = 156.0
+custom_fonts/font = ExtResource( 6 )
+text = "4 remaining"
+align = 1
+
 [node name="deadscreen" type="VBoxContainer" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
@@ -413,6 +460,59 @@ margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 3
 
+[node name="winscreen" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/winscreen"]
+margin_right = 1024.0
+margin_bottom = 171.0
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/winscreen"]
+margin_top = 175.0
+margin_right = 1024.0
+margin_bottom = 425.0
+rect_min_size = Vector2( 0, 250 )
+color = Color( 0, 0, 0, 0.882353 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/winscreen/ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/winscreen/ColorRect/VBoxContainer"]
+margin_top = 41.0
+margin_right = 1024.0
+margin_bottom = 101.0
+custom_fonts/font = ExtResource( 14 )
+text = "You Win"
+align = 1
+valign = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/winscreen/ColorRect/VBoxContainer"]
+margin_top = 105.0
+margin_right = 1024.0
+margin_bottom = 125.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="win_exit" type="Button" parent="CanvasLayer/winscreen/ColorRect/VBoxContainer"]
+margin_left = 437.0
+margin_top = 129.0
+margin_right = 587.0
+margin_bottom = 209.0
+rect_min_size = Vector2( 150, 80 )
+size_flags_horizontal = 4
+custom_fonts/font = ExtResource( 3 )
+text = " Exit "
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/winscreen"]
+margin_top = 429.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+
 [node name="menu" parent="CanvasLayer" instance=ExtResource( 15 )]
 visible = false
 
@@ -449,6 +549,9 @@ margin_bottom = 361.0
 rect_min_size = Vector2( 400, 50 )
 size_flags_horizontal = 4
 
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="pressed" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2/show_mission" to="." method="_on_show_mission_pressed"]
 [connection signal="pressed" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2/menu" to="." method="_on_menu_pressed"]
 [connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/call" to="." method="_on_call_on_press"]
 [connection signal="pressed" from="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow" to="." method="_on_follow_pressed"]
@@ -458,4 +561,5 @@ size_flags_horizontal = 4
 [connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack" to="." method="_on_heavy_attack_on_press"]
 [connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/jump" to="." method="_on_jump_on_press"]
 [connection signal="pressed" from="CanvasLayer/deadscreen/ColorRect/VBoxContainer/respawn" to="." method="_on_respawn_pressed"]
+[connection signal="pressed" from="CanvasLayer/winscreen/ColorRect/VBoxContainer/win_exit" to="." method="_on_win_exit_pressed"]
 [connection signal="on_main_menu_press" from="CanvasLayer/menu" to="." method="_on_menu_on_main_menu_press"]

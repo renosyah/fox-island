@@ -13,6 +13,8 @@ script = ExtResource( 2 )
 
 [node name="allies" type="Node" parent="."]
 
+[node name="outpost" type="Node" parent="."]
+
 [node name="enemy_spawner_timer" type="Timer" parent="."]
 wait_time = 15.0
 one_shot = true

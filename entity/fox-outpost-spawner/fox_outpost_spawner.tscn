@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://entity/structure/static-structure/outpost/outpost.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/unit_spotter/unit_spotter.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entity/fox-outpost-spawner/fox_outpost_spawner.gd" type="Script" id=3]
+
+[node name="fox_outpost_spawner" type="Spatial"]
+script = ExtResource( 3 )
+
+[node name="unit_holder" type="Node" parent="."]
+
+[node name="unit_spotter" parent="." instance=ExtResource( 2 )]
+
+[node name="outpost" parent="." instance=ExtResource( 1 )]
+team = 2
+hp = 1000
+max_hp = 1000
+
+[node name="spawn_delay" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="on_destroyed" from="outpost" to="." method="_on_outpost_on_destroyed"]
+[connection signal="timeout" from="spawn_delay" to="." method="_on_spawn_delay_timeout"]

@@ -2,6 +2,7 @@ extends BaseGameplay
 
 onready var players_holder = $players
 onready var enemy_holder = $enemies
+onready var outpost_holder = $outpost
 
 onready var aim_indicator = $aim_indicator
 onready var ally_holder = $allies
@@ -9,6 +10,7 @@ onready var unit_spotter = $unit_spotter
 
 var allies_ai :Array = []
 var mode_follow :bool = true
+var outpost_remaining :int = 0
 
 onready var enemy_spawner_timer = $enemy_spawner_timer
 onready var enemy_target_update_timer = $enemy_target_update_timer
@@ -66,8 +68,18 @@ func all_player_ready():
 	.all_player_ready()
 	_unit.is_dead = false
 	_unit.translation = _map.get_recomended_spawn_position()
+	
+	.spawn_outpost(outpost_holder.get_path())
+	outpost_remaining = outpost_holder.get_child_count()
+	_ui.update_mission_info(outpost_remaining)
+	
 	enemy_spawner_timer.start()
 	enemy_target_update_timer.start()
+	
+func on_outpost_destroyed():
+	.on_outpost_destroyed()
+	outpost_remaining -= 1
+	_ui.update_mission_info(outpost_remaining)
 	
 func on_jump_on_press():
 	.on_jump_on_press()

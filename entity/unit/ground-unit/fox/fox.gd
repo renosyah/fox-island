@@ -290,6 +290,9 @@ func _on_attack_area_body_entered(body):
 		return
 	
 	if body is MineableResource:
+		if body.team == player.player_team:
+			return
+		
 		targets.append(body)
 		
 	elif body is BaseUnit:
