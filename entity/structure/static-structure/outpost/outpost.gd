@@ -3,6 +3,7 @@ export var mesh_model :Mesh
 
 onready var collision = $CollisionShape
 onready var mesh = $MeshInstance
+onready var omni_light = $OmniLight
 
 var tween :Tween
 var hp_bar :HpBar3D
@@ -13,6 +14,16 @@ var hit_particle :CPUParticles
 var _mine_sound = preload("res://entity/resources/sound/mine_wood.wav")
 var _hit_particle :HitParticle
 
+remotesync func _heal(_hp_left, _hp_added : int) -> void:
+	._heal(_hp_left, _hp_added)
+	hp_bar.update_bar(_hp_left, max_hp)
+	
+	if hp == max_hp:
+		return
+	
+	tween.interpolate_property(hp_bar, "modulate:a", 1, 0, 4)
+	tween.start()
+	
 remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	._take_damage(_hp_left, _damage)
 	hp_bar.update_bar(_hp_left, max_hp)
@@ -45,7 +56,6 @@ remotesync func _reset() -> void:
 	
 	tween.interpolate_property(mesh, "scale", Vector3.ZERO, Vector3.ONE, 2.0)
 	tween.start()
-	
 	
 func set_visible(_show :bool):
 	collision.set_deferred("disabled", not _show)
@@ -106,8 +116,9 @@ func _ready():
 	_hit_particle = preload("res://assets/hit_particle/hit_particle.tscn").instance()
 	add_child(_hit_particle)
 	_hit_particle.set_as_toplevel(true)
-
-
+	
+func enable_light(_enable :bool):
+	omni_light.visible = _enable
 
 
 

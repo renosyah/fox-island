@@ -115,4 +115,16 @@ func on_command_follow():
 	aim_indicator.visible = false
 	mode_follow = true
 	
+func on_morning():
+	.on_morning()
+	for outpost in outpost_holder.get_children():
+		outpost.outpost_light(false)
+	
+func on_night():
+	.on_night()
+	for outpost in outpost_holder.get_children():
+		outpost.outpost_light(true)
+	
+	
+	
 

@@ -19,5 +19,9 @@ max_hp = 1000
 [node name="spawn_delay" type="Timer" parent="."]
 one_shot = true
 
+[node name="repair_delay" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="on_destroyed" from="outpost" to="." method="_on_outpost_on_destroyed"]
 [connection signal="timeout" from="spawn_delay" to="." method="_on_spawn_delay_timeout"]
+[connection signal="timeout" from="repair_delay" to="." method="_on_repair_delay_timeout"]

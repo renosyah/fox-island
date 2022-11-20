@@ -4,6 +4,7 @@ class_name MineableResource
 signal on_destroyed(_resources)
 signal on_take_damage(_resources, _damage)
 
+export var enable_damage :bool = true
 export var team :int = 0
 export var is_dead :bool = false
 export var hp : int = 100
@@ -12,6 +13,12 @@ export var max_hp : int = 100
 export var reset_delay : int = 60
 
 ############################################################
+remotesync func _heal(_hp_left, _hp_added : int) -> void:
+	if is_dead:
+		return
+		
+	hp = _hp_left
+	
 remotesync func _take_damage(_hp_left, _damage : int) -> void:
 	if is_dead:
 		return
@@ -45,8 +52,22 @@ func _ready():
 		add_child(_reset_timer)
 		_reset_timer.connect("timeout", self, "reset")
 	
+func heal(_hp_added : int) -> void:
+	if is_dead:
+		return
+		
+	if hp + _hp_added > max_hp:
+		hp = max_hp
+	else:
+		hp += _hp_added
+	
+	rpc("_heal", hp, _hp_added)
+	
 func take_damage(_damage : int, hit_by_player :PlayerData) -> void:
 	if is_dead:
+		return
+		
+	if not enable_damage:
 		return
 		
 	hp -= _damage
