@@ -322,13 +322,9 @@ func get_attack_damage() -> int:
 		attack_damage - quarter_atk, 
 		attack_damage + quarter_atk
 	))
-
-
-
-
-
-
-
-
-
-
+	
+func _on_VisibilityNotifier_camera_entered(camera):
+	visible = true
+	
+func _on_VisibilityNotifier_camera_exited(camera):
+	visible = false

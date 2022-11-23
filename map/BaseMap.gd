@@ -129,11 +129,9 @@ func _create_spawn_stuff(inland_positions :Array) -> Array:
 		preload("res://entity/resources/tree/tree_2/tree.tscn"),
 		preload("res://entity/resources/tree/tree_3/tree.tscn"),
 		preload("res://entity/resources/tree/tree_4/tree.tscn"),
-		
-		
 	]
 	
-	var trimed_inland_positions = _trim_array(inland_positions, 20)
+	var trimed_inland_positions = _trim_array(inland_positions, 32)
 	
 	for pos in trimed_inland_positions:
 		if pos.y > recomended_spawn_pos.y:

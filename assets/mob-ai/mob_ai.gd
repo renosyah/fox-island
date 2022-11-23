@@ -70,8 +70,8 @@ func _see_destination(_is_arrive :bool, delta :float):
 		
 	var unit_y :float = _unit.global_transform.origin.y
 	var destination :Vector3 = Vector3(move_to.x, unit_y, move_to.z)
-	var _new_transform = _pivot.transform.looking_at(destination, Vector3.UP)
-	_pivot.transform = _pivot.transform.interpolate_with(_new_transform, 5 * delta)
+	var new_transform :Transform = _pivot.transform.looking_at(destination, Vector3.UP)
+	_pivot.transform = _pivot.transform.interpolate_with(new_transform, 5 * delta)
 	_pivot.rotation_degrees.y = wrapf(_pivot.rotation_degrees.y, 0.0, 360.0)
 	_pivot.rotation_degrees.x = clamp(_pivot.rotation_degrees.x, -60, 40)
 	

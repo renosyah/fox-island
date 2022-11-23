@@ -64,7 +64,6 @@ func master_moving(delta :float) -> void:
 		
 	_accelerate(delta)
 	_velocity = move_and_slide_with_snap(_velocity, _snap, _up_direction, _stop_on_slope, 4, _floor_max_angle)
-	_velocity.y = lerp(_velocity.y, 0.0, 5 * delta)
 	
 	
 ############################################################
