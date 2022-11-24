@@ -18,7 +18,8 @@ script = ExtResource( 2 )
 [node name="OmniLight" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.78108, 0 )
 light_color = Color( 1, 0.654902, 0, 1 )
-light_energy = 2.0
+light_bake_mode = 0
+omni_range = 12.0
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = ExtResource( 1 )

@@ -252,6 +252,7 @@ func roll():
 		
 	if is_on_floor():
 		_velocity = _velocity * 4.0
+		_velocity.y = 0.0
 		rpc("_roll")
 	
 func _walk():
