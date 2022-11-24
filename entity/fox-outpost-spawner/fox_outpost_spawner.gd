@@ -11,6 +11,7 @@ export var repair_delay :float = 8
 export var is_server :bool = false
 
 var ai_mobs :Array = []
+var fox_level :int = 1
 
 onready var outpost = $outpost
 onready var unit_spotter = $unit_spotter
@@ -61,7 +62,7 @@ func _on_spawn_delay_timeout():
 	if unit_holder.get_child_count() > 2:
 		return
 	
-	rpc("_spawn", GDUUID.v4(), get_spawn_pos())
+	rpc("_spawn", GDUUID.v4(), get_spawn_pos(), fox_level)
 	
 func _on_repair_delay_timeout():
 	repair_delay_timer.wait_time = repair_delay
@@ -72,15 +73,15 @@ func _on_repair_delay_timeout():
 	
 	outpost.heal(25)
 	
-remotesync func _spawn(_name :String, _at :Vector3):
+remotesync func _spawn(_name :String, _at :Vector3, level :int):
 	var fox = fox_scene.instance()
 	fox.player = PlayerData.new()
 	fox.player.player_team = 2
 	fox.name = _name
 	fox.hood_texture = red_hood
 	fox.attack_damage = 5
-	fox.hp = 100
-	fox.max_hp = 100
+	fox.hp = 100 * level
+	fox.max_hp = 100 * level
 	fox.set_network_master(Network.PLAYER_HOST_ID)
 	unit_holder.add_child(fox)
 	fox.set_as_toplevel(true)
@@ -102,6 +103,8 @@ remotesync func _despawn(_unit :NodePath):
 func _on_unit_dead(ai :MobAi, unit :BaseUnit):
 	if not ai in ai_mobs:
 		return
+		
+	fox_level += 1 if fox_level < 6 else 0
 		
 	set_process(false)
 	ai_mobs.erase(ai)
