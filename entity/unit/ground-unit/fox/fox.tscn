@@ -1,8 +1,9 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://entity/unit/ground-unit/fox/fox.gd" type="Script" id=1]
 [ext_resource path="res://entity/unit/ground-unit/fox/Material_008.material" type="Material" id=2]
 [ext_resource path="res://entity/unit/ground-unit/fox/Material.material" type="Material" id=3]
+[ext_resource path="res://assets/hit_particle/hit_particle.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape" id=31]
 radius = 0.510258
@@ -2432,6 +2433,7 @@ autostart = true
 
 [node name="attack_area" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.644007, -0.936942 )
+collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="attack_area"]
@@ -2445,6 +2447,10 @@ one_shot = true
 [node name="VisibilityNotifier" type="VisibilityNotifier" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.783574, 0 )
 max_distance = 45.0
+
+[node name="hit_particle" parent="." instance=ExtResource( 4 )]
+
+[node name="Tween" type="Tween" parent="."]
 
 [connection signal="timeout" from="animation_checker" to="." method="_on_animation_checker_timeout"]
 [connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]

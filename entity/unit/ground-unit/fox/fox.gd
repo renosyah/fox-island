@@ -10,6 +10,8 @@ onready var _collision_shape = $CollisionShape
 onready var _animation_state = $pivot/AnimationTree.get("parameters/playback")
 onready var _audio_stream_player_3d = $AudioStreamPlayer3D
 onready var _pivot = $pivot
+onready var _hit_particle = $hit_particle
+onready var _tween = $Tween
 
 onready var _hood = $pivot/IdleDemo/Skeleton/Hood
 onready var _hand_001 = $pivot/IdleDemo/Skeleton/Hand001
@@ -22,8 +24,6 @@ var can_roll :bool = true
 
 var _hp_bar :HpBar3D
 var _name_tag :Message3D
-var _tween :Tween
-var _hit_particle :HitParticle
 
 onready var _walk_sound = preload("res://entity/unit/ground-unit/fox/sound/walk.wav")
 onready var _jump_sound = preload("res://entity/unit/ground-unit/fox/sound/jump.wav")
@@ -76,9 +76,7 @@ func _ready():
 	_hand.material_override = material
 	
 	_audio_stream_player_3d.unit_db = Global.sound_amplified
-	
-	_tween = Tween.new()
-	add_child(_tween)
+	_hit_particle.set_as_toplevel(true)
 	
 	var timer = Timer.new()
 	timer.wait_time = 0.1
@@ -103,9 +101,7 @@ func _ready():
 		_name_tag.set_message(player.player_name)
 		_name_tag.set_color(Color.white)
 		
-	_hit_particle = preload("res://assets/hit_particle/hit_particle.tscn").instance()
-	add_child(_hit_particle)
-	_hit_particle.set_as_toplevel(true)
+	
 	
 remotesync func _knock_back(_from_velocity :Vector3) -> void:
 	_velocity = _from_velocity
@@ -297,7 +293,6 @@ func _on_attack_area_body_entered(body):
 		targets.append(body)
 		
 	elif body is BaseUnit:
-		
 		if body.player.player_team == player.player_team:
 			return
 			
@@ -325,7 +320,13 @@ func get_attack_damage() -> int:
 	))
 	
 func _on_VisibilityNotifier_camera_entered(camera):
+	if is_dead:
+		return
+		
 	visible = true
 	
 func _on_VisibilityNotifier_camera_exited(camera):
+	if is_dead:
+		return
+		
 	visible = false
