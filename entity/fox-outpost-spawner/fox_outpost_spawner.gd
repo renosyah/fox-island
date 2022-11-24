@@ -79,6 +79,8 @@ remotesync func _spawn(_name :String, _at :Vector3):
 	fox.name = _name
 	fox.hood_texture = red_hood
 	fox.attack_damage = 5
+	fox.hp = 100
+	fox.max_hp = 100
 	fox.set_network_master(Network.PLAYER_HOST_ID)
 	unit_holder.add_child(fox)
 	fox.set_as_toplevel(true)

@@ -215,7 +215,7 @@ func heavy_attack():
 			
 		if target.has_method("knock_back"):
 			target.knock_back(
-				global_transform.basis.z * -18.0 + global_transform.basis.y * 12.0
+				global_transform.basis.z * -18.0 + global_transform.basis.y * 4.0
 			)
 	
 func knock_back(_from_velocity :Vector3) -> void:
@@ -233,7 +233,7 @@ func jump():
 		
 	if is_on_floor() and _enable_snap:
 		_enable_snap = false
-		_velocity.y += 10.0
+		_velocity.y += 6.0
 		_snap = Vector3.UP * _velocity.y
 		rpc("_jump")
 		

@@ -275,8 +275,9 @@ remotesync func _spawn_ally(_owner : Dictionary, _node_name :String, _parent :No
 	fox.player = owner_data
 	fox.name = _node_name
 	fox.speed = 2
-	fox.hp = 25
-	fox.max_hp = 25
+	fox.attack_damage = 5
+	fox.hp = 100
+	fox.max_hp = 100
 	fox.enable_name_tag = not is_local_payer_is_owner
 	fox.enable_damage = true
 	fox.set_network_master(owner_data.player_id)
