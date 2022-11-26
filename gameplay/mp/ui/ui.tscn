@@ -250,7 +250,7 @@ size_flags_horizontal = 4
 __meta__ = {
 "_editor_description_": ""
 }
-colldown_time = 25.0
+colldown_time = 15.0
 icon_button = ExtResource( 18 )
 
 [node name="follow" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer"]

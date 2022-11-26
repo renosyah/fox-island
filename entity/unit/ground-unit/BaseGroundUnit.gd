@@ -13,7 +13,7 @@ var _raycast :RayCast
 
 func _ready() -> void:
 	camera_basis = transform.basis
-	gravity_multiplier = 2.0
+	gravity_multiplier = 1.2
 	_gravity = (ProjectSettings.get_setting("physics/3d/default_gravity") * gravity_multiplier)
 	
 	_raycast = RayCast.new()

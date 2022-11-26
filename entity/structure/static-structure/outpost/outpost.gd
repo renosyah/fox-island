@@ -118,7 +118,12 @@ func _ready():
 	_hit_particle.set_as_toplevel(true)
 	
 func enable_light(_enable :bool):
-	omni_light.visible = _enable
+	if _enable:
+		tween.interpolate_property(omni_light, "light_energy", 0, 1, 2.4, Tween.TRANS_SINE)
+	else:
+		tween.interpolate_property(omni_light, "light_energy", 1, 0, 2.2, Tween.TRANS_SINE)
+		
+	tween.start()
 
 
 

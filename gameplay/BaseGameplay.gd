@@ -191,9 +191,13 @@ func spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target
 	if not is_server():
 		return
 		
-	rpc("_spawn_enemy_on_raft",_name, _parent, _at, _target)
+	var level :int = _day_night_dome.day_passed + 1
+	if level > 10:
+		level = 10
+		
+	rpc("_spawn_enemy_on_raft",_name, _parent, _at, _target, level)
 	
-remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
+remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath, level :int):
 	var parent :Node = get_node_or_null(_parent)
 	if not is_instance_valid(parent):
 		return
@@ -206,7 +210,7 @@ remotesync func _spawn_enemy_on_raft(_name :String, _parent :NodePath, _at :Vect
 	enemy.name = _name
 	enemy.target = target
 	enemy.is_server = is_server()
-	enemy.enemy_level = _day_night_dome.day_passed + 1
+	enemy.enemy_level = level
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
 	
@@ -214,9 +218,13 @@ func spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vector3, _target
 	if not is_server():
 		return
 		
-	rpc("_spawn_enemy_on_ship",_name, _parent, _at, _target)
-
-remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath):
+	var level :int = _day_night_dome.day_passed + 1
+	if level > 10:
+		level = 10
+		
+	rpc("_spawn_enemy_on_ship",_name, _parent, _at, _target, level)
+	
+remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vector3, _target :NodePath, level :int):
 	var parent :Node = get_node_or_null(_parent)
 	if not is_instance_valid(parent):
 		return
@@ -229,7 +237,7 @@ remotesync func _spawn_enemy_on_ship(_name :String, _parent :NodePath, _at :Vect
 	enemy.name = _name
 	enemy.target = target
 	enemy.is_server = is_server()
-	enemy.enemy_level = _day_night_dome.day_passed + 1
+	enemy.enemy_level = level
 	parent.add_child(enemy)
 	enemy.set_spawn_position(_at)
 	
@@ -242,7 +250,7 @@ func spawn_outpost(_outpost_parent :NodePath):
 	var rng = RandomNumberGenerator.new()
 	rng.seed = NetworkLobbyManager.argument["seed"]
 	
-	var outpost_count = rng.randi_range(2, 4)
+	var outpost_count = rng.randi_range(1, 3)
 	for i in range(outpost_count):
 		var outpos = preload("res://entity/fox-outpost-spawner/fox_outpost_spawner.tscn").instance()
 		outpos.is_server = is_server()
@@ -275,8 +283,9 @@ remotesync func _spawn_ally(_owner : Dictionary, _node_name :String, _parent :No
 	fox.player = owner_data
 	fox.name = _node_name
 	fox.speed = 2
-	fox.hp = 25
-	fox.max_hp = 25
+	fox.attack_damage = 5
+	fox.hp = 100
+	fox.max_hp = 100
 	fox.enable_name_tag = not is_local_payer_is_owner
 	fox.enable_damage = true
 	fox.set_network_master(owner_data.player_id)
