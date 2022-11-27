@@ -10,6 +10,7 @@ script = ExtResource( 1 )
 
 [node name="Area" type="Area" parent="."]
 collision_layer = 0
+input_ray_pickable = false
 monitorable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]

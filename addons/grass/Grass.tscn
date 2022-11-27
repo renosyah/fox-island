@@ -18,3 +18,4 @@ material_override = SubResource( 6 )
 cast_shadow = 0
 generate_lightmap = false
 script = ExtResource( 1 )
+blade_height = Vector2( 0.8, 0.8 )

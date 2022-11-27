@@ -20,6 +20,7 @@ font = ExtResource( 1 )
 _data = [ Vector2( 0.0376569, 0.929545 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.464773 ), -1.58776, 0.0, 0, 0 ]
 
 [node name="CPUParticles" type="CPUParticles"]
+cast_shadow = 0
 generate_lightmap = false
 emitting = false
 amount = 4

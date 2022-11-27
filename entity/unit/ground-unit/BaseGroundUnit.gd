@@ -31,6 +31,7 @@ func _direction_input() -> void:
 		
 	_aim_direction = Vector3.ZERO
 	_aim_direction = camera_basis.z * move_direction.y + camera_basis.x * move_direction.x
+	_aim_direction.y = 0.0
 	
 func master_moving(delta :float) -> void:
 	# full override
@@ -64,7 +65,6 @@ func master_moving(delta :float) -> void:
 		
 	_accelerate(delta)
 	_velocity = move_and_slide_with_snap(_velocity, _snap, _up_direction, _stop_on_slope, 4, _floor_max_angle)
-	
 	
 ############################################################
 # utils

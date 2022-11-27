@@ -2448,6 +2448,7 @@ autostart = true
 [node name="attack_area" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.644007, -0.936942 )
 collision_layer = 0
+input_ray_pickable = false
 monitorable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="attack_area"]

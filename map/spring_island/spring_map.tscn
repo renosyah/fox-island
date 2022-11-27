@@ -3,4 +3,5 @@
 [ext_resource path="res://map/spring_island/spring_map.gd" type="Script" id=1]
 
 [node name="spring_map" type="StaticBody"]
+collision_mask = 0
 script = ExtResource( 1 )

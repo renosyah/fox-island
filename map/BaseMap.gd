@@ -55,7 +55,7 @@ func _on_created_inland_position(pos):
 	
 func get_recomended_spawn_position() -> Vector3:
 	var spawn_pos = get_rand_pos(recomended_spawn_pos)
-	spawn_pos.y += 3
+	spawn_pos.y += 1
 	return spawn_pos
 		
 func get_water_height():
@@ -181,7 +181,7 @@ func _create_land(noise :NoiseMaker) -> Array:
 	for i in range(data_tool.get_vertex_count()):
 		var vertext = data_tool.get_vertex(i)
 		var value = noise.get_noise(vertext * map_scale)
-		var gradient_value = data.get_pixel((vertext.x + map_size) * 0.5, (vertext.z + map_size) * 0.5).r * 2
+		var gradient_value = data.get_pixel((vertext.x + map_size) * 0.5, (vertext.z + map_size) * 0.5).r * 2.2
 		value -= gradient_value
 		value = clamp(value, -0.075, 1)
 		vertext.y = value * (map_height + 2.0)
