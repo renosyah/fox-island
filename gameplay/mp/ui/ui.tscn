@@ -31,6 +31,31 @@ script = ExtResource( 2 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
+[node name="aim" type="Control" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -22.0
+margin_top = -112.0
+margin_right = 18.0
+margin_bottom = -72.0
+rect_pivot_offset = Vector2( 20, 20 )
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/aim"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+texture = ExtResource( 17 )
+expand = true
+
 [node name="deadscreen" type="VBoxContainer" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
@@ -141,25 +166,6 @@ size_flags_vertical = 3
 
 [node name="SafeArea" parent="CanvasLayer" instance=ExtResource( 21 )]
 mouse_filter = 2
-
-[node name="aim" type="Control" parent="CanvasLayer/SafeArea"]
-margin_right = 1024.0
-margin_bottom = 600.0
-rect_pivot_offset = Vector2( 20, 20 )
-mouse_filter = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/SafeArea/aim"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
-texture = ExtResource( 17 )
-expand = true
 
 [node name="Control" type="HBoxContainer" parent="CanvasLayer/SafeArea"]
 margin_right = 1024.0
@@ -513,6 +519,7 @@ text = "4 remaining"
 align = 1
 
 [node name="menu" parent="CanvasLayer" instance=ExtResource( 15 )]
+visible = false
 margin_top = -300.0
 margin_bottom = 300.0
 

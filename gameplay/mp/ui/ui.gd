@@ -12,7 +12,7 @@ signal on_command_follow
 signal on_respawn_press
 signal on_exit
 
-onready var aim = $CanvasLayer/SafeArea/aim
+onready var aim = $CanvasLayer/aim
 
 onready var virtual_joystick = $CanvasLayer/SafeArea/Control/VBoxContainer/HBoxContainer/virtual_joystick
 onready var camera_control = $CanvasLayer/SafeArea/Control/Control/camera_control
