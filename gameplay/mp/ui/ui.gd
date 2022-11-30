@@ -12,32 +12,31 @@ signal on_command_follow
 signal on_respawn_press
 signal on_exit
 
-onready var aim = $CanvasLayer/aim
+onready var aim = $CanvasLayer/SafeArea/aim
 
-onready var virtual_joystick = $CanvasLayer/Control/VBoxContainer/HBoxContainer/virtual_joystick
-onready var camera_control = $CanvasLayer/Control/Control/camera_control
+onready var virtual_joystick = $CanvasLayer/SafeArea/Control/VBoxContainer/HBoxContainer/virtual_joystick
+onready var camera_control = $CanvasLayer/SafeArea/Control/Control/camera_control
 onready var loading_bar = $CanvasLayer/loading/VBoxContainer/loading_bar
 onready var loading_label = $CanvasLayer/loading/VBoxContainer/Label
-onready var hp_bar = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/hp_bar
-onready var player_name = $CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/player_name
+onready var hp_bar = $CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/hp_bar
+onready var player_name = $CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer/player_name
 
-onready var control = $CanvasLayer/Control
+onready var control = $CanvasLayer/SafeArea/Control
 onready var loading = $CanvasLayer/loading
 onready var deadscreen = $CanvasLayer/deadscreen
 onready var winscreen = $CanvasLayer/winscreen
 onready var menu = $CanvasLayer/menu
 
+onready var fast_attack_button = $CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack
+onready var heavy_attack_button = $CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack
+onready var dodge = $CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge
 
-onready var fast_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack
-onready var heavy_attack_button = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack
-onready var dodge = $CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge
+onready var follow = $CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow
+onready var command = $CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command
+onready var call = $CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/call
 
-onready var follow = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow
-onready var command = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command
-onready var call = $CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/call
-
-onready var mission_info = $CanvasLayer/VBoxContainer
-onready var mission_info_label = $CanvasLayer/VBoxContainer/Label2
+onready var mission_info = $CanvasLayer/SafeArea/VBoxContainer
+onready var mission_info_label = $CanvasLayer/SafeArea/VBoxContainer/Label2
 
 onready var tween = $Tween
 

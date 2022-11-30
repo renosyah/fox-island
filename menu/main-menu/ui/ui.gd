@@ -4,18 +4,18 @@ signal lobby_player_update(players)
 signal to_main_menu
 signal to_lobby_menu
 
-onready var loading_bar = $CanvasLayer/loading/VBoxContainer/loading_bar
-onready var loading_label = $CanvasLayer/loading/VBoxContainer/Label
-onready var loading = $CanvasLayer/loading
+onready var loading_bar = $CanvasLayer/SafeArea/loading/VBoxContainer/loading_bar
+onready var loading_label = $CanvasLayer/SafeArea/loading/VBoxContainer/Label
+onready var loading = $CanvasLayer/SafeArea/loading
 
-onready var main_menu_control = $CanvasLayer/main_menu_control
-onready var lobby_menu_control = $CanvasLayer/lobby_menu_control2
-onready var server_browser = $CanvasLayer/server_browser
-onready var input_name = $CanvasLayer/input_name
-onready var player_name = $CanvasLayer/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/change_name_button/HBoxContainer/player_name
+onready var main_menu_control = $CanvasLayer/SafeArea/main_menu_control
+onready var lobby_menu_control = $CanvasLayer/SafeArea/lobby_menu_control2
+onready var server_browser = $CanvasLayer/SafeArea/server_browser
+onready var input_name = $CanvasLayer/SafeArea/input_name
+onready var player_name = $CanvasLayer/SafeArea/main_menu_control/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/change_name_button/HBoxContainer/player_name
 
-onready var seed_input = $CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/seed
-onready var play_button = $CanvasLayer/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/play_button
+onready var seed_input = $CanvasLayer/SafeArea/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/seed
+onready var play_button = $CanvasLayer/SafeArea/lobby_menu_control2/HBoxContainer/MarginContainer4/HBoxContainer/VBoxContainer/play_button
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

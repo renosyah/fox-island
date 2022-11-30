@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://addons/joystick/virtual_joystick.tscn" type="PackedScene" id=1]
 [ext_resource path="res://gameplay/mp/ui/ui.gd" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://assets/ui/icon/call_allies.png" type="Texture" id=18]
 [ext_resource path="res://assets/ui/icon/follow_me.png" type="Texture" id=19]
 [ext_resource path="res://assets/ui/icon/command.png" type="Texture" id=20]
+[ext_resource path="res://addons/SafeArea/SafeArea.tscn" type="PackedScene" id=21]
 [ext_resource path="res://assets/ui/icon/checkbox_uncheck.png" type="Texture" id=22]
 
 [node name="ui" type="Control"]
@@ -30,387 +31,11 @@ script = ExtResource( 2 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="aim" type="Control" parent="CanvasLayer"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -120.0
-margin_right = 20.0
-margin_bottom = -80.0
-rect_pivot_offset = Vector2( 20, 20 )
-mouse_filter = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/aim"]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
-texture = ExtResource( 17 )
-expand = true
-
-[node name="Control" type="HBoxContainer" parent="CanvasLayer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control"]
-margin_right = 510.0
-margin_bottom = 600.0
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="MarginContainer" type="VBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
-margin_right = 510.0
-margin_bottom = 288.0
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer/MarginContainer"]
-margin_right = 400.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 400, 0 )
-size_flags_horizontal = 0
-
-[node name="VBoxContainer2" type="CenterContainer" parent="CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer"]
-margin_right = 100.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 100, 100 )
-
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 92.0
-margin_bottom = 92.0
-rect_min_size = Vector2( 85, 85 )
-texture = ExtResource( 16 )
-expand = true
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/TextureRect2"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -30.0
-margin_top = -30.0
-margin_right = 30.0
-margin_bottom = 30.0
-rect_min_size = Vector2( 60, 60 )
-texture = ExtResource( 9 )
-expand = true
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer"]
-margin_left = 104.0
-margin_right = 400.0
-margin_bottom = 100.0
-size_flags_horizontal = 3
-alignment = 1
-
-[node name="player_name" type="Label" parent="CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
-margin_top = 14.0
-margin_right = 296.0
-margin_bottom = 42.0
-custom_fonts/font = ExtResource( 6 )
-text = "player"
-
-[node name="hp_bar" parent="CanvasLayer/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 7 )]
-margin_top = 46.0
-margin_right = 296.0
-margin_bottom = 86.0
-rect_min_size = Vector2( 0, 40 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/VBoxContainer"]
-margin_top = 292.0
-margin_right = 510.0
-margin_bottom = 492.0
-mouse_filter = 2
-
-[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
-margin_right = 80.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 80, 0 )
-
-[node name="virtual_joystick" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer" instance=ExtResource( 1 )]
-margin_left = 84.0
-margin_right = 284.0
-mouse_filter = 2
-
-[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer/HBoxContainer"]
-margin_left = 288.0
-margin_right = 510.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 80, 0 )
-size_flags_horizontal = 3
-
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/VBoxContainer"]
-margin_top = 496.0
-margin_right = 510.0
-margin_bottom = 546.0
-rect_min_size = Vector2( 0, 50 )
-
-[node name="fps_ping_displayer" parent="CanvasLayer/Control/VBoxContainer" instance=ExtResource( 5 )]
-margin_top = 550.0
-margin_right = 160.0
-margin_bottom = 600.0
-size_flags_horizontal = 0
-
-[node name="Control" type="Control" parent="CanvasLayer/Control"]
-margin_left = 514.0
-margin_right = 1024.0
-margin_bottom = 600.0
-mouse_filter = 2
-size_flags_horizontal = 3
-
-[node name="camera_control" parent="CanvasLayer/Control/Control" instance=ExtResource( 4 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-size_flags_vertical = 3
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Control/Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = 12.0
-mouse_filter = 0
-
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_right = 510.0
-margin_bottom = 10.0
-rect_min_size = Vector2( 0, 10 )
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_top = 14.0
-margin_right = 510.0
-margin_bottom = 74.0
-alignment = 2
-
-[node name="show_mission" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2"]
-margin_left = 278.0
-margin_right = 378.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 100, 60 )
-custom_fonts/font = ExtResource( 6 )
-text = "i"
-icon = ExtResource( 22 )
-flat = true
-icon_align = 1
-expand_icon = true
-
-[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2"]
-margin_left = 382.0
-margin_right = 392.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="menu" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2"]
-margin_left = 396.0
-margin_right = 496.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 100, 60 )
-custom_fonts/font = ExtResource( 6 )
-text = "Menu"
-
-[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2"]
-margin_left = 500.0
-margin_right = 510.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_top = 78.0
-margin_right = 510.0
-margin_bottom = 88.0
-rect_min_size = Vector2( 0, 10 )
-
-[node name="MarginContainer4" type="HBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_top = 92.0
-margin_right = 510.0
-margin_bottom = 256.0
-rect_min_size = Vector2( 0, 10 )
-mouse_filter = 2
-size_flags_vertical = 3
-alignment = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4"]
-margin_left = 416.0
-margin_right = 496.0
-margin_bottom = 164.0
-
-[node name="call" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer" instance=ExtResource( 10 )]
-margin_right = 80.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
-mouse_filter = 2
-size_flags_horizontal = 4
-__meta__ = {
-"_editor_description_": ""
-}
-colldown_time = 15.0
-icon_button = ExtResource( 18 )
-
-[node name="follow" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer"]
-visible = false
-margin_top = 84.0
-margin_right = 80.0
-margin_bottom = 164.0
-rect_min_size = Vector2( 80, 80 )
-flat = true
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 19 )
-expand = true
-
-[node name="command" type="Button" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer"]
-margin_top = 84.0
-margin_right = 80.0
-margin_bottom = 164.0
-rect_min_size = Vector2( 80, 80 )
-flat = true
-
-[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 20 )
-expand = true
-
-[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4"]
-margin_left = 500.0
-margin_right = 510.0
-margin_bottom = 164.0
-rect_min_size = Vector2( 10, 0 )
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_top = 260.0
-margin_right = 510.0
-margin_bottom = 508.0
-mouse_filter = 2
-
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer"]
-margin_right = 174.0
-margin_bottom = 248.0
-size_flags_horizontal = 3
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer"]
-margin_left = 178.0
-margin_right = 426.0
-margin_bottom = 248.0
-mouse_filter = 2
-
-[node name="fast_attack" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
-margin_left = 84.0
-margin_right = 164.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
-mouse_filter = 2
-size_flags_horizontal = 4
-__meta__ = {
-"_editor_description_": ""
-}
-colldown_time = 0.4
-icon_button = ExtResource( 8 )
-
-[node name="MarginContainer3" type="HBoxContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer"]
-margin_top = 84.0
-margin_right = 248.0
-margin_bottom = 164.0
-rect_min_size = Vector2( 0, 40 )
-
-[node name="dodge" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
-margin_right = 80.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
-mouse_filter = 2
-size_flags_horizontal = 4
-__meta__ = {
-"_editor_description_": ""
-}
-colldown_time = 1.7
-icon_button = ExtResource( 11 )
-
-[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3"]
-margin_left = 84.0
-margin_right = 164.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 25 )
-
-[node name="heavy_attack" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
-margin_left = 168.0
-margin_right = 248.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
-mouse_filter = 2
-size_flags_horizontal = 4
-__meta__ = {
-"_editor_description_": ""
-}
-colldown_time = 1.6
-icon_button = ExtResource( 12 )
-
-[node name="jump" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
-margin_left = 84.0
-margin_top = 168.0
-margin_right = 164.0
-margin_bottom = 248.0
-rect_min_size = Vector2( 80, 80 )
-mouse_filter = 2
-size_flags_horizontal = 4
-__meta__ = {
-"_editor_description_": ""
-}
-colldown_time = 1.2
-icon_button = ExtResource( 13 )
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer"]
-margin_left = 430.0
-margin_right = 510.0
-margin_bottom = 248.0
-rect_min_size = Vector2( 80, 0 )
-
-[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Control/Control/VBoxContainer2"]
-margin_top = 512.0
-margin_right = 510.0
-margin_bottom = 612.0
-rect_min_size = Vector2( 0, 100 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -200.5
-margin_right = 200.5
-margin_bottom = 100.0
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
-margin_right = 408.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 0, 80 )
-
-[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
-margin_top = 84.0
-margin_right = 408.0
-margin_bottom = 124.0
-custom_fonts/font = ExtResource( 3 )
-text = "Destroy Enemy Outpost"
-align = 1
-
-[node name="Label2" type="Label" parent="CanvasLayer/VBoxContainer"]
-margin_top = 128.0
-margin_right = 408.0
-margin_bottom = 156.0
-custom_fonts/font = ExtResource( 6 )
-text = "4 remaining"
-align = 1
-
 [node name="deadscreen" type="VBoxContainer" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/deadscreen"]
 margin_right = 1024.0
@@ -464,6 +89,7 @@ size_flags_vertical = 3
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/winscreen"]
 margin_right = 1024.0
@@ -513,13 +139,388 @@ margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 3
 
-[node name="menu" parent="CanvasLayer" instance=ExtResource( 15 )]
+[node name="SafeArea" parent="CanvasLayer" instance=ExtResource( 21 )]
+mouse_filter = 2
+
+[node name="aim" type="Control" parent="CanvasLayer/SafeArea"]
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_pivot_offset = Vector2( 20, 20 )
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/SafeArea/aim"]
 visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+texture = ExtResource( 17 )
+expand = true
+
+[node name="Control" type="HBoxContainer" parent="CanvasLayer/SafeArea"]
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SafeArea/Control"]
+margin_right = 510.0
+margin_bottom = 600.0
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="VBoxContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer"]
+margin_right = 510.0
+margin_bottom = 288.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer"]
+margin_right = 400.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 400, 0 )
+size_flags_horizontal = 0
+
+[node name="VBoxContainer2" type="CenterContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer"]
+margin_right = 100.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 92.0
+margin_bottom = 92.0
+rect_min_size = Vector2( 85, 85 )
+texture = ExtResource( 16 )
+expand = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2/TextureRect2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -30.0
+margin_top = -30.0
+margin_right = 30.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 60, 60 )
+texture = ExtResource( 9 )
+expand = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer"]
+margin_left = 104.0
+margin_right = 400.0
+margin_bottom = 100.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="player_name" type="Label" parent="CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 14.0
+margin_right = 296.0
+margin_bottom = 42.0
+custom_fonts/font = ExtResource( 6 )
+text = "player"
+
+[node name="hp_bar" parent="CanvasLayer/SafeArea/Control/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 7 )]
+margin_top = 46.0
+margin_right = 296.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer"]
+margin_top = 292.0
+margin_right = 510.0
+margin_bottom = 492.0
+mouse_filter = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer/HBoxContainer"]
+margin_right = 80.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 80, 0 )
+
+[node name="virtual_joystick" parent="CanvasLayer/SafeArea/Control/VBoxContainer/HBoxContainer" instance=ExtResource( 1 )]
+margin_left = 84.0
+margin_right = 284.0
+mouse_filter = 2
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer/HBoxContainer"]
+margin_left = 288.0
+margin_right = 510.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 80, 0 )
+size_flags_horizontal = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/VBoxContainer"]
+margin_top = 496.0
+margin_right = 510.0
+margin_bottom = 546.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="fps_ping_displayer" parent="CanvasLayer/SafeArea/Control/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 550.0
+margin_right = 160.0
+margin_bottom = 600.0
+size_flags_horizontal = 0
+
+[node name="Control" type="Control" parent="CanvasLayer/SafeArea/Control"]
+margin_left = 514.0
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 2
+size_flags_horizontal = 3
+
+[node name="camera_control" parent="CanvasLayer/SafeArea/Control/Control" instance=ExtResource( 4 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/SafeArea/Control/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 12.0
+mouse_filter = 0
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2"]
+margin_right = 510.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2"]
+margin_top = 14.0
+margin_right = 510.0
+margin_bottom = 74.0
+alignment = 2
+
+[node name="show_mission" type="Button" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 278.0
+margin_right = 378.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
+custom_fonts/font = ExtResource( 6 )
+text = "i"
+icon = ExtResource( 22 )
+flat = true
+icon_align = 1
+expand_icon = true
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 382.0
+margin_right = 392.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="menu" type="Button" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 396.0
+margin_right = 496.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 100, 60 )
+custom_fonts/font = ExtResource( 6 )
+text = "Menu"
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer2"]
+margin_left = 500.0
+margin_right = 510.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2"]
+margin_top = 78.0
+margin_right = 510.0
+margin_bottom = 88.0
+rect_min_size = Vector2( 0, 10 )
+
+[node name="MarginContainer4" type="HBoxContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2"]
+margin_top = 92.0
+margin_right = 510.0
+margin_bottom = 256.0
+rect_min_size = Vector2( 0, 10 )
+mouse_filter = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4"]
+margin_left = 416.0
+margin_right = 496.0
+margin_bottom = 164.0
+
+[node name="call" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer" instance=ExtResource( 10 )]
+margin_right = 80.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
+mouse_filter = 2
+size_flags_horizontal = 4
+__meta__ = {
+"_editor_description_": ""
+}
+colldown_time = 15.0
+icon_button = ExtResource( 18 )
+
+[node name="follow" type="Button" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer"]
+visible = false
+margin_top = 84.0
+margin_right = 80.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 80, 80 )
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 19 )
+expand = true
+
+[node name="command" type="Button" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer"]
+margin_top = 84.0
+margin_right = 80.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 80, 80 )
+flat = true
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 20 )
+expand = true
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4"]
+margin_left = 500.0
+margin_right = 510.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 10, 0 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2"]
+margin_top = 260.0
+margin_right = 510.0
+margin_bottom = 508.0
+mouse_filter = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer"]
+margin_right = 174.0
+margin_bottom = 248.0
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer"]
+margin_left = 178.0
+margin_right = 426.0
+margin_bottom = 248.0
+mouse_filter = 2
+
+[node name="fast_attack" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
+margin_left = 84.0
+margin_right = 164.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
+mouse_filter = 2
+size_flags_horizontal = 4
+__meta__ = {
+"_editor_description_": ""
+}
+colldown_time = 0.4
+icon_button = ExtResource( 8 )
+
+[node name="MarginContainer3" type="HBoxContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer"]
+margin_top = 84.0
+margin_right = 248.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 0, 40 )
+
+[node name="dodge" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
+margin_right = 80.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
+mouse_filter = 2
+size_flags_horizontal = 4
+__meta__ = {
+"_editor_description_": ""
+}
+colldown_time = 1.7
+icon_button = ExtResource( 11 )
+
+[node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3"]
+margin_left = 84.0
+margin_right = 164.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 25 )
+
+[node name="heavy_attack" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3" instance=ExtResource( 10 )]
+margin_left = 168.0
+margin_right = 248.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 80, 80 )
+mouse_filter = 2
+size_flags_horizontal = 4
+__meta__ = {
+"_editor_description_": ""
+}
+colldown_time = 1.6
+icon_button = ExtResource( 12 )
+
+[node name="jump" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer" instance=ExtResource( 10 )]
+margin_left = 84.0
+margin_top = 168.0
+margin_right = 164.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 80, 80 )
+mouse_filter = 2
+size_flags_horizontal = 4
+__meta__ = {
+"_editor_description_": ""
+}
+colldown_time = 1.2
+icon_button = ExtResource( 13 )
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer"]
+margin_left = 430.0
+margin_right = 510.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 80, 0 )
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/SafeArea/Control/Control/VBoxContainer2"]
+margin_top = 512.0
+margin_right = 510.0
+margin_bottom = 612.0
+rect_min_size = Vector2( 0, 100 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/SafeArea"]
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/SafeArea/VBoxContainer"]
+margin_right = 1024.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/SafeArea/VBoxContainer"]
+margin_top = 84.0
+margin_right = 1024.0
+margin_bottom = 124.0
+custom_fonts/font = ExtResource( 3 )
+text = "Destroy Enemy Outpost"
+align = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/SafeArea/VBoxContainer"]
+margin_top = 128.0
+margin_right = 1024.0
+margin_bottom = 156.0
+custom_fonts/font = ExtResource( 6 )
+text = "4 remaining"
+align = 1
+
+[node name="menu" parent="CanvasLayer" instance=ExtResource( 15 )]
+margin_top = -300.0
+margin_bottom = 300.0
 
 [node name="loading" type="ColorRect" parent="CanvasLayer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 color = Color( 0, 0, 0, 1 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/loading"]
@@ -551,15 +552,15 @@ size_flags_horizontal = 4
 
 [node name="Tween" type="Tween" parent="."]
 
-[connection signal="pressed" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2/show_mission" to="." method="_on_show_mission_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer2/menu" to="." method="_on_menu_pressed"]
-[connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/call" to="." method="_on_call_on_press"]
-[connection signal="pressed" from="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow" to="." method="_on_follow_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command" to="." method="_on_command_pressed"]
-[connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack" to="." method="_on_fast_attack_on_press"]
-[connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge" to="." method="_on_dodge_on_press"]
-[connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack" to="." method="_on_heavy_attack_on_press"]
-[connection signal="on_press" from="CanvasLayer/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/jump" to="." method="_on_jump_on_press"]
 [connection signal="pressed" from="CanvasLayer/deadscreen/ColorRect/VBoxContainer/respawn" to="." method="_on_respawn_pressed"]
 [connection signal="pressed" from="CanvasLayer/winscreen/ColorRect/VBoxContainer/win_exit" to="." method="_on_win_exit_pressed"]
+[connection signal="pressed" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer2/show_mission" to="." method="_on_show_mission_pressed"]
+[connection signal="pressed" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer2/menu" to="." method="_on_menu_pressed"]
+[connection signal="on_press" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/call" to="." method="_on_call_on_press"]
+[connection signal="pressed" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/follow" to="." method="_on_follow_pressed"]
+[connection signal="pressed" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/MarginContainer4/VBoxContainer/command" to="." method="_on_command_pressed"]
+[connection signal="on_press" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/fast_attack" to="." method="_on_fast_attack_on_press"]
+[connection signal="on_press" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/dodge" to="." method="_on_dodge_on_press"]
+[connection signal="on_press" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/MarginContainer3/heavy_attack" to="." method="_on_heavy_attack_on_press"]
+[connection signal="on_press" from="CanvasLayer/SafeArea/Control/Control/VBoxContainer2/HBoxContainer/VBoxContainer/jump" to="." method="_on_jump_on_press"]
 [connection signal="on_main_menu_press" from="CanvasLayer/menu" to="." method="_on_menu_on_main_menu_press"]
