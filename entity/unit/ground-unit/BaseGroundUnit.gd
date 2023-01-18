@@ -64,7 +64,9 @@ func master_moving(delta :float) -> void:
 		_velocity.y -= _gravity * delta
 		
 	_accelerate(delta)
-	_velocity = move_and_slide_with_snap(_velocity, _snap, _up_direction, _stop_on_slope, 4, _floor_max_angle)
+	
+	if _velocity != Vector3.ZERO:
+		_velocity = move_and_slide_with_snap(_velocity, _snap, _up_direction, _stop_on_slope, 4, _floor_max_angle)
 	
 ############################################################
 # utils
